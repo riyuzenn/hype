@@ -38,7 +38,7 @@ class HypeCLI:
     __commands: dict = {}
 
     def __init__(self, *, name: Optional[str] = None,
-                help: Optional[str] = None):
+                help: Optional[str] = None, banner: Optional[bool] = False):
 
         #: The name of the app, cli to be used in.
         #: Default value = None.
@@ -48,8 +48,11 @@ class HypeCLI:
         #: Default value = None
         self.help = help
 
+        #: Set if you want to add banner for the app
+        #: Default value = False
+        self.is_banner = banner
 
-    
+
     @property
     def commands(self):
         """ List of all commands """
@@ -92,10 +95,24 @@ class HypeCLI:
         
         """
 
+        #: The name of the command.
+        #: If none, the function name will be setted.
         _name = name or _func.__name__
+
+        #: The description of the command.
+        #: Default Value: None
         _desc = description
+
+        #: The default value for the command
+        #: Default Value: None
         _default = default
+
+        #: Set if the command is hidden or no.
+        #: Default value: False
         _hidden = hidden
+
+        #: Set if the command is deprecated
+        #: Defautl Value: False
         _deprecated = deprecated
 
         
