@@ -42,5 +42,5 @@ it becomes easier to build command-line application.
 
 <div align="right" id="license">
   <h1> License </h1>
-  <p> Anglo is license under <a href="https://github.com/serumstudio/anglo/blob/main/LICENSE">MIT</a> </p>
+  <p> Hype is license under <a href="https://github.com/serumstudio/anglo/blob/main/LICENSE">MIT</a> </p>
 </div>
