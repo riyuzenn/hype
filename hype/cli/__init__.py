@@ -25,6 +25,6 @@ from .app import HypeCLI
 __all__ = [ 'HyperCLI' ]
 
 __version__ = "0.1"
-__desc__    = ""
+__desc__    = "⚙ A lightweight command line interface toolkit for python"
 __author__  = "Serum Studio"
 __license__ = "MIT"
