@@ -18,3 +18,13 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
+
+
+from .app import HypeCLI
+
+__all__ = [ 'HyperCLI' ]
+
+__version__ = "0.1"
+__desc__    = ""
+__author__  = "Serum Studio"
+__license__ = "MIT"

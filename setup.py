@@ -19,31 +19,4 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from typing import Optional
-from typing import Any
-from typing import Callable
-
-class CommandDict:
-    def __init__(self, *, name: Optional[str] = None, params: Optional[list] = None, 
-            desc: Optional[str] = None, default: Optional[Any] = None, option: Optional[Str] = None,
-            func: Callable[..., Any], hidden: bool = False, deprecated: bool = False):
-
-        self.name = name
-        self.desc = desc
-        self.params = params
-        self.default = default
-        self.func = func
-        self.opt = option
-        self.hidden = hidden
-        self.deprecated = deprecated
-
-    def dict(self):
-        return { 
-            
-            self.name: {
-                "params": self.params, "desc": self.desc, 
-                "default": self.default, "func": self.func, "opt": self.opt,
-                "hidden": self.hidden, "deprecated": self.deprecated
-            }
-
-        }
+from setuptools import setup

@@ -74,8 +74,8 @@ class HypeCLI:
         self.__banner = value
         return self.__banner
 
-    def command(self, name: Optional[str] = None, description: Optional[str] = None, 
-            default: Optional[Any] = None, hidden: Optional[bool] = False, 
+    def command(self, name: Optional[str] = None, description: Optional[str] = None,
+            option: Optional[str] = None, default: Optional[Any] = None, hidden: Optional[bool] = False,
             deprecated: Optional[bool] = False, _func: Callable[..., Any] = None):
 
         """
@@ -122,6 +122,9 @@ class HypeCLI:
         #: Default Value: None
         _default = default
 
+        #: Option for the command.
+        _option = option
+
         #: Set if the command is hidden or no.
         #: Default value: False
         _hidden = hidden
@@ -130,12 +133,19 @@ class HypeCLI:
         #: Defautl Value: False
         _deprecated = deprecated
 
+
         
         def deco(_func):
             
-            
+            #: Get the signature of the function
+            #: In order to get the parameters.
             sign = inspect.signature(_func)
+
+            #: Get the type hint of the parameter
             type_hints = get_type_hints(_func)
+
+            #: All parameters stored here.
+            #: TYPE: List of tuples (%param%, %annotation%)
             params = []
             
             for param in sign.parameters.values():
@@ -149,10 +159,11 @@ class HypeCLI:
 
                 params.append(_params)
 
-
+            #: A command dict for storing a dictionary of command.
             command_dict = CommandDict(name = _name, params = params, desc = _desc,
                     default = _default, hidden = _hidden, deprecated = _deprecated, func = _func)
 
+            #: Add the command to the dictionary of commands.
             self.__commands.update(command_dict.dict())
 
             return _func
@@ -202,7 +213,22 @@ class HypeCLI:
 
         """
 
-        pass
+        #: THe question used to be prompt.
+        #: Default Value: None
+        _prompt = prompt
+
+        #: The default value for the question
+        #: Default Value: None
+        _default = default
+
+        #: The type of the response
+        #: Default Value: Any
+        _type = type
+
+        #: Set if the prompt is required or not.
+        #: Default Value: False
+        _required = required
+
 
 
     def run(self):
