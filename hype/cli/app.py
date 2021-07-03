@@ -50,7 +50,8 @@ class HypeCLI:
 
         #: Set if you want to add banner for the app
         #: Default value = False
-        self.is_banner = banner
+        if banner == False:
+            self.__banner = None
 
 
     @property
@@ -58,6 +59,20 @@ class HypeCLI:
         """ List of all commands """
         return [item[0] for item in self.__commands.items()]
 
+    @property
+    def banner(self):
+        """ The banner for the application """
+        return self.__banner
+
+    @banner.setter
+    def banner(self, value):
+        """ Set the value of the banner. """
+
+        if value == "":
+            raise ValueError("Banner cannot be none")
+
+        self.__banner = value
+        return self.__banner
 
     def command(self, name: Optional[str] = None, description: Optional[str] = None, 
             default: Optional[Any] = None, hidden: Optional[bool] = False, 
