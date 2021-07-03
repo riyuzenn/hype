@@ -73,6 +73,8 @@ class HypeCLI:
 
 
         Parameters:
+            Here are some parameters for the decorator: @command.
+
             name (str):
                 The name of the command. If none, return the function name
 
@@ -126,6 +128,51 @@ class HypeCLI:
         return deco(_func) if _func else deco
 
 
+    def prompt(self, prompt: Optional[str] = None, # Question to be prompt to
+                default: Optional[Any] = None, # The default answer for the prompt question
+                type: Optional[Any] = None, # Type of the answer. Like for example: bool, str, int
+                required: Optional[bool] = False # Set if the prompt is required.
+        ):
+
+        """
+        A decorator for handling prompt/questions.
+        
+        Example:
+
+            >>> app = HyperCLI()
+            >>> ...
+            >>> @app.prompt("Do you like hyper cli?", type=bool, required=True)
+            >>> def prompt_example(response):
+            >>> ...
+            >>> ...
+            >>> if __name__ == "__main__":
+            >>>     app.run()
+
+
+        Parameters:
+            Here are some parameters for the decorator: @prompt.
+
+            prompt (str):
+                The question used to be prompt.
+                Default value: None
+
+            default (any):
+                The default value for the prompted question. 
+                Default value: Any
+
+            type (any):
+                You may define the type of the response.
+                Default value: Any
+
+            required (bool):
+                Set if the question is required to answer.
+                Default value: False
+
+        """
+
+        pass
+
+
     def run(self):
         """
         Run the application as well as load all the commands.
@@ -142,5 +189,7 @@ class HypeCLI:
             >>>     app.run() 
         
         """
+
+        pass
 
         
