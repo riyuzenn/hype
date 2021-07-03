@@ -19,4 +19,27 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from setuptools import setup
+from setuptools import setup, find_packages
+from hype.cli import __license__, __author__, __version__, __desc__
+
+BASE_URL = "https://github.com/serumstudio/hype.cli"
+
+def get_long_description():
+
+    with open("README.md", encoding="utf-8") as f:
+        readme = f.read()
+
+    return readme
+
+setup(
+    name = "hypecli",
+    author = __author__,
+    description =__desc__,
+    long_description=get_long_description(),
+    long_description_content_type='text/markdown',
+    version = __version__,
+    license = __license__,
+    url=BASE_URL,
+    namespace_packages = ['hype'],
+    packages = [p for p in find_packages() if 'test' not in p]
+)
