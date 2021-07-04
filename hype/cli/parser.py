@@ -19,29 +19,63 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from optparse import Option, OptionParser
+
 import sys
-from typing import Iterable, Optional
+from typing import Dict, Iterable
+from typing import Optional
 from typing import Callable
 from typing import List
 from typing import Any
+from optparse import OptionParser
 
+class OptionParser(OptionParser):
+    """
+    Option Parser that is used on decorator 
+    @app.option().
+    """
 
+    pass
+
+    
 class HelpCommand:
     """
     A default help command for Hype CLI.   
     """
 
+    def __init__(self, banner: Optional[str] = None, 
+                    commands: Dict[Any] = {}):
+
+        self.banner = banner
+        self.commands = commands
+
+
+    def __call__(self):
+        
+        if self.banner:
+            print(self.banner)
+
+        print("\nAll commands available:")
+        print("-" * 50)
+        for command in self.commands.keys():
+            print(f"{command} - {self.commands[command]['desc']}", end="\n")
+
+        print("")
+        
+
 class HypeParser:
     """
-    A argument parser for Hype CLI.
+    A argument parser for Hype CLI This is only used for non-dashed command
+    and can be only used by decorator `@app.command`.
+
+    
 
     """
 
     __args = {}
+    __sys_args = sys.argv
 
     def __init__(self, usage: Optional[str] = None,
-            help_command: Callable[..., Any] = HelpCommand ):
+            help_command: Callable[..., Any] = None ):
 
 
         #: Simple usage format for the parser. 
@@ -50,13 +84,13 @@ class HypeParser:
 
         #: You may define your own help command. by creating a help command class.
         #: Default value: HelpCommand `:class:`
-        self.help_command = help_command
+        self.help_command = help_command or HelpCommand()
+        
 
-
-    def add_argument(self, args_name, full_args_name: Optional[str] = None, 
-                description: Optional[str] = None, value: Option[Any] = None, 
-                type: Optional[Any] = None, required: Optional[bool] = False, 
-                deprecated: Optional[bool] = False, hidden: Optional[bool] = False):
+    def add_argument(self, args: str, 
+                description: Optional[str] = None, value: Optional[Any] = None, 
+                type: Optional[Any] = None, required: Optional[bool] = False,
+                deprecated: Optional[bool] = False):
         
         """
         Add the single argument to be parsed to.
@@ -92,27 +126,82 @@ class HypeParser:
 
             >>> parser = HypeParser(...)
             >>> ...
-            >>> parser.add_argument('g', 'greet', type=str, required=True)
+            >>> parser.add_argument('greet', type=str, required=True)
             >>> ...
         """
 
-        if full_args_name != None:
-            self.__args.update({
-                args_name: { 
-                    "full_args_name": full_args_name, "desc": description,
-                    "type": type, "value": value, "required": required, 
-                    "deprecated": deprecated, "hidden": hidden
-                } 
-            })
+        if required and description != None:
+            description = description + " (*required)"
 
-        else:
-            self.__args.update({
-                args_name: { 
-                    "desc": description,
-                    "type": type, "value": value, "required": required, 
-                    "deprecated": deprecated, "hidden": hidden
-                } 
-            })
+
+        if description == None:
+            #: Create own description
+
+            _required = f"(*required)" if required else ""
+            _type = type if type else 'any'
+            description = "This command accepts %s positional arguments. %s" %(_type, _required) 
+
         
+        self.__args.update({
+            args: { 
+                "desc": description,
+                "type": type, "value": value, "required": required, 
+                "deprecated": deprecated
+            } 
+        })
+
+
+    def __is_command_required(self, command):
+
+        if command in self.__args.keys():
+            if self.__args[command]['required']:
+                return True
+            else:
+                return False
+
+    def __check_value(self, command: str, params: List[str] = [], keys: Dict[Any] = {}):
         
-    
+        try:
+
+            value = params[1]
+        
+        except IndexError:
+            raise ValueError("%s needs a value. " % (command))
+ 
+        if command in keys:
+
+            #: Check if the command is deprecated.
+            if self.__args[command]['deprecated']:
+                raise DeprecationWarning("%s is deprecated." % (command))
+
+            # get the param
+            # convert the value to the type given if not none
+            if self.__args[command]['type']:
+                value = self.__args[command]['type'](params[1])
+
+
+            #: Check if the value is none and default value is required.
+            if self.__args[command]['value'] and value == None:
+                value = self.__args[command]['value']
+        
+        return { command: value }
+
+    def parse_args(self):
+        self.help_command.commands = self.__args
+        params = []
+
+        if len(self.__sys_args) <= 1:
+            
+            self.help_command()
+            sys.exit()
+
+        for i in range(1, len(self.__sys_args)):
+            params.append(self.__sys_args[i])
+        
+
+        command = params[0]
+        
+        if self.__is_command_required(command) == True:
+            raise ValueError("%s is required." % (command))
+
+        return self.__check_value(command, params, self.__args.keys())
