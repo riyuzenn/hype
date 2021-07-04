@@ -26,6 +26,7 @@ from typing import Any
 from typing import Optional
 from typing import get_type_hints
 from .utils import CommandDict
+from .parser import HelpCommand, HypeParser
 
 
 class HypeCLI:
@@ -36,22 +37,23 @@ class HypeCLI:
     #: This variable is used for storing all commands.
     #: Return dictionary.
     __commands: dict = {}
+    __parser = HypeParser()
 
-    def __init__(self, *, name: Optional[str] = None,
-                help: Optional[str] = None, banner: Optional[bool] = False):
+    def __init__(self, *, help_command: Callable[..., Any] = None, banner: Optional[str] = None):
 
-        #: The name of the app, cli to be used in.
-        #: Default value = None.
-        self.name = name
 
         #: Your custom help command for the app.
         #: Default value = None
-        self.help = help
+        self.help = help_command or HelpCommand
 
         #: Set if you want to add banner for the app
         #: Default value = False
-        if banner == False:
-            self.__banner = None
+        self.__banner = banner
+
+        #: Set some parser options/config
+        self.help.banner = banner
+        self.__parser.help_command = self.help
+        
 
 
     @property
@@ -74,8 +76,8 @@ class HypeCLI:
         self.__banner = value
         return self.__banner
 
-    def command(self, name: Optional[str] = None, description: Optional[str] = None,
-            option: Optional[str] = None, default: Optional[Any] = None, hidden: Optional[bool] = False,
+    def command(self, name: Optional[str] = None, description: Optional[str] = None, 
+            value: Optional[Any] = None, type: Optional[Any] = None, required: Optional[bool] = False,
             deprecated: Optional[bool] = False, _func: Callable[..., Any] = None):
 
         """
@@ -99,11 +101,14 @@ class HypeCLI:
             description (str):
                 The description for the command.
             
-            default (str):
+            value (str):
                 Default value for the command.
 
-            hidden (bool):
-                Set if the command is hidden.
+            type (Any):
+                Set the type of the value.
+
+            required (bool):
+                Set if the command is required.
 
             deprecated (bool):
                 Set if the command is deprecated.
@@ -120,14 +125,13 @@ class HypeCLI:
 
         #: The default value for the command
         #: Default Value: None
-        _default = default
+        _default = value
 
-        #: Option for the command.
-        _option = option
+        _type = type
 
         #: Set if the command is hidden or no.
         #: Default value: False
-        _hidden = hidden
+        _required = required
 
         #: Set if the command is deprecated
         #: Defautl Value: False
@@ -161,7 +165,7 @@ class HypeCLI:
 
             #: A command dict for storing a dictionary of command.
             command_dict = CommandDict(name = _name, params = params, desc = _desc,
-                    default = _default, hidden = _hidden, deprecated = _deprecated, func = _func)
+                    default = _default, type = _type, required = _required, deprecated = _deprecated, func = _func)
 
             #: Add the command to the dictionary of commands.
             self.__commands.update(command_dict.dict())
@@ -247,7 +251,7 @@ class HypeCLI:
             >>>     app.run() 
         
         """
+        
 
-        pass
 
         
