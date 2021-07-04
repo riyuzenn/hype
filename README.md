@@ -2,7 +2,7 @@
   <img src="" height="250" alt="hypecli">
 </h1>
 
-<h4 align="center">⚙ A lightweight command line interface toolkit for Python 3.</h4>
+<h4 align="center">⚙ A lightweight command line interface library for creating</h4>
 
 <p align="center">
   <a href="#about">About</a> | 
