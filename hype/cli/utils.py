@@ -25,16 +25,17 @@ from typing import Callable
 
 class CommandDict:
     def __init__(self, *, name: Optional[str] = None, params: Optional[list] = None, 
-            desc: Optional[str] = None, default: Optional[Any] = None, option: Optional[Str] = None,
-            func: Callable[..., Any], hidden: bool = False, deprecated: bool = False):
+            desc: Optional[str] = None, type: Optional[Any] = None,
+            default: Optional[Any] = None, required: Optional[bool] = False,
+            func: Callable[..., Any], deprecated: Optional[bool] = False):
 
         self.name = name
         self.desc = desc
         self.params = params
         self.default = default
         self.func = func
-        self.opt = option
-        self.hidden = hidden
+        self.type = type
+        self.req = required
         self.deprecated = deprecated
 
     def dict(self):
@@ -42,8 +43,8 @@ class CommandDict:
             
             self.name: {
                 "params": self.params, "desc": self.desc, 
-                "default": self.default, "func": self.func, "opt": self.opt,
-                "hidden": self.hidden, "deprecated": self.deprecated
+                "default": self.default, "func": self.func, "required": self.req,
+                "type": self.type, "deprecated": self.deprecated
             }
 
         }
