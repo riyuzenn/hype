@@ -36,7 +36,7 @@ it becomes easier to build command-line application.
 </div>
 
 # Usage
-You can read the [documentation]() for more info and [examples]() for more examples.
+You can read the [documentation](https://github.com/serumstudio/hype.cli/) for more info and [examples](https://github.com/serumstudio/hype.cli/) for more examples.
 Hyper CLI comes with a starter project template as well. After the installation, run 
 ```bash
 $ hyper create demoproject
