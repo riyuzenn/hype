@@ -27,6 +27,7 @@ from typing import Optional
 from typing import get_type_hints
 from .utils import CommandDict
 from .parser import HelpCommand, HypeParser
+from .errors import TooMuchArguments
 
 
 class HypeCLI:
@@ -202,37 +203,39 @@ class HypeCLI:
         
         """
         for command in self.commands:
-        
+            command_params = self.__commands[command]['params']
+
             self.__parser.add_argument(
                     command, 
                     self.__commands[command]['desc'], 
                     value=self.__commands[command]['default'], 
                     required=self.__commands[command]['required'], 
-                    type=self.__commands[command]['type'], 
+                    type=self.__commands[command]['type'], svalue = len(command_params),
                     deprecated=self.__commands[command]['deprecated']
                 )
             
-            command_params = self.__commands[command]['params']
             
-            #if len(command_params) > 1:
-            #    print("Function has 2 parameter")
-
+            
             try:
                 args = self.__parser.parse_args()
             
             except Exception as e:
                 raise e
                 
-            # print(args)
-            
             for param in range(0, len(command_params)):
                 print(command_params[param])
 
             if len(args[command]) > 1 and type(args[command]) == list:
                 try:
                     self.__commands[command]['func'](*args[command])
+                
                 except Exception:
-                    raise Exception("You passed too much arguments")
+                    raise TooMuchArguments("You passed too much arguments")
 
             else:
-                self.__commands[command]['func'](args[command])
+                try:
+                    self.__commands[command]['func'](args[command])
+
+                except TypeError:
+                    # missing posiitonal arguments
+                    self.help()

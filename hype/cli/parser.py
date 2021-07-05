@@ -135,10 +135,6 @@ class HypeParser:
         if required and description != None:
             description = description + " (*required)"
 
-        
-        if svalue > 1 and type != None:
-            raise ValueError("It looks like you're setting a default value on a multiple possible arguments.")
-
 
         if description == None:
             #: Create own description
@@ -174,6 +170,7 @@ class HypeParser:
  
         new_value = []
         if command in keys:
+        
 
             if type(self.__args[command]['type']) == list:
                 if len(value) != len(self.__args[command]['type']):
@@ -190,13 +187,21 @@ class HypeParser:
                 if self.__args[command]['value'] and value == None:
                     value = self.__args[command]['value']
 
+            else:
+                raise ValueError("Your passing a default value on a multiple value")
+
+
             # get the param
             # convert the value to the type given if not none
 
             if type(value) != list and self.__args[command]['type']:
                 if len(self.__args[command]['type']) != len(value):
-                    new_value = self.__args[command]['type'][0](value)
-            
+                    try:
+                        new_value = self.__args[command]['type'][0](value)
+                    except TypeError:
+                        #: If the type is None
+                        pass
+
             elif type(value) == list and type(self.__args[command]['type']) == list:
                 
                 for i in range(0, len(value)):
@@ -243,6 +248,5 @@ class HypeParser:
         if len(possible_args) > self.__args[command]['svalue']:
             raise TooMuchArguments()
 
-        print(self.__args[command]['svalue'])
 
         return self.__check_value(command, possible_args, self.__args.keys())
