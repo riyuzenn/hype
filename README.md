@@ -33,6 +33,28 @@ it becomes easier to build command-line application.
 </div>
 
 # Usage
+You can read the [documentation]() for more info and [examples]() for more examples.
+Hyper CLI comes with a starter project template as well. After the installation, run 
+```bash
+$ hyper create demoproject
+```
+
+Or you can create your own project by looking on this simple example.
+
+```py
+
+from hype.cli import HyperCLI
+
+app = HyperCLI()
+
+@app.command()
+def greet(name: str):
+  print("Hello", name)
+ 
+if __name__ == "__main__":
+  app.run()
+
+```
 
 <div align="right" id="features">
   <h1> Features </h1>
