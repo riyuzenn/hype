@@ -21,7 +21,6 @@
 
 
 import sys
-from typing import Dict, Iterable
 from typing import Optional
 from typing import Callable
 from typing import List
@@ -44,8 +43,8 @@ class HelpCommand:
     A default help command for Hype CLI.   
     """
 
-    def __init__(self, banner: Optional[str] = None, 
-                    commands: Dict[Any] = {}):
+    def __init__(self, commands: dict = None, 
+                banner: Optional[str] = None):
 
         self.banner = banner
         self.commands = commands
@@ -154,7 +153,7 @@ class HypeParser:
 
 
 
-    def __check_value(self, command: str, params: List[str] = [], keys: Dict[Any] = {}):
+    def __check_value(self, command: str, params: List[str] = [], keys: dict = {}):
         
         try:
 
