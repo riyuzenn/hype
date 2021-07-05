@@ -242,6 +242,7 @@ class HypeParser:
         for i in range(1, len(params)):
             possible_args.append(params[i])
 
+
         command = params[0]
 
         if len(possible_args) > self.__args[command]['svalue']:
@@ -249,5 +250,8 @@ class HypeParser:
             sys.exit()
             # raise TooMuchArguments()
 
+        if len(possible_args) < self.__args[command]['svalue']:
+            self.help_command()
+            sys.exit()
 
         return self.__check_value(command, possible_args, self.__args.keys())
