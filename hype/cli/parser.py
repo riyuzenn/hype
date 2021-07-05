@@ -55,7 +55,8 @@ class HelpCommand:
         
         if self.banner:
             print(self.banner)
-
+        
+        print("\nUsage {} [COMMANDS] ".format(sys.argv[0]))
         print("\nAll commands available:")
         print("-" * 50)
         for command in self.commands.keys():
@@ -233,7 +234,6 @@ class HypeParser:
 
 
         if len(self.__sys_args) <= 1:
-            
             self.help_command()
             sys.exit()
 

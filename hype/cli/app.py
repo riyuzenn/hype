@@ -45,7 +45,7 @@ class HypeCLI:
 
         #: Your custom help command for the app.
         #: Default value = None
-        self.help = help_command or HelpCommand
+        self.help = help_command or HelpCommand()
 
         #: Set if you want to add banner for the app
         #: Default value = False
@@ -53,6 +53,7 @@ class HypeCLI:
 
         #: Set some parser options/config
         self.help.banner = banner
+        self.help.commands = self.__commands
         self.__parser.help_command = self.help
         
 
