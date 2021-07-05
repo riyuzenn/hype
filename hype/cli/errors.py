@@ -5,7 +5,7 @@ class HypeException(Exception):
         if msg == None:
             msg = "Something went wrong with the Hype CLI"
 
-        super().__init__(msg=msg)
+        super().__init__(msg)
 
 
 class TooMuchArguments(HypeException):
