@@ -27,6 +27,8 @@ from typing import Callable
 from typing import List
 from typing import Any
 from optparse import OptionParser
+from .errors import HypeException
+from .errors import TooMuchArguments
 
 class OptionParser(OptionParser):
     """
@@ -204,7 +206,7 @@ class HypeParser:
                     
                     except IndexError:
                         #: This error is when you pass to much arguments
-                        pass
+                        raise TooMuchArguments()
 
                     except TypeError:
                         #: This error is probably when the type is None.
@@ -238,7 +240,9 @@ class HypeParser:
 
         command = params[0]
 
-        if len(possible_args) < self.__args[command]['svalue']:
-            print("less than")
+        if len(possible_args) > self.__args[command]['svalue']:
+            raise TooMuchArguments()
+
+        print(self.__args[command]['svalue'])
 
         return self.__check_value(command, possible_args, self.__args.keys())
