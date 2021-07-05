@@ -133,7 +133,7 @@ class HypeParser:
         if required and description != None:
             description = description + " (*required)"
 
-
+        
         if svalue > 1 and type != None:
             raise ValueError("It looks like you're setting a default value on a multiple possible arguments.")
 
@@ -157,8 +157,6 @@ class HypeParser:
 
     def __check_value(self, command: str, params: List[str] = [], keys: Dict[Any] = {}):
         
-        value = []
-
         try:
 
             if len(params) == 1:
@@ -172,11 +170,23 @@ class HypeParser:
         except IndexError:
             raise ValueError("%s needs a value. " % (command))
  
+        new_value = []
         if command in keys:
-           
+
+            if type(self.__args[command]['type']) == list:
+                if len(value) != len(self.__args[command]['type']):
+                    raise TypeError('the length of type and value is not the same')
+                
+
             #: Check if the command is deprecated.
             if self.__args[command]['deprecated']:
                 raise DeprecationWarning("%s is deprecated." % (command))
+
+
+            if type(value) == list:
+                #: Check if the value is none and default value is required.
+                if self.__args[command]['value'] and value == None:
+                    new_value = self.__args[command]['value']
 
             # get the param
             # convert the value to the type given if not none
@@ -185,20 +195,18 @@ class HypeParser:
                 value = self.__args[command]['type'](value)
             
             elif type(value) == list and type(self.__args[command]['type']) == list:
-                if len(value) != len(self.__args[command]['type']):
-                    raise TypeError('the list of type and value is not the same')
                 
                 for i in range(0, len(value)):
-                    self.__args[command]['type'][i](value[i])
-                    
-
-            if type(value) == list:
-                #: Check if the value is none and default value is required.
-                if self.__args[command]['value'] and value == None:
-                    value = self.__args[command]['value']
-        
-        print(value)
-        return { command: value }
+                    try:
+                        new_value.append(self.__args[command]['type'][i](value[i]))
+                    except ValueError:
+                        raise TypeError('it looks like %s accept %s positional arguments' % (value[i], self.__args[command]['type'][i]))
+            
+            if new_value:
+                return { command: new_value }
+            
+            else:
+                return { command: value }
 
     def parse_args(self):
         self.help_command.commands = self.__args

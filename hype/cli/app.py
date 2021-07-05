@@ -117,30 +117,29 @@ class HypeCLI:
 
         #: The name of the command.
         #: If none, the function name will be setted.
-        _name = name or _func.__name__
+        self.__name = name or _func.__name__
 
         #: The description of the command.
         #: Default Value: None
-        _desc = description
+        self.__desc = description
 
         #: The default value for the command
         #: Default Value: None
-        _default = value
+        self.__default = value
 
         self.__type = type
 
         #: Set if the command is hidden or no.
         #: Default value: False
-        _required = required
+        self.__required = required
 
         #: Set if the command is deprecated
         #: Defautl Value: False
-        _deprecated = deprecated
+        self.__deprecated = deprecated
 
 
         
         def deco(_func):
-            
             #: Get the signature of the function
             #: In order to get the parameters.
             sign = inspect.signature(_func)
@@ -163,6 +162,7 @@ class HypeCLI:
                     _params = (param.name, annotation)
 
                 else:
+
                     if self.__type != None:
                         _params = (param.name, self.__type)
                     else:
@@ -170,10 +170,12 @@ class HypeCLI:
 
                 params.append(_params)
 
-
+            if params:
+                self.__type = [x[1] for x in params]
+                
             #: A command dict for storing a dictionary of command.
-            command_dict = CommandDict(name = _name, params = params, desc = _desc,
-                    default = _default, type = self.__type, required = _required, deprecated = _deprecated, func = _func)
+            command_dict = CommandDict(name = self.__name, params = params, desc = self.__desc,
+                    default = self.__default, type = self.__type, required = self.__required, deprecated = self.__deprecated, func = _func)
 
             #: Add the command to the dictionary of commands.
             self.__commands.update(command_dict.dict())
@@ -181,66 +183,6 @@ class HypeCLI:
             return _func
                 
         return deco(_func) if _func else deco
-
-
-    def prompt(self, prompt: Optional[str] = None, # Question to be prompt to
-                default: Optional[Any] = None, # The default answer for the prompt question
-                type: Optional[Any] = None, # Type of the answer. Like for example: bool, str, int
-                required: Optional[bool] = False # Set if the prompt is required.
-        ):
-
-        """
-        A decorator for handling prompt/questions.
-        
-        Example:
-
-            >>> app = HyperCLI()
-            >>> ...
-            >>> @app.prompt("Do you like hyper cli?", type=bool, required=True)
-            >>> def prompt_example(response):
-            >>> ...
-            >>> ...
-            >>> if __name__ == "__main__":
-            >>>     app.run()
-
-
-        Parameters:
-            Here are some parameters for the decorator: @prompt.
-
-            prompt (str):
-                The question used to be prompt.
-                Default value: None
-
-            default (any):
-                The default value for the prompted question. 
-                Default value: Any
-
-            type (any):
-                You may define the type of the response.
-                Default value: Any
-
-            required (bool):
-                Set if the question is required to answer.
-                Default value: False
-
-        """
-
-        #: THe question used to be prompt.
-        #: Default Value: None
-        _prompt = prompt
-
-        #: The default value for the question
-        #: Default Value: None
-        _default = default
-
-        #: The type of the response
-        #: Default Value: Any
-        _type = type
-
-        #: Set if the prompt is required or not.
-        #: Default Value: False
-        _required = required
-
 
 
     def run(self):
@@ -260,7 +202,7 @@ class HypeCLI:
         
         """
         for command in self.commands:
-
+        
             self.__parser.add_argument(
                     command, 
                     self.__commands[command]['desc'], 
@@ -272,9 +214,20 @@ class HypeCLI:
             
             command_params = self.__commands[command]['params']
             
-            if len(command_params) > 1:
-                print("Function has 2 parameter")
+            #if len(command_params) > 1:
+            #    print("Function has 2 parameter")
 
-            print(self.__commands[command])
-            args = self.__parser.parse_args()
-            self.__commands[command]['func'](args[command])
+            try:
+                args = self.__parser.parse_args()
+            
+            except Exception as e:
+                raise e
+                
+            # print(args)
+            
+            for param in range(0, len(command_params)):
+                print(command_params[param])
+
+            if len(args[command]) > 1:
+                print(args[command])
+                self.__commands[command]['func'](args[command][0], args[command][1])
