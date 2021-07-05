@@ -1,8 +1,8 @@
 <h1 align="center">
-  <img src="" height="250" alt="hypecli">
+  <img src="https://raw.githubusercontent.com/serumstudio/hype.cli/main/images/hypecli.png" height="150" alt="hypecli">
 </h1>
 
-<h4 align="center">⚙ A lightweight command line interface library for creating</h4>
+<h4 align="center">⚙ A lightweight command line interface library for creating cli commands.</h4>
 
 <p align="center">
   <a href="#about">About</a> | 
