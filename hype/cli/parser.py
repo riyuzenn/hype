@@ -187,10 +187,6 @@ class HypeParser:
                 if self.__args[command]['value'] and value == None:
                     value = self.__args[command]['value']
 
-            else:
-                raise ValueError("Your passing a default value on a multiple value")
-
-
             # get the param
             # convert the value to the type given if not none
 
@@ -211,14 +207,18 @@ class HypeParser:
                     
                     except IndexError:
                         #: This error is when you pass to much arguments
-                        raise TooMuchArguments()
+                        self.help_command()
+                        sys.exit()
+                        # raise TooMuchArguments()
 
                     except TypeError:
                         #: This error is probably when the type is None.
                         pass
 
                     except ValueError:
-                        raise TypeError('it looks like %s accept %s positional arguments' % (value[i], self.__args[command]['type'][i]))
+                        self.help_command()
+                        sys.exit()
+                        # raise TypeError('it looks like %s accept %s positional arguments' % (value[i], self.__args[command]['type'][i]))
             
             if new_value:
                 return { command: new_value }
@@ -245,7 +245,9 @@ class HypeParser:
         command = params[0]
 
         if len(possible_args) > self.__args[command]['svalue']:
-            raise TooMuchArguments()
+            self.help_command()
+            sys.exit()
+            # raise TooMuchArguments()
 
 
         return self.__check_value(command, possible_args, self.__args.keys())

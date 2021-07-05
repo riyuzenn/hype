@@ -222,9 +222,6 @@ class HypeCLI:
             
             except Exception as e:
                 raise e
-                
-            for param in range(0, len(command_params)):
-                print(command_params[param])
 
             if len(args[command]) > 1 and type(args[command]) == list:
                 try:
