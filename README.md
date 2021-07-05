@@ -43,17 +43,26 @@ Or you can create your own project by looking on this simple example.
 
 ```py
 
+#: Import the main class of the module
 from hype.cli import HyperCLI
 
+#: create a `app` instance of HyperCLI `:class:`
 app = HyperCLI()
 
-@app.command()
+#: Declare a command decorator.
+@app.command(description="Greet the given user")
 def greet(name: str):
+
+  #: print the name that user define.
   print("Hello", name)
  
 if __name__ == "__main__":
+  #: Run the application
   app.run()
 
+# Output:
+# python test.py greet Zenqi
+# Hello Zenqi
 ```
 
 <div align="right" id="features">
