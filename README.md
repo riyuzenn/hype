@@ -30,7 +30,7 @@ it becomes easier to build command-line application.
 
 <div align="right" id="installation">
   <h1> Installation </h1>
-  <p>You can install the module @ <a href="">PyPI</a> (recommended). or if you want you can install the module straight on the github repo (unrecommended)
+  <p>You can install the module @ <a href="https://pypi.org/project/hypecli/">PyPI</a> (recommended). or if you want you can install the module straight on the github repo (unrecommended)
     Or, download it at <a href="">release</a> page. (recommended)</p>
   <pre><code>$ pip install hypecli</code></pre>
 </div>
