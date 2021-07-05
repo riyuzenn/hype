@@ -30,6 +30,9 @@ it becomes easier to build command-line application.
 
 <div align="right" id="installation">
   <h1> Installation </h1>
+  <p>You can install the module @ <a href="">PyPI</a> (recommended). or if you want you can install the module straight on the github repo (unrecommended)
+    Or, download it at <a href="">release</a> page. (recommended)</p>
+  <pre><code>$ pip install hypecli</code></pre>
 </div>
 
 # Usage
@@ -67,9 +70,23 @@ if __name__ == "__main__":
 
 <div align="right" id="features">
   <h1> Features </h1>
+  <p>Here are some notable features of <a href="https://github.com/serumstudio/hype.cli">Hype CLI</a>. </p>
+  <h3>Decorator based commands. •</h3>
+  <h3Easy to code •</h3>
+  <h3>Flexible API. •</h3>
+  <h3>No third library dependencies. •</h3>
+  <h3>Based on type-hints. •</h3>
+  
 </div>
 
 # Contributors
+> For contirbuting, see [CONTRIBUTING.md](https://github.com/serumstudio/hype.cli/tree/main/CONTRIBUTING.md)
+
+Thanks to these contributors who made the project maintained!
+
+| ![](https://github.com/znqi.png?size=50)   |
+|:-------------------------------------------:|
+| [Zenqi](https://www.github.com/zenqii)     |
 
 <div align="right" id="license">
   <h1> License </h1>
