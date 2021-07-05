@@ -89,7 +89,7 @@ class HypeParser:
 
     def add_argument(self, args: str, 
                 description: Optional[str] = None, value: Optional[Any] = None, 
-                type: Optional[Any] = None, required: Optional[bool] = False,
+                type: Optional[Any] = None, svalue: Optional[int] = 1, required: Optional[bool] = False,
                 deprecated: Optional[bool] = False):
         
         """
@@ -129,22 +129,25 @@ class HypeParser:
             >>> parser.add_argument('greet', type=str, required=True)
             >>> ...
         """
-
+        
         if required and description != None:
             description = description + " (*required)"
+
+
+        if svalue > 1 and type != None:
+            raise ValueError("It looks like you're setting a default value on a multiple possible arguments.")
 
 
         if description == None:
             #: Create own description
 
             _required = f"(*required)" if required else ""
-            _type = type if type else 'any'
-            description = "This command accepts %s positional arguments. %s" %(_type, _required) 
+            description = "This command accepts a positional arguments. %s" %(_required) 
 
         
         self.__args.update({
             args: { 
-                "desc": description,
+                "desc": description, "svalue": svalue,
                 "type": type, "value": value, "required": required, 
                 "deprecated": deprecated
             } 
@@ -154,34 +157,54 @@ class HypeParser:
 
     def __check_value(self, command: str, params: List[str] = [], keys: Dict[Any] = {}):
         
+        value = []
+
         try:
 
-            value = params[1]
+            if len(params) == 1:
+                value = params[0]
         
+            else:
+                #: Multiple value
+                value = params
+                
+
         except IndexError:
             raise ValueError("%s needs a value. " % (command))
  
         if command in keys:
-
+           
             #: Check if the command is deprecated.
             if self.__args[command]['deprecated']:
                 raise DeprecationWarning("%s is deprecated." % (command))
 
             # get the param
             # convert the value to the type given if not none
-            if self.__args[command]['type']:
-                value = self.__args[command]['type'](params[1])
 
+            if type(value) != list and self.__args[command]['type']:
+                value = self.__args[command]['type'](value)
+            
+            elif type(value) == list and type(self.__args[command]['type']) == list:
+                if len(value) != len(self.__args[command]['type']):
+                    raise TypeError('the list of type and value is not the same')
+                
+                for i in range(0, len(value)):
+                    self.__args[command]['type'][i](value[i])
+                    
 
-            #: Check if the value is none and default value is required.
-            if self.__args[command]['value'] and value == None:
-                value = self.__args[command]['value']
+            if type(value) == list:
+                #: Check if the value is none and default value is required.
+                if self.__args[command]['value'] and value == None:
+                    value = self.__args[command]['value']
         
+        print(value)
         return { command: value }
 
     def parse_args(self):
         self.help_command.commands = self.__args
         params = []
+        possible_args = []
+
 
         if len(self.__sys_args) <= 1:
             
@@ -191,7 +214,12 @@ class HypeParser:
         for i in range(1, len(self.__sys_args)):
             params.append(self.__sys_args[i])
         
+        for i in range(1, len(params)):
+            possible_args.append(params[i])
 
         command = params[0]
 
-        return self.__check_value(command, params, self.__args.keys())
+        if len(possible_args) < self.__args[command]['svalue']:
+            print("less than")
+
+        return self.__check_value(command, possible_args, self.__args.keys())
