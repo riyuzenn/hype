@@ -175,30 +175,41 @@ class HypeParser:
 
             if type(self.__args[command]['type']) == list:
                 if len(value) != len(self.__args[command]['type']):
-                    raise TypeError('the length of type and value is not the same')
-                
+                    pass
 
             #: Check if the command is deprecated.
             if self.__args[command]['deprecated']:
                 raise DeprecationWarning("%s is deprecated." % (command))
 
 
-            if type(value) == list:
+            if type(value) != list:
                 #: Check if the value is none and default value is required.
+                
                 if self.__args[command]['value'] and value == None:
-                    new_value = self.__args[command]['value']
+                    value = self.__args[command]['value']
 
             # get the param
             # convert the value to the type given if not none
 
             if type(value) != list and self.__args[command]['type']:
-                value = self.__args[command]['type'](value)
+                if len(self.__args[command]['type']) != len(value):
+                    new_value = self.__args[command]['type'][0](value)
             
             elif type(value) == list and type(self.__args[command]['type']) == list:
                 
                 for i in range(0, len(value)):
                     try:
+
                         new_value.append(self.__args[command]['type'][i](value[i]))
+                    
+                    except IndexError:
+                        #: This error is when you pass to much arguments
+                        pass
+
+                    except TypeError:
+                        #: This error is probably when the type is None.
+                        pass
+
                     except ValueError:
                         raise TypeError('it looks like %s accept %s positional arguments' % (value[i], self.__args[command]['type'][i]))
             

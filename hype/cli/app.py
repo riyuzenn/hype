@@ -228,6 +228,11 @@ class HypeCLI:
             for param in range(0, len(command_params)):
                 print(command_params[param])
 
-            if len(args[command]) > 1:
-                print(args[command])
-                self.__commands[command]['func'](args[command][0], args[command][1])
+            if len(args[command]) > 1 and type(args[command]) == list:
+                try:
+                    self.__commands[command]['func'](*args[command])
+                except Exception:
+                    raise Exception("You passed too much arguments")
+
+            else:
+                self.__commands[command]['func'](args[command])
