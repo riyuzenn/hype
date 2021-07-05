@@ -151,13 +151,6 @@ class HypeParser:
         })
 
 
-    def __is_command_required(self, command):
-
-        if command in self.__args.keys():
-            if self.__args[command]['required']:
-                return True
-            else:
-                return False
 
     def __check_value(self, command: str, params: List[str] = [], keys: Dict[Any] = {}):
         
@@ -200,8 +193,5 @@ class HypeParser:
         
 
         command = params[0]
-        
-        if self.__is_command_required(command) == True:
-            raise ValueError("%s is required." % (command))
 
         return self.__check_value(command, params, self.__args.keys())

@@ -127,7 +127,7 @@ class HypeCLI:
         #: Default Value: None
         _default = value
 
-        _type = type
+        self.__type = type
 
         #: Set if the command is hidden or no.
         #: Default value: False
@@ -156,16 +156,24 @@ class HypeCLI:
                 
                 if param.name in type_hints:
                     annotation = type_hints[param.name]
+                    
+                    if self.__type == None:
+                        self.__type = annotation
+
                     _params = (param.name, annotation)
 
                 else:
-                    _params = (param.name, None)
+                    if self.__type != None:
+                        _params = (param.name, self.__type)
+                    else:
+                        _params = (param.name, None)
 
                 params.append(_params)
 
+
             #: A command dict for storing a dictionary of command.
             command_dict = CommandDict(name = _name, params = params, desc = _desc,
-                    default = _default, type = _type, required = _required, deprecated = _deprecated, func = _func)
+                    default = _default, type = self.__type, required = _required, deprecated = _deprecated, func = _func)
 
             #: Add the command to the dictionary of commands.
             self.__commands.update(command_dict.dict())
@@ -251,7 +259,22 @@ class HypeCLI:
             >>>     app.run() 
         
         """
-        
+        for command in self.commands:
 
+            self.__parser.add_argument(
+                    command, 
+                    self.__commands[command]['desc'], 
+                    value=self.__commands[command]['default'], 
+                    required=self.__commands[command]['required'], 
+                    type=self.__commands[command]['type'], 
+                    deprecated=self.__commands[command]['deprecated']
+                )
+            
+            command_params = self.__commands[command]['params']
+            
+            if len(command_params) > 1:
+                print("Function has 2 parameter")
 
-        
+            print(self.__commands[command])
+            args = self.__parser.parse_args()
+            self.__commands[command]['func'](args[command])
