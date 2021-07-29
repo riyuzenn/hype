@@ -20,7 +20,7 @@
 # THE SOFTWARE.
 
 from setuptools import setup, find_packages
-from hype.cli import __license__, __author__, __version__, __desc__
+from hype import __license__, __author__, __version__, __desc__
 
 BASE_URL = "https://github.com/serumstudio/hype.cli"
 
@@ -40,6 +40,5 @@ setup(
     version = __version__,
     license = __license__,
     url=BASE_URL,
-    namespace_packages = ['hype'],
     packages = [p for p in find_packages() if 'test' not in p]
 )

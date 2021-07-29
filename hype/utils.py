@@ -19,12 +19,47 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+from typing import Optional
+from typing import Any
+from typing import Callable
+import inspect
 
-from .app import HypeCLI
+def convert_param_to_option(param: str = None) -> str:
+    if len(param) > 1:
+        fmt_str = "--{}".format(param)
 
-__all__ = [ 'HyperCLI' ]
+    else:
+        fmt_str = "-{}".format(param)
 
-__version__ = "0.0.1b"
-__desc__    = "⚙ A lightweight command line interface toolkit for python"
-__author__  = "Serum Studio"
-__license__ = "MIT"
+    return fmt_str
+
+class ParamOption:
+
+    def __init__(self, name: str=None, required: bool=None, default: Any=None, type: type=None):
+        
+        self.name = name
+        self.required = required
+        self.default = default
+        self.type = type
+
+    @property
+    def to_dict(self):
+        return {'name': self.name, 'required': self.required, 'default': self.default, 'type': self.type}
+
+
+
+class CommandDict:
+
+    def __init__(self, name: str, usage: str=None, help: str=None, aliases: tuple=None, opt: list = []):
+
+        self.name = name
+        self.usage = usage
+        self.help = help
+        self.aliases = aliases
+        self.opt = opt
+
+    @property
+    def to_dict(self):
+        return {'name': self.name, 'usage': self.usage, 'help': self.help, 'aliases': self.aliases, 'option': self.opt}
+
+
