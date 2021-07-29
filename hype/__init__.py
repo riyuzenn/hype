@@ -22,7 +22,7 @@
 
 from .app import Hype
 
-__all__ = [ 'HyperCLI' ]
+__all__ = [ 'Hype' ]
 
 __version__ = "0.0.2b"
 __desc__    = "⚙ A lightweight command line interface toolkit for python"
