@@ -1,0 +1,45 @@
+site_name: Hype
+site_description: A lightweight command line interface toolkit for python
+site_url: https://hype.serum.studio
+
+repo_name: serumstudio/hype
+repo_url: https://github.com/serumstudio/hype
+
+copyright: Copyright &copy; 2020 - 2021, Serum Studio
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: black
+      accent: purple
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    
+    - scheme: slate
+      primary: black
+      accent: purple
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+
+  features:
+    - navigation.tracking
+    - navigation.instant
+    - navigation.tabs
+    - navigation.top
+    - navigation.sections
+
+  plugins:
+    - search
+
+nav:
+  - Getting started:
+    - index.md
+    - Installation: getting-started.md
+    - Features: features.md
+  
+  - Commands:
+    - commands/index.md
+    - Handling Commands: commands/handling-commands.md

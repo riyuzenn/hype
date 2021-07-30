@@ -79,6 +79,49 @@ class Hype:
         return command_list
 
 
+    
+    def print(*args: object, **options):
+        """
+        A format printer for the Hype. It can print
+        text with colors and styles. using the tag [%tagname%][/]
+
+        Parameters:
+        ---
+            args (object):
+                The value to be printed.
+
+            **options(dict):
+                A kwarg of options.
+            
+        Available Options:
+        ---
+
+        - style
+        - foreground
+        - color
+
+        Available Color Tags:
+        ---
+
+        > For more info check the class `hype.colors`
+
+        - blue
+        - red
+        - yellow
+        - purple
+        - magenta
+        - green
+        - black
+
+        Example:
+        ---
+
+            >>> app = Hype()
+            >>> app.print('[red]This is a red color![/]')
+
+        """
+
+
     def command(self, name: str = None, 
                 usage: Optional[str] = None,
                 aliases: Optional[Tuple[Any]] = (),
