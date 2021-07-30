@@ -95,9 +95,9 @@ class HypeParser(optparse.OptionParser):
         self.commands.append(cmd)
 
 
-    def format_help(self, formatter: Optional[HelpFormatter]) -> str:
+    def format_help(self, formatter=None) -> str:
         out = optparse.OptionParser.format_help(self, formatter)
-
+        
         if formatter == None:
             formatter = self.formatter
 
@@ -107,7 +107,7 @@ class HypeParser(optparse.OptionParser):
         formatter.indent()
 
         display_names = []
-        help_pos = 0
+        help_position = 0
 
         for command in self.commands:
             name = command.name
@@ -126,7 +126,7 @@ class HypeParser(optparse.OptionParser):
         for command, name in zip(self.commands, display_names):
             #: From optparse.py
 
-            name_width = help_pos - formatter.current_indent - 2
+            name_width = help_position - formatter.current_indent - 2
 
             if len(name) > name_width:
                 name = "%*s%s\n" % (formatter.current_indent, "", name)
@@ -135,6 +135,7 @@ class HypeParser(optparse.OptionParser):
             else:
                 name = "%*s%-*s  " % (formatter.current_indent, "",
                                       name_width, name)
+                indent_first = 0
 
             result.append(name)
             help_width = formatter.width - help_position
@@ -158,13 +159,20 @@ class HypeParser(optparse.OptionParser):
             name (str):
                 The name of the command to be matched.
 
-        """
+        """ 
 
-        for command in self.commands:
-            if name == command.name or name in command.aliases:
-                return command
-        
-        return None
+        _command = None
+
+        for command in self.commands: 
+            try:
+            
+                if name == command.name or name in command.aliases:
+                    _command = command
+            
+            except TypeError:
+                pass
+
+        return _command
 
     def parse_args(self, _args=None, _value=None):
         """

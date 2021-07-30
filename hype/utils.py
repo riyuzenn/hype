@@ -1,4 +1,3 @@
-
 #                   Copyright (c) 2021, Serum Studio
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,6 +23,7 @@ from typing import Any
 from typing import Callable
 import inspect
 
+
 def convert_param_to_option(param: str = None) -> str:
     if len(param) > 1:
         fmt_str = "--{}".format(param)
@@ -33,10 +33,19 @@ def convert_param_to_option(param: str = None) -> str:
 
     return fmt_str
 
-class ParamOption:
+def convert_option_to_string(option: str=None) -> str:
+    return option.split('--')[1]
 
-    def __init__(self, name: str=None, required: bool=None, default: Any=None, type: type=None):
-        
+
+class ParamOption:
+    def __init__(
+        self,
+        name: str = None,
+        required: bool = None,
+        default: Any = None,
+        type: type = None,
+    ):
+
         self.name = name
         self.required = required
         self.default = default
@@ -44,22 +53,39 @@ class ParamOption:
 
     @property
     def to_dict(self):
-        return {'name': self.name, 'required': self.required, 'default': self.default, 'type': self.type}
-
+        return {
+            "name": self.name,
+            "required": self.required,
+            "default": self.default,
+            "type": self.type,
+        }
 
 
 class CommandDict:
-
-    def __init__(self, name: str, usage: str=None, help: str=None, aliases: tuple=None, opt: list = []):
+    def __init__(
+        self,
+        name: str,
+        usage: str = None,
+        help: str = None,
+        aliases: tuple = None,
+        opt: list = [],
+        func: Callable[..., Any] = None,
+    ):
 
         self.name = name
         self.usage = usage
         self.help = help
         self.aliases = aliases
         self.opt = opt
+        self.func = func
 
     @property
     def to_dict(self):
-        return {'name': self.name, 'usage': self.usage, 'help': self.help, 'aliases': self.aliases, 'option': self.opt}
-
-
+        return {
+            "name": self.name,
+            "usage": self.usage,
+            "help": self.help,
+            "aliases": self.aliases,
+            "options": self.opt,
+            "func": self.func,
+        }

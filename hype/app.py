@@ -21,15 +21,17 @@
 
 import sys
 import inspect
-from typing import Optional, TypeVar
+from typing import Optional
 from typing import Any
 from typing import Callable
 from typing import Tuple
-from typing import TYPE_CHECKING
 from typing import get_type_hints
 from .command import HypeCommand
-from .utils import CommandDict, ParamOption
+from .parser import HypeParser
+from .utils import CommandDict
+from .utils import ParamOption
 from .utils import convert_param_to_option
+from .utils import convert_option_to_string
 
 
 class Hype:
@@ -52,15 +54,29 @@ class Hype:
     """
 
     __commands = {}
-
+    
     def __init__(self):
-        pass
+        
+        #: The parser object to be used
+        self.__parser = HypeParser
+    
+    
+    @property
+    def commands(self):
+        """
+        All command registered. Return by it's name.
+        """
+        command_list = []
+        for k in self.__commands.keys():
+            command_list.append(self.__commands[k]['name'])
+
+        return command_list
 
 
     def command(self, name: str = None, 
                 usage: Optional[str] = None,
-                aliases: Optional[Tuple[Any]] = None,
-                help: Optional[str] = None, 
+                aliases: Optional[Tuple[Any]] = (),
+                help: Optional[str] = '', 
                 func: Callable[..., Any] = None,):
 
         """
@@ -96,8 +112,8 @@ class Hype:
             _name = name if name else func.__name__
             
             #: Set the help of the command
-            _help = help if help else func.__doc__
-
+            _help = help
+                        
             #: The signature of the function
             signature = inspect.signature(func)
 
@@ -123,8 +139,8 @@ class Hype:
 
                 optionparam = ParamOption(convert_param_to_option(param.name), required, default, anon)
                 params.append(optionparam.to_dict)
-                
-            self.__commands[func] = CommandDict(_name, _usage, _help, _aliases, params).to_dict 
+            
+            self.__commands[_name] = CommandDict(_name, _usage, _help, _aliases, params, func).to_dict 
 
             return func
 
@@ -132,7 +148,59 @@ class Hype:
         return deco(func) if func else deco
         
 
-
     def run(self):
-        print(self.__commands)
+        """
+        Run the application.
 
+        Parameters:
+        ---
+            it takes no params yet
+
+        Example: 
+        `(More example at the examples folder located on github repo.)`
+
+        >>> ...
+
+        """
+
+
+        commands = []
+        required_commands = []
+        
+        for k in self.__commands.keys():
+                        
+            _command = HypeCommand(self.__commands[k]['name'], 
+                    self.__commands[k]['usage'], self.__commands[k]['aliases'],
+                    self.__commands[k]['help']
+            )
+
+            if self.__commands[k]['options']:
+                for _option in self.__commands[k]['options']:
+                    
+                    if _option['required']:
+                        required_commands.append(
+                            (self.__commands[k]['name'], convert_option_to_string(_option['name']))
+                        )
+
+                    _command.parser.add_option(
+                                _option['name'],  
+                                default=_option['default'], 
+                                type=_option['type']
+                            )
+
+            commands.append(_command)
+        
+        parser = self.__parser(commands)
+        option, command, command_opt, command_args, = parser.parse_args()
+        params = []
+
+        for _k, v in vars(command_opt).items():                
+            if (command.name, _k) in required_commands and v == None:
+                parser.error("Option: {} is required.".format(_k))
+                parser.exit()
+
+            params.append(v)
+
+        if command.name in self.__commands:
+            self.__commands[command.name]['func'](*params)
+            

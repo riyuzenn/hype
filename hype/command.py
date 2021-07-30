@@ -32,24 +32,21 @@ class HypeCommand:
         >>> greet.add_option('--name', type=str, required=True)
         
     """
-    __parser = optparse.OptionParser()
-    
+
     def __init__(self, name: str, usage: Optional[str] = None, 
-                aliases: Optional[Tuple[Any]] = None, help: Optional[str] = None):
+                aliases: Optional[Tuple[Any]] = None, help: Optional[str] = ''):
 
         self.name = name
         self.usage = usage
         self.aliases = aliases
-        self.help = help
+        self.help = help if help != '' else 'This command accept a positional arguments'
+        self.parser = optparse.OptionParser()
 
         if self.usage:
-            self.__parser.usage = self.usage
+            self.parser.usage = self.usage
 
-    @property
-    def parser(self):
-        return self.__parser
-        
+
     def add_option(self, *args, **kwargs):
-        return self.__parser.add_option(*args, **kwargs)
+        return self.parser.add_option(*args, **kwargs)
     
         
