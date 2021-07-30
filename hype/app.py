@@ -19,9 +19,11 @@
 # THE SOFTWARE.
 
 
+from hype.errors import OptionError
+import functools
 import sys
 import inspect
-from typing import Optional
+from typing import Optional, TypeVar
 from typing import Any
 from typing import Callable
 from typing import Tuple
@@ -30,8 +32,10 @@ from .command import HypeCommand
 from .parser import HypeParser
 from .utils import CommandDict
 from .utils import ParamOption
+from .utils import OptionDict
 from .utils import convert_param_to_option
 from .utils import convert_option_to_string
+
 
 
 class Hype:
@@ -54,6 +58,8 @@ class Hype:
     """
 
     __commands = {}
+    __required_commands = []
+    __commands_function = {}
     
     def __init__(self):
         
@@ -76,8 +82,7 @@ class Hype:
     def command(self, name: str = None, 
                 usage: Optional[str] = None,
                 aliases: Optional[Tuple[Any]] = (),
-                help: Optional[str] = '', 
-                func: Callable[..., Any] = None,):
+                help: Optional[str] = ''):
 
         """
         A command decorator for HypeCommand.
@@ -104,11 +109,11 @@ class Hype:
         #: Set the aliases of the command
         _aliases = aliases
 
-
+    
         def deco(func): 
-            
             #: Set the name of the command.
             #: If the name is none, return the name of the function
+            
             _name = name if name else func.__name__
             
             #: Set the help of the command
@@ -141,12 +146,78 @@ class Hype:
                 params.append(optionparam.to_dict)
             
             self.__commands[_name] = CommandDict(_name, _usage, _help, _aliases, params, func).to_dict 
+            self.__commands_function[func] = {'name': _name}
 
             return func
 
         
-        return deco(func) if func else deco
+        # return deco(func) if func else deco
+        return deco
+
+
+    # def option(self, *args, **kwargs):
+
+    #     """
+    #     Add option to the command if available.
+
+    #     Parameters:
+    #     ---
+    #         same as `optparse.OptionParser.add_option but added some new options.`
+
+    #         required (bool):
+    #             Set the option if required or no.
         
+    #     Example:
+    #     ---
+
+    #         >>> @app.command()
+    #         >>> @app.option('-n', '--name', type=str, required=True)
+    #         >>> def greet(name) # -> Here is the option passed
+    #         >>>     print("Hello, {name}!")
+
+    #     """
+
+    #     #: Get the default from the kwargs
+    #     default = kwargs.get('default') or None
+
+    #     #: Get the required from the kwargs
+    #     required = kwargs.get('default') or False
+
+    #     #: Get the type.
+    #     type = kwargs.get('type') or None
+
+    #     #: Set the name of the option to args which is a tuple.
+    #     name = args
+
+
+    #     if default and required == True:
+    #         raise OptionError('You cannot set required if there is a default value.')
+        
+        
+    #     def deco(func):
+            
+    #         option_dict = OptionDict(
+    #             name, default, required, type
+    #         )
+
+    #         if self.__commands_function != None:
+
+    #             for func in self.__commands_function:
+    #                 self.__commands[
+    #                     self.__commands_function[func] \
+    #                     ['name']]['options'].append(option_dict.to_dict)
+
+    #         else:
+                
+    #             if 'required' in kwargs:
+    #                 #: Remove the required since optionparser cannot recognize it.
+    #                 kwargs.pop('required')
+
+    #             #: If there is no command registered, add option instead.
+    #             self.__parser.add_option(*args, **kwargs)
+
+
+    #     return deco
 
     def run(self):
         """
@@ -165,7 +236,6 @@ class Hype:
 
 
         commands = []
-        required_commands = []
         
         for k in self.__commands.keys():
                         
@@ -178,15 +248,28 @@ class Hype:
                 for _option in self.__commands[k]['options']:
                     
                     if _option['required']:
-                        required_commands.append(
+                        if isinstance(_option['name'], tuple) or isinstance(_option['name'], list):
+                            print('Hello: ', _option['name'].index())
+
+                        self.__required_commands.append(
                             (self.__commands[k]['name'], convert_option_to_string(_option['name']))
                         )
+                    
 
-                    _command.parser.add_option(
-                                _option['name'],  
-                                default=_option['default'], 
-                                type=_option['type']
-                            )
+                    name = _option['name']
+                    if isinstance(name, str):
+                        _command.parser.add_option(
+                                    name,
+                                    default=_option['default'], 
+                                    type=_option['type']
+                                )
+
+                    else:
+                        _command.parser.add_option(
+                                    *name,
+                                    default=_option['default'], 
+                                    type=_option['type']
+                                )
 
             commands.append(_command)
         
@@ -195,11 +278,13 @@ class Hype:
         params = []
 
         for _k, v in vars(command_opt).items():                
-            if (command.name, _k) in required_commands and v == None:
+            if (command.name, _k) in self.__required_commands and v == None:
                 parser.error("Option: {} is required.".format(_k))
                 parser.exit()
 
             params.append(v)
+
+        
 
         if command.name in self.__commands:
             self.__commands[command.name]['func'](*params)

@@ -8,6 +8,10 @@ class HypeException(Exception):
         super().__init__(msg)
 
 
+class OptionError(HypeException):
+    def __init__(self):
+        super().__init__("There is something went wrong on the option")
+
 class TooMuchArguments(HypeException):
     def __init__(self):
         super().__init__("You passed too much arguments.")

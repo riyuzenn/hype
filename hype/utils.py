@@ -61,6 +61,30 @@ class ParamOption:
         }
 
 
+class OptionDict:
+    def __init__(
+        self, 
+        name: str = None,
+        default: Any = None,
+        required: bool = None,
+        type: type = None
+    ):
+
+        self.name = name
+        self.default = default
+        self.type = type
+        self.required = required
+
+    
+    @property
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "default": self.default,
+            "required": self.required,
+            "type": self.type
+        }
+
 class CommandDict:
     def __init__(
         self,
