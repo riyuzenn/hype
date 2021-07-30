@@ -22,14 +22,40 @@
 
 from typing import Any
 from typing import IO
-from typing import Optional
+from typing import Optional 
+import logging
+from .style import Color
+from .style import Style
+from .style import Background
+from .style import Cursor
+from .constants import rule_colors
 
+
+logger = logging.getLogger(__name__)
+
+try:
+
+    import colorama
+    colorama.init()
+
+except ModuleNotFoundError:
+    logger.warning('Colors are not supported..')
+
+
+def check_for_color(string: str=None):
+    pass
 
 def print(
+
     *value: Any,
     sep: Optional[str] = " ",
     end: Optional[str] = "\n",
     file: Optional[IO[str]] = None,
-    flush: Optional[bool] = False
+    flush: Optional[bool] = False,
+    **options
 ):
-    pass
+
+    background = options.get('background') or None
+    color = options.get('color') or None
+    background = options.get('style') or None
+
