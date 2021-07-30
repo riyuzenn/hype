@@ -25,5 +25,11 @@ from typing import IO
 from typing import Optional
 
 
-def print(*value: Any, sep: Optional[str] = " ", end: Optional[str] = "\n", file: Optional[IO[str]] = None, flush: Optional[bool] = False):
+def print(
+    *value: Any,
+    sep: Optional[str] = " ",
+    end: Optional[str] = "\n",
+    file: Optional[IO[str]] = None,
+    flush: Optional[bool] = False
+):
     pass

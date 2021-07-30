@@ -33,6 +33,7 @@ theme:
 
   plugins:
     - search
+    - tags
 
 nav:
   - Getting started:
@@ -43,3 +44,4 @@ nav:
   - Commands:
     - commands/index.md
     - Handling Commands: commands/handling-commands.md
+
