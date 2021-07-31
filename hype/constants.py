@@ -16,19 +16,7 @@ rule_colors =  {
 
 }
 
-rule_bg_colors =  {
-
-    #: For parser
-
-    'bg red':       Background.RED,
-    'bg blue':      Background.BLUE,
-    'bg green':     Background.GREEN,
-    'bg black':     Background.BLACK,
-    'bg cyan':      Background.CYAN,
-    'bg magenta':   Background.MAGENTA,
-    'bg yellow':    Background.YELLOW,
-    'bg white':     Background.WHITE,
-    'bg reset':     Background.RESET,
+bg_colors =  {
     
     'red':      Background.RED,
     'blue':     Background.BLUE,
@@ -39,6 +27,20 @@ rule_bg_colors =  {
     'yellow':   Background.YELLOW,
     'white':    Background.WHITE,
     'reset':    Background.RESET,
+
+}
+
+rule_bg_colors = {
+
+    'bg red':       Background.RED,
+    'bg blue':      Background.BLUE,
+    'bg green':     Background.GREEN,
+    'bg black':     Background.BLACK,
+    'bg cyan':      Background.CYAN,
+    'bg magenta':   Background.MAGENTA,
+    'bg yellow':    Background.YELLOW,
+    'bg white':     Background.WHITE,
+    'bg reset':     Background.RESET,
 
 }
 
