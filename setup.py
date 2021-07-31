@@ -19,10 +19,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+
 from setuptools import setup, find_packages
 from hype import __license__, __author__, __version__, __desc__
 
-BASE_URL = "https://github.com/serumstudio/hype.cli"
+BASE_URL = "https://github.com/serumstudio/hype"
 
 def get_long_description():
 
@@ -30,6 +31,13 @@ def get_long_description():
         readme = f.read()
 
     return readme
+
+extras_require = {
+    'color': ['colorama==0.4.4'],
+    'ui': [''],
+}
+
+
 
 setup(
     name = "hypecli",
@@ -40,5 +48,25 @@ setup(
     version = __version__,
     license = __license__,
     url=BASE_URL,
-    packages = [p for p in find_packages() if 'test' not in p]
+    packages = [p for p in find_packages() if 'test' not in p],
+    extras_require = extras_require,
+    classifiers = [
+        "Intended Audience :: Information Technology",
+        "Intended Audience :: System Administrators",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python",
+        "Topic :: Software Development :: Libraries :: Application Frameworks",
+        "Topic :: Software Development :: Libraries :: Python Modules",
+        "Topic :: Software Development :: Libraries",
+        "Topic :: Software Development",
+        "Typing :: Typed",
+        "Development Status :: 4 - Beta",
+        "Intended Audience :: Developers",
+        "Programming Language :: Python :: 3 :: Only",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "License :: OSI Approved :: MIT License"
+    ],
 )

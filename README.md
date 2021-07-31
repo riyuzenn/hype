@@ -20,7 +20,7 @@
 **Hype CLI** is an *open source* framework use for building command line applications easirer <br>
 for cli applications that required different type of commands.
 
-It also comes with alot of different [features](https://github.com/serumstudio/hype.cli#features) that you may want to check out. Hype CLI was mainly <br>
+It also comes with alot of different [features](https://github.com/serumstudio/hype#features) that you may want to check out. Hype CLI was mainly <br>
 built for [Anglo](https://github.com/serumstudio/anglo) *( a modern lightweight web framework for python 3. )*. Because of Hype CLI's capability <br>
 it becomes easier to build command-line application.
 
@@ -32,12 +32,12 @@ it becomes easier to build command-line application.
   <h1> Installation </h1>
   <blockquote>Currently, there is alot of bugs happening on the module. We're not recommending you to install it yet.</blockquote>
   <p>You can install the module @ <a href="https://pypi.org/project/hypecli/">PyPI</a> (recommended). or if you want you can install the module straight on the github repo (unrecommended)
-    Or, download it at <a href="https://github.com/serumstudio/hype.cli/releases">release</a> page. (recommended)</p>
+    Or, download it at <a href="https://github.com/serumstudio/hype/releases">release</a> page. (recommended)</p>
   <pre><code>$ pip install hypecli</code></pre>
 </div>
 
 # Usage
-You can read the [documentation](https://github.com/serumstudio/hype.cli/) for more info and [examples](https://github.com/serumstudio/hype.cli/) for more examples.
+You can read the [documentation](https://github.com/serumstudio/hype/) for more info and [examples](https://github.com/serumstudio/hype/) for more examples.
 Hyper CLI comes with a starter project template as well. After the installation, run 
 ```bash
 $ hyper create demoproject
@@ -48,7 +48,7 @@ Or you can create your own project by looking on this simple example.
 ```py
 
 #: Import the main class of the module
-from hype.cli import HyperCLI
+from hype import HyperCLI
 
 #: create a `app` instance of HyperCLI `:class:`
 app = HyperCLI()
@@ -71,7 +71,7 @@ if __name__ == "__main__":
 
 <div align="right" id="features">
   <h1> Features </h1>
-  <p>Here are some notable features of <a href="https://github.com/serumstudio/hype.cli">Hype CLI</a>. </p>
+  <p>Here are some notable features of <a href="https://github.com/serumstudio/hype">Hype CLI</a>. </p>
   <h3>Decorator based commands. •</h3>
   <h3>Easy to code •</h3>
   <h3>Flexible API. •</h3>
@@ -81,7 +81,7 @@ if __name__ == "__main__":
 </div>
 
 # Contributors
-> For contirbuting, see [CONTRIBUTING.md](https://github.com/serumstudio/hype.cli/tree/main/CONTRIBUTING.md)
+> For contirbuting, see [CONTRIBUTING.md](https://github.com/serumstudio/hype/tree/main/CONTRIBUTING.md)
 
 Thanks to these contributors who made the project maintained!
 
