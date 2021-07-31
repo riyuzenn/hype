@@ -18,8 +18,8 @@ rule_colors =  {
 
 
 
-rule_style = {
-    
+rule_styles = {
+
     'bold':      Style.BOLD,
     'italic':    Style.ITALIC,
     'underline': Style.UNDERLINE,

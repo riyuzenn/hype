@@ -22,6 +22,7 @@
 
 import string
 from .constants import rule_colors
+from .constants import rule_styles
 from typing import Optional
 from typing import Any
 from typing import IO
@@ -430,15 +431,17 @@ def print_color(
 ):
 
     seq = []
-    has_color_tag = False
     tokens = tokenize_tag(text)
 
     for token in tokens:
         token_type, tag_name, tag_attr, token_source = token
         
         if token_type == TOKEN_OPEN_TAG:
-            has_color_tag = True
-            seq.append(rule_colors[tag_name])
+            if tag_name in rule_colors:
+                seq.append(rule_colors[tag_name])
+            
+            if tag_name in rule_styles:
+                seq.append(rule_styles[tag_name])
 
         if token_type == TOKEN_CLOSE_TAG:
             seq.append(rule_colors['/'])
@@ -448,5 +451,6 @@ def print_color(
 
         if token_type == TOKEN_NEWLINE:
             seq.append(token_source)
+
 
     print("".join(seq), sep=sep, end=end, file=file, flush=flush)
