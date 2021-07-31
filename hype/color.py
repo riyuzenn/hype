@@ -23,6 +23,7 @@
 import string
 from .constants import rule_colors
 from .constants import rule_styles
+from .constants import bg_colors
 from typing import Optional
 from typing import Any
 from typing import IO
@@ -442,6 +443,10 @@ def print_color(
             
             if tag_name in rule_styles:
                 seq.append(rule_styles[tag_name])
+
+            if tag_name == 'bg':
+                if 'color' in tag_attr:
+                    seq.append(bg_colors[tag_attr.get('color')])
 
         if token_type == TOKEN_CLOSE_TAG:
             seq.append(rule_colors['/'])
