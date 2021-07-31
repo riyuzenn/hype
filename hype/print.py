@@ -22,9 +22,14 @@
 
 from typing import IO
 from typing import Optional
-from .color import print_color
 from builtins import print as _print
 from .errors import PluginError
+
+try:
+    from .color import print_color
+except PluginError:
+    print_color = None
+
 
 def print(
     value: str='',
@@ -48,7 +53,7 @@ def print(
         >>> from hype import print
         >>> print('[red]This is red[/]') # Hype Color should be supported.
         >>> print('No Color, standart print function') # No color installed.
-        
+
     """
 
     try:
@@ -62,16 +67,6 @@ def print(
         )
 
     except AssertionError:
-        
-        _print(
-            value, 
-            sep=sep, 
-            end=end, 
-            file=file, 
-            flush=flush
-        )
-
-    except PluginError:
         
         _print(
             value, 
