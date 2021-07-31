@@ -66,7 +66,7 @@ def print(
             flush=flush
         )
 
-    except Exception:
+    except AttributeError:
         
         _print(
             value, 

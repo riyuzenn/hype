@@ -12,7 +12,7 @@ rule_colors =  {
     'magenta':  Color.MAGENTA,
     'yellow':   Color.YELLOW,
     'white':    Color.WHITE,
-    '/':        Color.RESET,
+    'reset':        Color.RESET,
 
 }
 
