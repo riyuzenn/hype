@@ -41,3 +41,28 @@ rule_styles = {
     'i': Style.ITALIC,
     'u': Style.UNDERLINE,
 }
+
+all_tags = [
+
+    #: colors
+    'red',
+    'blue',
+    'green',
+    'black',
+    'cyan',
+    'magenta',
+    'yellow',
+    'white',
+    'reset',
+
+    #: background
+    'bg',
+
+    #: styles
+    'i',
+    'italic',
+    'b',
+    'bold',
+    'u',
+    'underline',
+]
