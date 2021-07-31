@@ -441,7 +441,7 @@ def print_color(
         
         if token_type == TOKEN_OPEN_TAG:
             if tag_name not in all_tags:
-                raise TagNotFound('{} is not found. check avaialble tags on the documentation\nhttps://hype.serum.studio')
+                raise TagNotFound('\n\n"%s" is not found. check avaialble tags on the documentation:\nhttps://hype.serum.studio\n\n' % (tag_name))
 
             if tag_name in rule_colors:
                 seq.append(rule_colors[tag_name])
