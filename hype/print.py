@@ -66,7 +66,7 @@ def print(
             flush=flush
         )
 
-    except AssertionError:
+    except Exception:
         
         _print(
             value, 
