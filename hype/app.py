@@ -31,7 +31,7 @@ from .command import HypeCommand
 from .parser import HypeParser
 from .print import print
 from .constants import rule_colors
-from .constants import rule_bg_colors
+from .constants import bg_colors
 from .style import Background
 from .utils import CommandDict
 from .utils import ParamOption
