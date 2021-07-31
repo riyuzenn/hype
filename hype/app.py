@@ -127,10 +127,10 @@ class Hype:
 
         background = options.get('background') or None
         
-        if background in rule_bg_colors:
-            print("%s%s%s" % (rule_bg_colors[background], text, rule_bg_colors['reset']))
+        if background in bg_colors:
+            print("%s%s%s" % (bg_colors[background], text, bg_colors['reset']))
 
-        elif background not in rule_bg_colors and background != None:
+        elif background not in bg_colors and background != None:
             raise ColorNotFound('%s is not yet supported.' % (background))
 
         else:
