@@ -435,21 +435,16 @@ def print_color(
 
     for token in tokens:
         token_type, tag_name, tag_attr, token_source = token
-
+        
         if token_type == TOKEN_OPEN_TAG:
             has_color_tag = True
-            color = rule_colors[tag_name]
+            seq.append(rule_colors[tag_name])
+
+        if token_type == TOKEN_CLOSE_TAG:
+            seq.append(rule_colors['/'])
 
         if token_type == TOKEN_DATA:
-
-            if has_color_tag:
-
-                seq.append(color)
-                seq.append(token_source)
-                seq.append(rule_colors["/"])
-
-            else:
-                seq.append(token_source)
+            seq.append(token_source)
 
         if token_type == TOKEN_NEWLINE:
             seq.append(token_source)
