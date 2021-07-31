@@ -29,11 +29,16 @@ from typing import Tuple
 from typing import get_type_hints
 from .command import HypeCommand
 from .parser import HypeParser
+from .print import print
+from .constants import rule_colors
+from .constants import rule_bg_colors
+from .style import Background
 from .utils import CommandDict
 from .utils import ParamOption
 from .utils import OptionDict
 from .utils import convert_param_to_option
 from .utils import convert_option_to_string
+from .errors import ColorNotFound
 
 
 
@@ -79,7 +84,7 @@ class Hype:
 
 
     
-    def print(*args: object, **options):
+    def print(self, text: str='', **options):
         """
         A format printer for the Hype. It can print
         text with colors and styles. using the tag [%tagname%][/]
@@ -120,6 +125,16 @@ class Hype:
 
         """
 
+        background = options.get('background') or None
+        
+        if background in rule_bg_colors:
+            print("%s%s%s" % (rule_bg_colors[background], text, rule_bg_colors['reset']))
+
+        elif background not in rule_bg_colors and background != None:
+            raise ColorNotFound('%s is not yet supported.' % (background))
+
+        else:
+            print(text)
 
     def command(self, name: str = None, 
                 usage: Optional[str] = None,

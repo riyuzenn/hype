@@ -20,3 +20,8 @@ class TooMuchArguments(HypeException):
 class PluginError(HypeException):
     def __init__(self, msg="Plugin not installed"):
         super().__init__(msg)
+
+
+class ColorNotFound(HypeException):
+    def __init__(self, msg="The color used is not found"):
+        super().__init__(msg)

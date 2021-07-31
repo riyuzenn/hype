@@ -452,5 +452,4 @@ def print_color(
         if token_type == TOKEN_NEWLINE:
             seq.append(token_source)
 
-
     print("".join(seq), sep=sep, end=end, file=file, flush=flush)
