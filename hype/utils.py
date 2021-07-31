@@ -22,19 +22,34 @@ from typing import Optional
 from typing import Any
 from typing import Callable
 import inspect
+import typing
 
 
 def convert_param_to_option(param: str = None) -> str:
     if len(param) > 1:
-        fmt_str = "--{}".format(param)
+        fmt_str = "--%s" % (param)
 
     else:
-        fmt_str = "-{}".format(param)
+        fmt_str = "-%s" % (param)
 
     return fmt_str
 
 def convert_option_to_string(option: str=None) -> str:
     return option.split('--')[1]
+
+
+def create_bool_option(option: str=None) -> str:
+    """
+    Create --formal / --no-formal
+    #: --no-formal is currently not avaialable. Just incase on future.
+    """
+    if option.startswith('--'):
+        option = convert_option_to_string(option)
+
+    else:
+        option = option
+
+    return ('--%s' % (option), '--no-%s' % (option))
 
 
 class ParamOption:
@@ -43,13 +58,25 @@ class ParamOption:
         name: str = None,
         required: bool = None,
         default: Any = None,
-        type: type = None,
+        _type: type = None,
+        action: str = None
     ):
 
         self.name = name
         self.required = required
         self.default = default
-        self.type = type
+        self.type = _type
+        self.action = action
+
+        if self.type == bool:
+            
+            self.type = None
+
+            if self.default == True:
+                self.action = 'store_false'
+            
+            else:
+                self.action = 'store_true'
 
     @property
     def to_dict(self):
@@ -58,6 +85,7 @@ class ParamOption:
             "required": self.required,
             "default": self.default,
             "type": self.type,
+            "action": self.action
         }
 
 
