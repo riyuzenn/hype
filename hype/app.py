@@ -375,6 +375,5 @@ class Hype:
         
 
         if command.name in self.__commands:
-            print(params)
             self.__commands[command.name]['func'](*params)
             
