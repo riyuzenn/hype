@@ -19,7 +19,6 @@
 # THE SOFTWARE.
 
 
-from hype.errors import OptionError
 import functools
 import sys
 import inspect
@@ -103,15 +102,15 @@ class Hype:
         Available Color Tags:
         ---
 
-        > For more info check the class `hype.colors`
+        > For more info check the constant dictionary `hype.constants.rule_colors`
 
         - blue
         - red
         - yellow
-        - purple
         - magenta
         - green
         - black
+        - cyan
 
         Example:
         ---

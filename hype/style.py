@@ -91,8 +91,10 @@ class AnsiBack(AnsiCodes):
 
 
 class AnsiStyle(AnsiCodes):
-    BRIGHT    = 1
+    BOLD      = 1
     DIM       = 2
+    ITALIC    = 3
+    UNDERLINE = 4
     NORMAL    = 22
     RESET_ALL = 0
 

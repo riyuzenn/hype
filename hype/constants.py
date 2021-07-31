@@ -1,5 +1,6 @@
 
 from .style import Color
+from .style import Style
 
 rule_colors =  {
 
@@ -13,4 +14,18 @@ rule_colors =  {
     'white':    Color.WHITE,
     '/':        Color.RESET,
 
+}
+
+
+
+rule_style = {
+    
+    'bold':      Style.BOLD,
+    'italic':    Style.ITALIC,
+    'underline': Style.UNDERLINE,
+
+    # ALiases
+    'b': Style.BOLD,
+    'i': Style.ITALIC,
+    'u': Style.UNDERLINE,
 }
