@@ -24,11 +24,13 @@ import string
 from .constants import rule_colors
 from .constants import rule_styles
 from .constants import bg_colors
+from .constants import all_tags
 from typing import Optional
 from typing import Any
 from typing import IO
 import logging
 from .errors import PluginError
+from .errors import TagNotFound
 
 try:
 
@@ -438,6 +440,9 @@ def print_color(
         token_type, tag_name, tag_attr, token_source = token
         
         if token_type == TOKEN_OPEN_TAG:
+            if tag_name not in all_tags:
+                raise TagNotFound('{} is not found. check avaialble tags on the documentation\nhttps://hype.serum.studio')
+
             if tag_name in rule_colors:
                 seq.append(rule_colors[tag_name])
             
@@ -445,11 +450,16 @@ def print_color(
                 seq.append(rule_styles[tag_name])
 
             if tag_name == 'bg':
+                
                 if 'color' in tag_attr:
                     seq.append(bg_colors[tag_attr.get('color')])
+                
+                else:
+                    raise AttributeError('when defining background, color attribute must define.')
+                
 
         if token_type == TOKEN_CLOSE_TAG:
-            seq.append(rule_colors['/'])
+            seq.append(rule_colors['reset'])
 
         if token_type == TOKEN_DATA:
             seq.append(token_source)

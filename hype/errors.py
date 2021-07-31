@@ -25,3 +25,12 @@ class PluginError(HypeException):
 class ColorNotFound(HypeException):
     def __init__(self, msg="The color used is not found"):
         super().__init__(msg)
+
+
+class TagNotFound(HypeException):
+    """
+    Used for parsing colors in `hype.colors`
+    """
+
+    def __init__(self, msg="Tag is not defined"):
+        super().__init__(msg)
