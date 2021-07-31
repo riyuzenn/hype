@@ -30,21 +30,6 @@ bg_colors =  {
 
 }
 
-rule_bg_colors = {
-
-    'bg red':       Background.RED,
-    'bg blue':      Background.BLUE,
-    'bg green':     Background.GREEN,
-    'bg black':     Background.BLACK,
-    'bg cyan':      Background.CYAN,
-    'bg magenta':   Background.MAGENTA,
-    'bg yellow':    Background.YELLOW,
-    'bg white':     Background.WHITE,
-    'bg reset':     Background.RESET,
-
-}
-
-
 rule_styles = {
 
     'bold':      Style.BOLD,
