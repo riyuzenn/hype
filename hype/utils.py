@@ -25,6 +25,7 @@ import inspect
 import typing
 
 
+
 def convert_param_to_option(param: str = None) -> str:
     if len(param) > 1:
         fmt_str = "--%s" % (param)
