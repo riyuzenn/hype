@@ -19,14 +19,22 @@
 # SOFTWARE.
 
 
-from hype.cli import HypeCLI
 
-app = HypeCLI(banner="""\noooo                                         \n`888                                         \n 888 .oo.   oooo    ooo oo.ooooo.   .ooooo.  \n 888P"Y88b   `88.  .8'   888' `88b d88' `88b \n 888   888    `88..8'    888   888 888ooo888 \n 888   888     `888'     888   888 888    .o \no888o o888o     .8'      888bod8P' `Y8bod8P' \n            .o..P'       888                 \n            `Y8P'       o888o\n""")
+from hype import Hype
 
-@app.command("greet", description="Greet the given user")
-def greet(name: str):
-  print("Hello, {}!".format(name))
- 
+app = Hype()
+
+@app.command()
+def greet(name):
+    app.print("Hello, %s" % (name))
+    
+
+@app.command()
+def goodbye(name: str):
+    app.print("Goodbye, %s" % (name))
+
 
 if __name__ == "__main__":
-  app.run()
+    app.run()
+
+
