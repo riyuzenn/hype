@@ -20,41 +20,40 @@
 
 #: This source file is responsibble for printing output with styles and colors.
 
-from typing import Any
 from typing import IO
 from typing import Optional
-import logging
-from .style import Color
-from .style import Style
-from .style import Background
-from .style import Cursor
-from .color import _print_color
+from .color import print_color
 from builtins import print as _print
-
-
-logger = logging.getLogger(__name__)
-
-try:
-
-    import colorama
-
-    colorama.init()
-
-except ModuleNotFoundError:
-    logger.warning("Colors are not supported..")
-
+from .errors import PluginError
 
 def print(
-    *value: Any,
+    value: str='',
     sep: Optional[str] = " ",
     end: Optional[str] = "\n",
     file: Optional[IO[str]] = None,
     flush: Optional[bool] = False,
 ):
 
+    """
+    A wrapper for both color printing from `hype.color.print_color`
+    and a standart print function.
+
+    Parameters:
+    ---
+        Same as print().
+
+    Example:
+    ---
+
+        >>> from hype import print
+        >>> print('[red]This is red[/]') # Hype Color should be supported.
+        >>> print('No Color, standart print function') # No color installed.
+        
+    """
+
     try:
 
-        _print_color(
+        print_color(
             value, 
             sep=sep, 
             end=end, 
@@ -63,6 +62,17 @@ def print(
         )
 
     except AssertionError:
+        
+        _print(
+            value, 
+            sep=sep, 
+            end=end, 
+            file=file, 
+            flush=flush
+        )
+
+    except PluginError:
+        
         _print(
             value, 
             sep=sep, 

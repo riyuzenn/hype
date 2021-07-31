@@ -9,11 +9,14 @@ class HypeException(Exception):
 
 
 class OptionError(HypeException):
-    def __init__(self):
-        super().__init__("There is something went wrong on the option")
+    def __init__(self, msg="There is something went wrong on the option"):
+        super().__init__(msg)
 
 class TooMuchArguments(HypeException):
-    def __init__(self):
-        super().__init__("You passed too much arguments.")
+    def __init__(self, msg="You passed too much arguments"):
+        super().__init__(msg)
 
 
+class PluginError(HypeException):
+    def __init__(self, msg="Plugin not installed"):
+        super().__init__(msg)
