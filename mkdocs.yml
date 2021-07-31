@@ -45,3 +45,6 @@ nav:
     - commands/index.md
     - Handling Commands: commands/handling-commands.md
 
+  - Plugins:
+    - plugins/index.md
+    - Handling Colors: plugins/colors.md
