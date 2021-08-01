@@ -59,6 +59,15 @@ nav:
     - Code of Conduct: development/code-of-conduct.md
     - Release Notes: development/release-notes.md
 
+extra_css:
+  - assets/css/termynal.css
+  - assets/css/style.css
+
+extra_js:
+  - assets/js/index.js
+  - assets/js/termynal.js
+
+
 extra:
     social:
         - icon: fontawesome/brands/github
