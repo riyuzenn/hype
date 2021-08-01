@@ -26,12 +26,12 @@ app = Hype()
 
 @app.command()
 def greet(name):
-    app.print("Hello, %s" % (name))
+    app.echo("Hello, %s" % (name))
     
 
 @app.command()
 def goodbye(name: str):
-    app.print("Goodbye, %s" % (name))
+    app.echo("Goodbye, %s" % (name))
 
 
 if __name__ == "__main__":
