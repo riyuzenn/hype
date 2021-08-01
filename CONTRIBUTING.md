@@ -20,9 +20,8 @@ Please note we have a code of conduct, please follow it in all your interactions
 
 > Here are some emoji you might want to add when committing. (Not required)
 
-| 📖 | Use this emoji if you update either readme or any docs related |
+| 📝 | Use this emoji if you update either readme or any docs related |
 | --- | --- |
-| 🏷️ | **Use this emoji if the version is changed.** |
 | 📗 | **Use this emoji if you add something** |
 | 🔧  | **Use this emoji if you update or fix any bugs** |
 | 🎨  | **Use this emoji if you fix or update the code format** |
