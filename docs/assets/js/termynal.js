@@ -259,6 +259,7 @@
  */
  if (document.currentScript.hasAttribute('data-termynal-container')) {
      const containers = document.currentScript.getAttribute('data-termynal-container');
+     console.log(containers)
      containers.split('|')
          .forEach(container => new Termynal(container))
  }

@@ -2,7 +2,7 @@
 # What is Hype?
 
 <p align="center">
-  <a href='https://hype.serum.studio/'><img src="https://raw.githubusercontent.com/serumstudio/hype/main/images/hypecli.png" alt="hypecli" style="width: 150px;"></a>
+  <a href='https://hype.serum.studio/'><img src="assets/hypecli.svg" alt="hypecli" style="width: 150px;"></a>
 </p>
 
 <h4 align="center">⚙ A lightweight command line interface library for creating cli commands.</h4>

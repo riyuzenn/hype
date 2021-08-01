@@ -63,10 +63,18 @@ extra_css:
   - assets/css/termynal.css
   - assets/css/style.css
 
-extra_js:
-  - assets/js/index.js
+extra_javascript:
   - assets/js/termynal.js
+  - assets/js/custom.js
+  
 
+markdown_extensions:
+  - toc
+  - admonition
+  - codehilite
+  - extra
+  - pymdownx.superfences
+  - pymdownx.tabbed
 
 extra:
     social:
