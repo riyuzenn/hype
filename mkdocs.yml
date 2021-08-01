@@ -8,8 +8,7 @@ repo_url: https://github.com/serumstudio/hype
 copyright: Copyright &copy; 2020 - 2021, Serum Studio
 
 theme:
-  favicon: images/favicon.ico
-  icon: images/hypecli.svg
+
   name: material
   palette:
     - scheme: default
@@ -26,6 +25,9 @@ theme:
         icon: material/toggle-switch
         name: Switch to light mode
 
+  logo: assets/hypecli.svg
+  favicon: assets/favicon.ico
+    
   features:
     - navigation.tracking
     - navigation.instant
