@@ -25,7 +25,7 @@ from .print import print
 
 __all__ = ["Hype", "print"]
 
-__version__ = "0.0.2b"
+__version__ = "0.0.2"
 __desc__ = "⚙ A lightweight command line interface toolkit for python"
 __author__ = "Serum Studio"
 __license__ = "MIT"
