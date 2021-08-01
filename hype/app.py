@@ -121,7 +121,7 @@ class Hype:
         ---
 
             >>> app = Hype()
-            >>> app.print('[red]This is a red color![/]')
+            >>> app.echo('[red]This is a red color![/]')
 
         """
 
@@ -210,70 +210,6 @@ class Hype:
         
         return deco
 
-
-    # def option(self, *args, **kwargs):
-
-    #     """
-    #     Add option to the command if available.
-
-    #     Parameters:
-    #     ---
-    #         same as `optparse.OptionParser.add_option but added some new options.`
-
-    #         required (bool):
-    #             Set the option if required or no.
-        
-    #     Example:
-    #     ---
-
-    #         >>> @app.command()
-    #         >>> @app.option('-n', '--name', type=str, required=True)
-    #         >>> def greet(name) # -> Here is the option passed
-    #         >>>     print("Hello, {name}!")
-
-    #     """
-
-    #     #: Get the default from the kwargs
-    #     default = kwargs.get('default') or None
-
-    #     #: Get the required from the kwargs
-    #     required = kwargs.get('default') or False
-
-    #     #: Get the type.
-    #     type = kwargs.get('type') or None
-
-    #     #: Set the name of the option to args which is a tuple.
-    #     name = args
-
-
-    #     if default and required == True:
-    #         raise OptionError('You cannot set required if there is a default value.')
-        
-        
-    #     def deco(func):
-            
-    #         option_dict = OptionDict(
-    #             name, default, required, type
-    #         )
-
-    #         if self.__commands_function != None:
-
-    #             for func in self.__commands_function:
-    #                 self.__commands[
-    #                     self.__commands_function[func] \
-    #                     ['name']]['options'].append(option_dict.to_dict)
-
-    #         else:
-                
-    #             if 'required' in kwargs:
-    #                 #: Remove the required since optionparser cannot recognize it.
-    #                 kwargs.pop('required')
-
-    #             #: If there is no command registered, add option instead.
-    #             self.__parser.add_option(*args, **kwargs)
-
-
-    #     return deco
 
     def run(self):
         """
