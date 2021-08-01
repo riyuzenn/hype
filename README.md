@@ -24,7 +24,7 @@ It also comes with alot of different [features](https://github.com/serumstudio/h
 built for [Anglo](https://github.com/serumstudio/anglo) *( a modern lightweight web framework for python 3. )*. Because of Hype CLI's capability <br>
 it becomes easier to build command-line application.
 
-| [Learn More](https://serum.studio/hypecli)|
+| [Learn More](https://hype.serum.studiocli)|
 |-------|
 
 
