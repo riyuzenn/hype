@@ -37,7 +37,7 @@ def hide(stream: Optional[TextIO] = sys.stdout):
     ----------
     stream: (sys.stdout)
         Defines stream to write output to.
-    
+
     """
     if os.name == "nt":
         ci = _CursorInfo()
@@ -45,7 +45,7 @@ def hide(stream: Optional[TextIO] = sys.stdout):
         ctypes.windll.kernel32.GetConsoleCursorInfo(handle, ctypes.byref(ci))
         ci.visible = False
         ctypes.windll.kernel32.SetConsoleCursorInfo(handle, ctypes.byref(ci))
-    
+
     elif os.name == "posix":
         stream.write("\033[?25l")
         stream.flush()
@@ -54,12 +54,12 @@ def hide(stream: Optional[TextIO] = sys.stdout):
 def show(stream: Optional[TextIO] = sys.stdout):
     """
     Show cursor.
-    
+
     Parameters
     ----------
     stream: (sys.stdout)
         Defines stream to write output to.
-    
+
     """
     if os.name == "nt":
         ci = _CursorInfo()
@@ -67,7 +67,7 @@ def show(stream: Optional[TextIO] = sys.stdout):
         ctypes.windll.kernel32.GetConsoleCursorInfo(handle, ctypes.byref(ci))
         ci.visible = True
         ctypes.windll.kernel32.SetConsoleCursorInfo(handle, ctypes.byref(ci))
-    
+
     elif os.name == "posix":
         stream.write("\033[?25h")
         stream.flush()

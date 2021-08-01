@@ -25,7 +25,6 @@ import inspect
 import typing
 
 
-
 def convert_param_to_option(param: str = None) -> str:
     if len(param) > 1:
         fmt_str = "--%s" % (param)
@@ -35,22 +34,23 @@ def convert_param_to_option(param: str = None) -> str:
 
     return fmt_str
 
-def convert_option_to_string(option: str=None) -> str:
-    return option.split('--')[1]
+
+def convert_option_to_string(option: str = None) -> str:
+    return option.split("--")[1]
 
 
-def create_bool_option(option: str=None) -> str:
+def create_bool_option(option: str = None) -> str:
     """
     Create --formal / --no-formal
     #: --no-formal is currently not avaialable. Just incase on future.
     """
-    if option.startswith('--'):
+    if option.startswith("--"):
         option = convert_option_to_string(option)
 
     else:
         option = option
 
-    return ('--%s' % (option), '--no-%s' % (option))
+    return ("--%s" % (option), "--no-%s" % (option))
 
 
 class ParamOption:
@@ -60,7 +60,7 @@ class ParamOption:
         required: bool = None,
         default: Any = None,
         _type: type = None,
-        action: str = None
+        action: str = None,
     ):
 
         self.name = name
@@ -70,14 +70,14 @@ class ParamOption:
         self.action = action
 
         if self.type == bool:
-            
+
             self.type = None
 
             if self.default == True:
-                self.action = 'store_false'
-            
+                self.action = "store_false"
+
             else:
-                self.action = 'store_true'
+                self.action = "store_true"
 
     @property
     def to_dict(self):
@@ -86,17 +86,17 @@ class ParamOption:
             "required": self.required,
             "default": self.default,
             "type": self.type,
-            "action": self.action
+            "action": self.action,
         }
 
 
 class OptionDict:
     def __init__(
-        self, 
+        self,
         name: str = None,
         default: Any = None,
         required: bool = None,
-        type: type = None
+        type: type = None,
     ):
 
         self.name = name
@@ -104,15 +104,15 @@ class OptionDict:
         self.type = type
         self.required = required
 
-    
     @property
     def to_dict(self):
         return {
             "name": self.name,
             "default": self.default,
             "required": self.required,
-            "type": self.type
+            "type": self.type,
         }
+
 
 class CommandDict:
     def __init__(

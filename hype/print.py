@@ -32,7 +32,7 @@ except PluginError:
 
 
 def print(
-    value: str='',
+    value: str = "",
     sep: Optional[str] = " ",
     end: Optional[str] = "\n",
     file: Optional[IO[str]] = None,
@@ -58,20 +58,8 @@ def print(
 
     try:
 
-        print_color(
-            value, 
-            sep=sep, 
-            end=end, 
-            file=file, 
-            flush=flush
-        )
+        print_color(value, sep=sep, end=end, file=file, flush=flush)
 
     except AttributeError:
-        
-        _print(
-            value, 
-            sep=sep, 
-            end=end, 
-            file=file, 
-            flush=flush
-        )
+
+        _print(value, sep=sep, end=end, file=file, flush=flush)

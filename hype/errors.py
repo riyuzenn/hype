@@ -1,5 +1,3 @@
-
-
 class HypeException(Exception):
     def __init__(self, msg=None):
         if msg == None:
@@ -11,6 +9,7 @@ class HypeException(Exception):
 class OptionError(HypeException):
     def __init__(self, msg="There is something went wrong on the option"):
         super().__init__(msg)
+
 
 class TooMuchArguments(HypeException):
     def __init__(self, msg="You passed too much arguments"):

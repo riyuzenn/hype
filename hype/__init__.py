@@ -1,4 +1,3 @@
-
 #                   Copyright (c) 2021, Serum Studio
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,9 +23,9 @@ from .app import Hype
 from .print import print
 
 
-__all__ = [ 'Hype', 'print' ]
+__all__ = ["Hype", "print"]
 
 __version__ = "0.0.2b"
-__desc__    = "⚙ A lightweight command line interface toolkit for python"
-__author__  = "Serum Studio"
+__desc__ = "⚙ A lightweight command line interface toolkit for python"
+__author__ = "Serum Studio"
 __license__ = "MIT"

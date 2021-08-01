@@ -20,7 +20,6 @@
 # THE SOFTWARE.
 
 from typing import List
-from typing import Optional
 from hype.command import HypeCommand
 import optparse
 from optparse import HelpFormatter
@@ -56,7 +55,12 @@ class HypeParser(optparse.OptionParser):
     """
     _HelpCommand = HypeCommand('help', help="All details about the commands", aliases=('?'))
 
-    def __init__(self, commands: List[HypeCommand] = [], *args, **options):
+    def __init__(
+        self, 
+        commands: List[HypeCommand] = [], 
+        *args, 
+        **options
+    ):
         
         self.commands = commands
         self.commands.append(self._HelpCommand)

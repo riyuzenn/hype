@@ -40,16 +40,15 @@ from .utils import convert_option_to_string
 from .errors import ColorNotFound
 
 
-
 class Hype:
     """
     The main application for the CLI.
 
     Parameters:
         -
-    
+
     Example:
-        
+
         >>> app = HypeCLI()
         >>> @app.command()
         >>> def greet(name: str):
@@ -57,19 +56,18 @@ class Hype:
         >>> ...
         >>> if __name__ == "__main__":
         >>>     app.run()
-    
+
     """
 
     __commands = {}
     __required_commands = []
     __commands_function = {}
-    
+
     def __init__(self):
-        
+
         #: The parser object to be used
         self.__parser = HypeParser
-    
-    
+
     @property
     def commands(self):
         """
@@ -77,13 +75,11 @@ class Hype:
         """
         command_list = []
         for k in self.__commands.keys():
-            command_list.append(self.__commands[k]['name'])
+            command_list.append(self.__commands[k]["name"])
 
         return command_list
 
-
-    
-    def echo(self, text: str='', **options):
+    def echo(self, text: str = "", **options):
         """
         A format wrapper for the hype.print. It can print
         text with colors and styles. using the tag [%tagname%][/]
@@ -95,7 +91,7 @@ class Hype:
 
             **options(dict):
                 A kwarg of options.
-            
+
         Available Options:
         ---
 
@@ -124,27 +120,30 @@ class Hype:
 
         """
 
-        background = options.get('background') or None
-        
+        background = options.get("background") or None
+
         if background in bg_colors:
-            _print("%s%s%s" % (bg_colors[background], text, bg_colors['reset']))
+            _print("%s%s%s" % (bg_colors[background], text, bg_colors["reset"]))
 
         elif background not in bg_colors and background != None:
-            raise ColorNotFound('%s is not yet supported.' % (background))
+            raise ColorNotFound("%s is not yet supported." % (background))
 
         else:
             _print(text)
 
-    def command(self, name: str = None, 
-                usage: Optional[str] = None,
-                aliases: Optional[Tuple[Any]] = (),
-                help: Optional[str] = ''):
+    def command(
+        self,
+        name: str = None,
+        usage: Optional[str] = None,
+        aliases: Optional[Tuple[Any]] = (),
+        help: Optional[str] = "",
+    ):
 
         """
         A command decorator for HypeCommand.
 
         Parameters:
-            name (str): 
+            name (str):
                 The name of the command, if None return the function name
 
             usage (str):
@@ -152,12 +151,11 @@ class Hype:
 
             aliases (tuple):
                 A tuple of aliases of the command.
-            
+
             help (str):
                 The help format of the command.
 
         """
- 
 
         #: set the usage of the command
         _usage = usage
@@ -165,50 +163,54 @@ class Hype:
         #: Set the aliases of the command
         _aliases = aliases
 
-    
-        def deco(func): 
+        def deco(func):
             #: Set the name of the command.
             #: If the name is none, return the name of the function
-            
+
             _name = name if name else func.__name__
-            
+
             #: Set the help of the command
             _help = help
-                        
+
             #: The signature of the function
             signature = inspect.signature(func)
 
             #: Type hints of the function
             type_hints = get_type_hints(func)
-            
+
             #: Set the params to none dict. It should contain the param of the function
-            #: and the type hints of the parameters 
+            #: and the type hints of the parameters
             params = []
 
             for param in signature.parameters.values():
                 #: The annotation of the function.
                 #: For example: def func(name: str) -> str is the annotaiton
                 annotation = param.annotation
-                
+
                 if param.name in type_hints:
                     annotation = type_hints[param.name]
 
                 required = True if param.default is inspect.Parameter.empty else False
-                default = param.default if param.default is not inspect.Parameter.empty else None
+                default = (
+                    param.default
+                    if param.default is not inspect.Parameter.empty
+                    else None
+                )
                 anon = annotation if annotation is not inspect.Parameter.empty else None
 
-
-                optionparam = ParamOption(convert_param_to_option(param.name), required, default, anon)
+                optionparam = ParamOption(
+                    convert_param_to_option(param.name), required, default, anon
+                )
                 params.append(optionparam.to_dict)
-            
-            self.__commands[_name] = CommandDict(_name, _usage, _help, _aliases, params, func).to_dict 
-            self.__commands_function[func] = {'name': _name}
+
+            self.__commands[_name] = CommandDict(
+                _name, _usage, _help, _aliases, params, func
+            ).to_dict
+            self.__commands_function[func] = {"name": _name}
 
             return func
 
-        
         return deco
-
 
     def run(self):
         """
@@ -218,97 +220,93 @@ class Hype:
         ---
             it takes no params yet
 
-        Example: 
+        Example:
         `(More example at the examples folder located on github repo.)`
 
         >>> ...
 
         """
 
-
         commands = []
         boolean_options = []
 
         for k in self.__commands.keys():
-                        
-            self.__command_parser = HypeCommand(self.__commands[k]['name'], 
-                    self.__commands[k]['usage'], self.__commands[k]['aliases'],
-                    self.__commands[k]['help']
+
+            self.__command_parser = HypeCommand(
+                self.__commands[k]["name"],
+                self.__commands[k]["usage"],
+                self.__commands[k]["aliases"],
+                self.__commands[k]["help"],
             )
 
-            if self.__commands[k]['options']:
-                for _option in self.__commands[k]['options']:
-                    
+            if self.__commands[k]["options"]:
+                for _option in self.__commands[k]["options"]:
 
-                    if _option['required']:
+                    if _option["required"]:
 
                         self.__required_commands.append(
-                            (self.__commands[k]['name'], convert_option_to_string(_option['name']))
+                            (
+                                self.__commands[k]["name"],
+                                convert_option_to_string(_option["name"]),
+                            )
                         )
-                    
-                
-                    
-                    name = _option['name']
 
-                    if _option['action']:
-                        
-                        bool_name = create_bool_option(_option['name'])
+                    name = _option["name"]
+
+                    if _option["action"]:
+
+                        bool_name = create_bool_option(_option["name"])
                         for bname in bool_name:
-                            if bname == _option['name']:
+                            if bname == _option["name"]:
                                 self.__command_parser.parser.add_option(
-                                    _option['name'],
-                                    default=_option['default'],
-                                    dest=convert_option_to_string(_option['name']),
-                                    action=_option['action']
+                                    _option["name"],
+                                    default=_option["default"],
+                                    dest=convert_option_to_string(_option["name"]),
+                                    action=_option["action"],
                                 )
-                            
-                                            
 
                     else:
                         if isinstance(name, str):
-                            
-                            self.__command_parser.parser.add_option(
-                                        name,
-                                        default=_option['default'], 
-                                        type=_option['type'],
-                                        dest=convert_option_to_string(name)
-                                    )
 
+                            self.__command_parser.parser.add_option(
+                                name,
+                                default=_option["default"],
+                                type=_option["type"],
+                                dest=convert_option_to_string(name),
+                            )
 
                         else:
                             self.__command_parser.parser.add_option(
-                                        *name,
-                                        default=_option['default'], 
-                                        type=_option['type'],
-                                        dest=convert_option_to_string(name)
-                                    )
+                                *name,
+                                default=_option["default"],
+                                type=_option["type"],
+                                dest=convert_option_to_string(name)
+                            )
 
             commands.append(self.__command_parser)
 
-        
-
         parser = self.__parser(commands)
-        option, command, command_opt, command_args, = parser.parse_args()
-        params = []
+        
+        (
+            option,
+            command,
+            command_opt,
+            command_args,
+        ) = parser.parse_args()
 
+        params = []
 
         for i in boolean_options:
             self.__command_parser.parser.add_option(
-                i['name'],
-                default=i['default'],
-                type=i['type'],
-                action=i['action']
+                i["name"], default=i["default"], type=i["type"], action=i["action"]
             )
 
-        for _k, v in vars(command_opt).items():                
+        for _k, v in vars(command_opt).items():
             if (command.name, _k) in self.__required_commands and v == None:
                 parser.error("Option: {} is required.".format(_k))
                 parser.exit()
 
             params.append(v)
 
-        
-
         if command.name in self.__commands:
-            self.__commands[command.name]['func'](*params)
-            
+            self.__commands[command.name]["func"](*params)

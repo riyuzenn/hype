@@ -35,12 +35,13 @@ from .errors import TagNotFound
 try:
 
     import colorama
+
     colorama.init()
 
 except ModuleNotFoundError:
-    
+
     raise PluginError(
-    """
+        """
     -----------------------------------
 
     Plugin not installed properly:
@@ -438,28 +439,32 @@ def print_color(
 
     for token in tokens:
         token_type, tag_name, tag_attr, token_source = token
-        
+
         if token_type == TOKEN_OPEN_TAG:
             if tag_name not in all_tags:
-                raise TagNotFound('\n\n"%s" is not found. check avaialble tags on the documentation:\nhttps://hype.serum.studio\n\n' % (tag_name))
+                raise TagNotFound(
+                    '\n\n"%s" is not found. check avaialble tags on the documentation:\nhttps://hype.serum.studio\n\n'
+                    % (tag_name)
+                )
 
             if tag_name in rule_colors:
                 seq.append(rule_colors[tag_name])
-            
+
             if tag_name in rule_styles:
                 seq.append(rule_styles[tag_name])
 
-            if tag_name == 'bg':
-                
-                if 'color' in tag_attr:
-                    seq.append(bg_colors[tag_attr.get('color')])
-                
+            if tag_name == "bg":
+
+                if "color" in tag_attr:
+                    seq.append(bg_colors[tag_attr.get("color")])
+
                 else:
-                    raise AttributeError('when defining background, color attribute must define.')
-                
+                    raise AttributeError(
+                        "when defining background, color attribute must define."
+                    )
 
         if token_type == TOKEN_CLOSE_TAG:
-            seq.append(rule_colors['reset'])
+            seq.append(rule_colors["reset"])
 
         if token_type == TOKEN_DATA:
             seq.append(token_source)
@@ -467,11 +472,4 @@ def print_color(
         if token_type == TOKEN_NEWLINE:
             seq.append(token_source)
 
-    print(
-        
-        "".join(seq), 
-        sep=sep, 
-        end=end, 
-        file=file, 
-        flush=flush
-    )
+    print("".join(seq), sep=sep, end=end, file=file, flush=flush)

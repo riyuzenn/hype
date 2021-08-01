@@ -1,6 +1,6 @@
-
 import optparse
 from typing import Any, Optional, Tuple
+
 
 class HypeCommand:
     """
@@ -23,30 +23,32 @@ class HypeCommand:
         aliases (tuple):
             Aliases of the command.
 
-    
+
     Example:
 
-        >>> greet = HypeCommand('greet', usage='%prog [OPTIONS]', 
+        >>> greet = HypeCommand('greet', usage='%prog [OPTIONS]',
         ...      help="Greet the user", aliases=('g'))
 
         >>> greet.add_option('--name', type=str, required=True)
-        
+
     """
 
-    def __init__(self, name: str, usage: Optional[str] = None, 
-                aliases: Optional[Tuple[Any]] = None, help: Optional[str] = ''):
+    def __init__(
+        self,
+        name: str,
+        usage: Optional[str] = None,
+        aliases: Optional[Tuple[Any]] = None,
+        help: Optional[str] = "",
+    ):
 
         self.name = name
         self.usage = usage
         self.aliases = aliases
-        self.help = help if help != '' else 'This command accept a positional arguments'
+        self.help = help if help != "" else "This command accept a positional arguments"
         self.parser = optparse.OptionParser()
 
         if self.usage:
             self.parser.usage = self.usage
 
-
     def add_option(self, *args, **kwargs):
         return self.parser.add_option(*args, **kwargs)
-    
-        
