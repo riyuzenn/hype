@@ -53,6 +53,12 @@ nav:
     - plugins/index.md
     - Handling Colors: plugins/colors.md
 
+  - Development:
+    - development/index.md
+    - Contributing Policy: development/contributing.md
+    - Code of Conduct: development/code-of-conduct.md
+    - Release Notes: development/release-notes.md
+
 extra:
     social:
         - icon: fontawesome/brands/github
