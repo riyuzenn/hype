@@ -14,6 +14,8 @@
     ```console
     $ pip install hypecli
     ---> 100%
+    $ pip install hypecli[standard]
+    ---> 100%
     ```
 
 </div>
