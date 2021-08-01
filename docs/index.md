@@ -22,6 +22,7 @@ built for Anglo *( a modern lightweight web framework for python 3. )*. Because 
 it becomes easier to **build command-line** application.
 
 Here are some notable key features of [Hype](https://hype.serum.studio). 
+
 - **Easy to use and decorator based**: Hype require a simple sintax to create commands. Just add a decorator and you're good to go.
 
 - **Doesn't require any 3rd party libraries**: With native Hype, it doesn't required any third party libraries to be installed. Except for hype plugins like colors...

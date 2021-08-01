@@ -4,12 +4,12 @@ site_url: https://hype.serum.studio
 
 repo_name: serumstudio/hype
 repo_url: https://github.com/serumstudio/hype
-repo_branch: main
 
 copyright: Copyright &copy; 2020 - 2021, Serum Studio
 
 theme:
   favicon: images/favicon.ico
+  icon: images/hypecli.svg
   name: material
   palette:
     - scheme: default
@@ -50,3 +50,17 @@ nav:
   - Plugins:
     - plugins/index.md
     - Handling Colors: plugins/colors.md
+
+extra:
+    social:
+        - icon: fontawesome/brands/github
+          link: 'https://github.com/serumstudio/hype'
+          name: Star us on GitHub
+
+        - icon: fontawesome/brands/twitter
+          link: 'https://twitter.com/serumstudio'
+          name: Follow us on Twitter
+
+        - icon: fontawesome/solid/globe
+          link: 'https://serum.studio'
+          name: Visit out Website
