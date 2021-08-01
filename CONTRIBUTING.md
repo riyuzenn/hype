@@ -16,6 +16,7 @@ Please note we have a code of conduct, please follow it in all your interactions
 - **Avoid trolling, removing necessary** code is prohibited only the unnecessary code. And make sure to
    avoid untested code before creating a pull request.
 
+
 ## Emojis
 
 > Here are some emoji you might want to add when committing. (Not required)
