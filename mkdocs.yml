@@ -9,6 +9,7 @@ repo_branch: main
 copyright: Copyright &copy; 2020 - 2021, Serum Studio
 
 theme:
+  favicon: images/favicon.ico
   name: material
   palette:
     - scheme: default
