@@ -31,7 +31,7 @@ def greet(name):
     """
     Greet the user.
     """
-    app.print("Hello, [green]%s[/green]" % (name))
+    app.echo("Hello, [green]%s[/green]" % (name))
     
 
 @app.command()
@@ -39,7 +39,7 @@ def goodbye(name: str):
     """
     Say Goodbye to the user.
     """
-    app.print("Goodbye, [red]%s[/red]" % (name))
+    app.echo("Goodbye, [red]%s[/red]" % (name))
 
 
 if __name__ == "__main__":
