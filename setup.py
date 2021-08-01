@@ -33,8 +33,8 @@ def get_long_description():
     return readme
 
 extras_require = {
-    'color': ['colorama==0.4.4'],
-    'ui': [''],
+    'color': ['colorama==0.4.4'], # color support
+    'standard': ['colorama==0.4.4'], # standard installation with color support
 }
 
 
