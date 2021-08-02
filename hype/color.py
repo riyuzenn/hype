@@ -32,6 +32,8 @@ import logging
 from .errors import PluginError
 from .errors import TagNotFound
 
+__all__ = [ 'print_color', 'parsed_color' ]
+
 try:
 
     import colorama
@@ -426,15 +428,30 @@ def tokenize_tag(
         yield from tokenize_newline(remaining_text)
 
 
-def print_color(
-    text: str = "",
-    sep: Optional[str] = " ",
-    end: Optional[str] = "\n",
-    file: Optional[IO[str]] = None,
-    flush: Optional[bool] = False,
+def parse_color(
+    text: str = ""
 ):
+    """
+    Parsed the text of string that contains color tag into colored texts
 
-    seq = []
+    Parameters:
+    ---
+        text(str):
+            The string to be parsed. 
+
+    Example:
+    ---
+
+        >>> string = parse_color('[red]This is red[/red]')
+        >>> ...
+        >>> #: You can use the parse_color to standard 
+        >>> #: printing or storing variables.
+        >>> ... 
+        >>> print(string)
+
+    """
+
+    parsed_text = []
     tokens = tokenize_tag(text)
 
     for token in tokens:
@@ -448,15 +465,15 @@ def print_color(
                 )
 
             if tag_name in rule_colors:
-                seq.append(rule_colors[tag_name])
+                parsed_text.append(rule_colors[tag_name])
 
             if tag_name in rule_styles:
-                seq.append(rule_styles[tag_name])
+                parsed_text.append(rule_styles[tag_name])
 
             if tag_name == "bg":
 
                 if "color" in tag_attr:
-                    seq.append(bg_colors[tag_attr.get("color")])
+                    parsed_text.append(bg_colors[tag_attr.get("color")])
 
                 else:
                     raise AttributeError(
@@ -464,12 +481,42 @@ def print_color(
                     )
 
         if token_type == TOKEN_CLOSE_TAG:
-            seq.append(rule_colors["reset"])
+            parsed_text.append(rule_colors["reset"])
 
         if token_type == TOKEN_DATA:
-            seq.append(token_source)
+            parsed_text.append(token_source)
 
         if token_type == TOKEN_NEWLINE:
-            seq.append(token_source)
+            parsed_text.append(token_source)
 
-    print("".join(seq), sep=sep, end=end, file=file, flush=flush)
+
+    return "".join(parsed_text)
+
+
+def print_color(
+    text: str = "",
+    sep: Optional[str] = " ",
+    end: Optional[str] = "\n",
+    file: Optional[IO[str]] = None,
+    flush: Optional[bool] = False,
+):
+
+    """
+    Simillar to built-in function, `print` but it prints a colored text
+    from `parsed_color`
+    
+    Parameters:
+    ---
+        Similar to `print`
+
+    Example:
+    ---
+
+        >>> print_color('[green]This is green[/green]')
+        >>> #: Output This is green -> The output is colored in green.
+
+    """
+    
+    parsed_text = parse_color(text)
+
+    print(parsed_text, sep=sep, end=end, file=file, flush=flush)
