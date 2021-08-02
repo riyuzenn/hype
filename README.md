@@ -71,13 +71,7 @@ if __name__ == "__main__":
 
 <div align="right" id="features">
   <h1> Features </h1>
-  <p>Here are some notable features of <a href="https://github.com/serumstudio/hype">Hype CLI</a>. </p>
-  <h3>Decorator based commands. •</h3>
-  <h3>Easy to code •</h3>
-  <h3>Flexible API. •</h3>
-  <h3>No third library dependencies. •</h3>
-  <h3>Based on type-hints. •</h3>
-  
+  <p>Check <a href="https://hype.serum.studio/features">Hype Features</a> from the documentation site.</p>
 </div>
 
 # Contributors
