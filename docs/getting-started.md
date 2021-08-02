@@ -16,6 +16,7 @@
     ---> 100%
     $ pip install hypecli[standard]
     ---> 100%
+    $ Successfully installed hypecli
     ```
 
 </div>
