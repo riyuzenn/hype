@@ -9,8 +9,8 @@
 
 ---
 
-**Documentation**: https://hype.serum.studio/ <br>
-**GitHub Source**: https://github.com/serumstudio/hype
+**Documentation**: <a class="external-link" href="https://hype.serum.studio">https://hype.serum.studio</a> <br>
+**GitHub Source**: <a class="external-link" href="https://github.com/serumstudio/hype">https://github.com/serumstudio/hype</a>
 
 ---
 
