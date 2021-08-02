@@ -30,10 +30,11 @@ it becomes easier to build command-line application.
 
 <div align="right" id="installation">
   <h1> Installation </h1>
-  <blockquote>Currently, there is alot of bugs happening on the module. We're not recommending you to install it yet.</blockquote>
   <p>You can install the module @ <a href="https://pypi.org/project/hypecli/">PyPI</a> (recommended). or if you want you can install the module straight on the github repo (unrecommended)
     Or, download it at <a href="https://github.com/serumstudio/hype/releases">release</a> page. (recommended)</p>
   <pre><code>$ pip install hypecli</code></pre>
+  
+  <a href="https://hype.serum.studio/getting-started">Installation Guide</a>
 </div>
 
 # Usage
@@ -48,17 +49,17 @@ Or you can create your own project by looking on this simple example.
 ```py
 
 #: Import the main class of the module
-from hype import HyperCLI
+from hype import Hype
 
 #: create a `app` instance of HyperCLI `:class:`
-app = HyperCLI()
+app = Hype()
 
 #: Declare a command decorator.
 @app.command(description="Greet the given user")
 def greet(name: str):
 
   #: print the name that user define.
-  print("Hello", name)
+  app.echo("Hello", name)
  
 if __name__ == "__main__":
   #: Run the application
