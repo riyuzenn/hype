@@ -66,7 +66,7 @@ if __name__ == "__main__":
   app.run()
 
 # Output:
-# python test.py greet Zenqi
+# python test.py greet --name Zenqi
 # Hello Zenqi
 ```
 
