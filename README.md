@@ -34,7 +34,7 @@ it becomes easier to build command-line application.
     Or, download it at <a href="https://github.com/serumstudio/hype/releases">release</a> page. (recommended)</p>
   <pre><code>$ pip install hypecli</code></pre>
   
-  <a href="https://hype.serum.studio/getting-started">Installation Guide</a>
+  <a href="https://hype.serum.studio/getting-started">Installation Guide</a> at the Documentation Site
 </div>
 
 # Usage
