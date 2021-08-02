@@ -53,15 +53,16 @@ nav:
     - plugins/index.md
     - Handling Colors: plugins/colors.md
 
+  - Examples:
+    - examples/index.md
+    - With Colors: examples/with-colors.md
+
   - Development:
     - development/index.md
     - Contributing Policy: development/contributing.md
     - Code of Conduct: development/code-of-conduct.md
     - Release Notes: development/release-notes.md
 
-  - Examples:
-    - examples/index.md
-    - With Colors: examples/with-colors.md
 
 extra_css:
   - assets/css/termynal.css
