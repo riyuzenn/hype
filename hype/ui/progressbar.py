@@ -72,18 +72,15 @@ from alive_progress.core.utils import get_terminal_size
 from hype.constants import rule_colors
 from hype.constants import COLOR_SUPPORTED
 
-from typing import Dict
-from typing import Any
-from typing import Optional
 
 @contextmanager
 def progressbar(
-    total: Optional[int] = None, 
-    title: Optional[str] = None, 
-    calibrate: Optional[int] = None, 
-    bar_color: Optional[str] = None, 
-    title_color: Optional[str] = None, 
-    **options: Dict[str, Any]
+    total = None, 
+    title = None, 
+    calibrate = None, 
+    bar_color = None, 
+    title_color = None, 
+    **options
 ):
     """
     Hype Progressbar inherited from `alive_bar` and add some Features.
@@ -186,7 +183,7 @@ def progressbar(
 
         if bar_color != None or title_color != None:
             #: Set the color for the progress bar.
-            
+
             line = " ".join(
                 filter(
                     None,
