@@ -1,5 +1,7 @@
 # Handling Commands
 ---
+!!! note ""
+    **Estimated Reading Time**: 37 seconds
 
 > Handling commands with **Hype** is easier, thanks to modern Python.
 Currently, nested commands are not yet supported.

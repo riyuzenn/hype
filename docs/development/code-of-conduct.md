@@ -1,4 +1,8 @@
 # Contributor Covenant Code of Conduct
+---
+
+!!! note ""
+    **Estimated Reading Time**: 3 minutes
 
 > This is the copy of the from the [GitHub](https://github.com/serumstudio/hype) repo.
 

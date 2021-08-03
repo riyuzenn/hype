@@ -1,6 +1,9 @@
 # Features
 ---
 
+!!! note ""
+    **Estimated Reading Time**: 2 min & 8 sec
+
 You probably heard other libraries that are simillar with **Hype**. Like for example,
 <a class="external-link" href="https://github.com/tiangolo/typer" target="_blank"><b>Typer</b></a> developed by [@tiangolo](https://github.com/tiangolo){:target="_blank"} and <a class="external-link" href="https://github.com/pallets/click" target="_blank"><b>Click</b></a> developed
 by [@pallets](https://github.com/pallets){:target="_blank"}. Yet this library was inspired by it.

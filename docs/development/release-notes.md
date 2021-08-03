@@ -2,6 +2,9 @@
 # Release Notes
 ---
 
+!!! note ""
+    **Estimated Reading Time**: 18 seconds
+
 > **Latest Version: [0.0.2](https://github.com/serumstudio/hype/releases)** 
 
 Here are some release notes for the library:

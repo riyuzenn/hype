@@ -1,6 +1,9 @@
 # How Commands work?
 ---
 
+!!! note ""
+    **Total Reading Time**: 1 min and 37 seconds
+
 **Hype**'s main feature was creating commands and options. It can be access by the `hype.app.command` decorator. 
 
 By understanding how a basic decorator works, you can now use **Hype** with ease.

@@ -2,6 +2,9 @@
 # Hype Contributors
 ---
 
+!!! note ""
+    **Estimated Reading Time**: 18 seconds
+
 Thanks to this hard-working contributors who develop and maintain the **Hype**:
 <br>
 

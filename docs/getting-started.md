@@ -2,6 +2,9 @@
 # Installation
 ---
 
+!!! note ""
+    **Estimated Reading Time**: 20 seconds
+
 !!! note
     Simple installation can be doned via:
     ```console

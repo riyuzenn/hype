@@ -2,6 +2,9 @@
 # Hype Development
 ---
 
+!!! note ""
+    **Total Reading Time**: 4 minutes
+
 Hello There 👋, First thing first I just want to thank you for using the library.
 This page is all about **Hype Development** and some **Contributing Policy** as well as the
 **Code of Conduct**. 
