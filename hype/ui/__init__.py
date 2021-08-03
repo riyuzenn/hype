@@ -22,7 +22,9 @@
 #: Spinner frames are https://github.com/sindresorhus
 
 from .spinner import Spinner
+from .table import Table
 
 __all__ = [
-    'Spinner'
+    'Spinner',
+    'Table'
 ]
