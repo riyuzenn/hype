@@ -1,5 +1,12 @@
+from hype.errors import PluginError
 from .style import Background, Color
 from .style import Style
+
+try:
+    import hype.color
+    COLOR_SUPPORTED = True
+except PluginError:
+    COLOR_SUPPORTED = False
 
 rule_colors = {
     "red": Color.RED,
