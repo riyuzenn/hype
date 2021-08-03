@@ -29,11 +29,14 @@ from typing import Any
 from .constants import SpinnerType
 from hype.cursor import hide
 import threading
-
+from hype.constants import COLOR_SUPPORTED
+from hype.constants import rule_colors
 
 class SpinnerNotFound(Exception):
     pass
 
+class SpinnerError(Exception):
+    pass
 
 class Spinner:
     """
@@ -48,8 +51,8 @@ class Spinner:
         type (str):
             Spinner type. see documentation for more info. or check out `hype.ui.constants`
 
-        iteration (int):
-            Number of iteration
+        cursor (bool):
+            Set if the cursor is hidden or shown
 
 
     Example:
@@ -75,11 +78,16 @@ class Spinner:
         text: Optional[Any] = "",
         type: Optional[str] = "dots",
         cursor: Optional[bool] = False,
+        color: Optional[str] = None
     ):
 
         self.text = text
         self.type = type
         self.stream = sys.stdout
+        self.color = color
+
+        if self.color and COLOR_SUPPORTED == False:
+            raise SpinnerError('Colors are not supported. Install using `pip install hypecli[color]`')
 
         if cursor == False:
             hide()
@@ -98,7 +106,11 @@ class Spinner:
 
         while not self.__stop_event.set():
             
-            output = "\r{0} {1}".format(next(spinner), self.text)
+            if self.color:
+                output = "\r{0}{1}{2} {3}".format(rule_colors[self.color], next(spinner), rule_colors['reset'], self.text)
+            else:
+                output = "\r{0} {1}".format(next(spinner), self.text)
+            
             self.stream.write(output)
             self.stream.write("\033[K") #: Clear line
             self.stream.flush()
