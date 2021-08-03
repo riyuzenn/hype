@@ -166,6 +166,11 @@ class Table:
                     tabulate(self.__rows, headers=self.__headers, tablefmt=self.__type),
                 )
             )
+
+        elif parse_color == None and background_color:
+            raise PluginError('Colors are not supported. Read the docs for more info.')
+        
+
         else:
             table = tabulate(self.__rows, headers=self.__headers, tablefmt=self.__type)
 
@@ -183,4 +188,4 @@ class Table:
 
         """
 
-        self.render(background_color)
+        return self.render(background_color)
