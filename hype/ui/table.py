@@ -1,4 +1,3 @@
-
 #                   Copyright (c) 2021, Serum Studio
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,6 +21,7 @@
 from hype.errors import PluginError
 from typing import Any, Optional
 from typing import List
+
 try:
     from hype.color import parse_color
 except PluginError:
@@ -32,7 +32,7 @@ try:
 except ModuleNotFoundError:
 
     raise PluginError(
-    """
+        """
     -----------------------------------
 
     Plugin not installed properly:
@@ -47,16 +47,17 @@ except ModuleNotFoundError:
     """
     )
 
+
 class Table:
     """
     A table wrapper for `tabulate`
-    
+
     Parameters:
     ---
 
         headers (List[str]):
             A list of header string. You can set it as None since there
-            is a function `add_header` for adding header. 
+            is a function `add_header` for adding header.
 
         rows (List[str]):
             A list of row to be added. You can set it as None since there
@@ -70,10 +71,10 @@ class Table:
 
         add_header (List[str]):
             Add a list of header (str) to the data.
-        
+
         add_row (List[str]):
             Add a list of row (str) to the data.
-    
+
 
 
     Example:
@@ -81,34 +82,33 @@ class Table:
         >>> table = Table(headers=['Name', 'Age', 'Hobby'])
         >>> table.add_row(['Zenqi', '5', 'Programming'])
         >>> print(table.render()) #: or print(table())
-   
-    """
 
+    """
 
     #: Initialize empty header list
     __headers = []
 
     #: Initialize empty row list
-    __rows    = []
+    __rows = []
 
     #: Initialize empty type
     __type = None
 
-    def __init__( self, headers: Optional[List[str]] = None, 
-            rows: Optional[List[str]] = None, type: Optional[str] = "fancy_grid"
-        ):
-
+    def __init__(
+        self,
+        headers: Optional[List[str]] = None,
+        rows: Optional[List[str]] = None,
+        type: Optional[str] = "fancy_grid",
+    ):
 
         self.__headers = headers
         self.__rows = rows or []
         self.__type = type
-    
 
-    
     def add_row(self, row: Any):
         """
         Add a list row to the table data.
-        
+
         Parameters:
         ---
 
@@ -116,7 +116,7 @@ class Table:
                 Add a row to the data. It can be a list or a single string.
 
         """
-        
+
         if parse_color:
             try:
                 for i in range(len(row)):
@@ -129,7 +129,7 @@ class Table:
     def add_header(self, header: Any):
         """
         Add a list row to the table data.
-        
+
         Parameters:
         ---
 
@@ -144,7 +144,7 @@ class Table:
                     header[i] = parse_color(header[i])
             except Exception:
                 header = header
-        
+
         self.__headers.append(header)
 
     def render(self, background_color: Optional[str] = None):
@@ -154,24 +154,22 @@ class Table:
         Parameter:
         ---
 
-            background_color (str): 
+            background_color (str):
                 Set the background color of the table. Color plugin should be installed.
 
         """
 
         if parse_color and background_color:
             table = parse_color(
-                        "[bg color={0}]{1}[/bg]".format(background_color, tabulate(
-                                self.__rows, 
-                                headers=self.__headers, 
-                                tablefmt=self.__type
-                            )
-                        ))
+                "[bg color={0}]{1}[/bg]".format(
+                    background_color,
+                    tabulate(self.__rows, headers=self.__headers, tablefmt=self.__type),
+                )
+            )
         else:
             table = tabulate(self.__rows, headers=self.__headers, tablefmt=self.__type)
 
         return table
-
 
     def __call__(self, background_color: Optional[str] = None):
         """
@@ -180,7 +178,7 @@ class Table:
         Parameter:
         ---
 
-            background_color (str): 
+            background_color (str):
                 Set the background color of the table. Color plugin should be installed.
 
         """
