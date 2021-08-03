@@ -17,6 +17,10 @@ def greet(name: str):
 The structure of the command is simple. The app has a command which define using the `command` 
 decorator and it accept options based on the function parameters.
 
+
+### Command Structure
+---
+
 On the other hand, this structure below show how it works. 
 
 ```python
