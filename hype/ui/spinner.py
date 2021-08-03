@@ -74,7 +74,7 @@ class Spinner:
         self,
         text: Optional[Any] = "",
         type: Optional[str] = "dots",
-        cursor: Optional[bool] = True,
+        cursor: Optional[bool] = False,
     ):
 
         self.text = text
