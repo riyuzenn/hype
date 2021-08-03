@@ -33,8 +33,11 @@ def get_long_description():
     return readme
 
 extras_require = {
-    'color': ['colorama==0.4.4'], # color support
-    'standard': ['colorama==0.4.4'], # standard installation with color support
+
+    'color': ['colorama==0.4.4'], #: Color support
+    'standard': ['colorama==0.4.4'], #: Standard installation with color support
+    'progress': ['alive-progress==1.6.2'], #: With progressbar support
+    'table': ['tabulate==0.8.9'] #: With Table support
 }
 
 
