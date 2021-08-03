@@ -23,8 +23,10 @@
 
 from .spinner import Spinner
 from .table import Table
+from .progressbar import progressbar
 
 __all__ = [
     'Spinner',
-    'Table'
+    'Table',
+    'progressbar'
 ]
