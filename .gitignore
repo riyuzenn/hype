@@ -134,9 +134,3 @@ test/
 testing/
 tests/
 test.py
-
-# UI (temporary). probably used this feature on version 1.0
-ui/
-uitest/
-__ui__/
-hypeui/
