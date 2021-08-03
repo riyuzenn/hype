@@ -27,7 +27,8 @@ import time
 from typing import Optional
 from typing import Any
 from .constants import SpinnerType
-from hype.cursor import hide
+from hype.cursor import hide as hide_cursor
+from hype.cursor import show as show_cursor
 import threading
 from hype.constants import COLOR_SUPPORTED
 from hype.constants import rule_colors
@@ -90,7 +91,7 @@ class Spinner:
             raise SpinnerError('Colors are not supported. Install using `pip install hypecli[color]`')
 
         if cursor == False:
-            hide()
+            hide_cursor()
 
     def render(self):
         """
@@ -126,6 +127,10 @@ class Spinner:
         """
         return self.__thread_id
 
+    @id.setter
+    def id(self, value):
+        return value
+
     def start(self):
 
         self.__thread = threading.Thread(target=self.render)
@@ -143,6 +148,10 @@ class Spinner:
             self.__stop_event.set()
             
 
+        self.stream.write('\r')
+        self.stream.write("\033[K") #: Clear line
+        self.id = None
+        show_cursor()
         return self
 
     def __enter__(self):
