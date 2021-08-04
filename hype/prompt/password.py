@@ -1,4 +1,3 @@
-
 #                   Copyright (c) 2021, Serum Studio
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -44,7 +43,7 @@ class Password:
 
         prompt (str):
             Set the prompt text. Default Value: 'Password'
-    
+
 
         hide_cursor (Optional[bool]):
             Set if the cursor is hidden or shown. Default Value: False
@@ -57,28 +56,42 @@ class Password:
             prompt_color (str): Set the color of the prompt
             res_color (str): Set the response color or the '*'
 
+    Example:
+    ---
 
+        >>> pass = Password()
+        >>> print(pass.response) #: or #: print(pass())
+    
     """
+
     #: Set the buffer
     __buffer = ""
 
-    def __init__(self, prompt: str="Password", hide_cursor: Optional[bool] = False, stream: TextIO = sys.stdout, **options):
-        
+    def __init__(
+        self,
+        prompt: str = "Password",
+        hide_cursor: Optional[bool] = False,
+        stream: TextIO = sys.stdout,
+        **options,
+    ):
+
         self.prompt = "{}: ".format(prompt)
         self.stream = stream
-        self.res = options.get('res') or '*'
+        self.res = options.get("res") or "*"
 
-        self.prompt_color = options.get('prompt_color') or None
-        self.res_color = options.get('res_color') or None
-        
+        self.prompt_color = options.get("prompt_color") or None
+        self.res_color = options.get("res_color") or None
+
         if self.prompt_color and COLOR_SUPPORTED == False:
-            raise PluginError('Colors are not supported.') 
+            raise PluginError("Colors are not supported.")
 
         elif self.res_color and COLOR_SUPPORTED == False:
-            raise PluginError('Colors are not supported')
+            raise PluginError("Colors are not supported")
 
         if self.prompt_color:
-            self.prompt = f"{rule_colors[self.prompt_color]}{self.prompt}{rule_colors['reset']}"
+            self.prompt = (
+                f"{rule_colors[self.prompt_color]}{self.prompt}{rule_colors['reset']}"
+            )
 
         if self.res_color:
             self.res = f"{rule_colors[self.res_color]}{self.res}{rule_colors['reset']}"
@@ -105,7 +118,6 @@ class Password:
         """
         return self.__buffer
 
-
     def render(self):
         """
         Render the output to the terminal.
@@ -119,7 +131,7 @@ class Password:
 
             >>> pass = Password()
             >>> pass.render()
-        
+
         """
 
         self.stream.write(self.prompt)
@@ -128,18 +140,20 @@ class Password:
         while True:
             key = getkey()
             if key == keys.ENTER:
-                self.stream.write('\n')
+                self.stream.write("\n")
                 break
-            
+
             elif key == keys.BACKSPACE:
                 self.__buffer = self.__buffer[:-1]
-                self.stream.write(f'\r{(len(self.prompt)+len(self.__buffer)+1)*" "}\r{self.prompt}{"*" * len(self.__buffer)}')
+                self.stream.write(
+                    f'\r{(len(self.prompt)+len(self.__buffer)+1)*" "}\r{self.prompt}{"*" * len(self.__buffer)}'
+                )
                 self.stream.flush()
-            
+
             elif key == keys.CTRL_C:
-                self.stream.write('\n')
+                self.stream.write("\n")
                 raise KeyboardInterrupt
-            
+
             else:
                 self.__buffer += key
                 self.stream.write(self.res)
@@ -147,7 +161,6 @@ class Password:
 
         return self.__buffer
 
-    
     def __call__(self):
         """
         Return the response of the user.
@@ -160,5 +173,3 @@ class Password:
         """
 
         return self.response
-
-    
