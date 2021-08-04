@@ -1,12 +1,6 @@
 
-[data-md-color-scheme="slate"] {
-    --md-hue: 330; /* [0, 360] */
-    
-}
-
 
 :root {
-    --md-typeset-a-color:         blue;
     --md-primary-fg-color:        #282828;
     --md-primary-fg-color--light: #ebdbb2;
     --md-primary-fg-color--dark:  #0000;
