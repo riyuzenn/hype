@@ -61,8 +61,9 @@ nav:
     - development/index.md
     - Contributing Policy: development/contributing.md
     - Code of Conduct: development/code-of-conduct.md
-    - Release Notes: development/release-notes.md
     - Contributors: development/contributors.md
+    - Release Notes: development/release-notes.md
+    
 
 
 extra_css:
