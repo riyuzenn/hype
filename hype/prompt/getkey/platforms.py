@@ -25,41 +25,42 @@ class Platform(object):
         if interrupts is None:
             interrupts = self.INTERRUPTS
         self.interrupts = {
-            self.keys.code(name): action
-            for name, action in interrupts.items()
+            self.keys.code(name): action for name, action in interrupts.items()
         }
 
-        assert(
-            self.__class__.getchar != Platform.getchar or
-            self.__class__.getchars != Platform.getchars
+        assert (
+            self.__class__.getchar != Platform.getchar
+            or self.__class__.getchars != Platform.getchars
         )
 
     def getkey(self, blocking=True):
-        buffer = ''
+        buffer = ""
         for c in self.getchars(blocking):
             try:
                 buffer += c
             except TypeError:
-                buffer += ''.join([chr(b) for b in c])
+                buffer += "".join([chr(b) for b in c])
             if buffer not in self.keys.escapes:
                 break
 
         keycode = self.keys.canon(buffer)
         if keycode in self.interrupts:
             interrupt = self.interrupts[keycode]
-            if isinstance(interrupt, BaseException) or \
-                issubclass(interrupt, BaseException):
+            if isinstance(interrupt, BaseException) or issubclass(
+                interrupt, BaseException
+            ):
                 raise interrupt
             else:
-                raise NotImplementedError('Unimplemented interrupt: {!r}'
-                                          .format(interrupt))
+                raise NotImplementedError(
+                    "Unimplemented interrupt: {!r}".format(interrupt)
+                )
         return keycode
 
     def bang(self):
         while True:
             code = self.getkey(True)
-            name = self.keys.name(code) or '???'
-            print('{} = {!r}'.format(name, code))
+            name = self.keys.name(code) or "???"
+            print("{} = {!r}".format(name, code))
 
     # You MUST override at least one of the following
     def getchars(self, blocking=True):
@@ -76,11 +77,18 @@ class Platform(object):
 
 
 class PlatformUnix(Platform):
-    KEYS = 'unix'
-    INTERRUPTS = {'CTRL_C': KeyboardInterrupt}
+    KEYS = "unix"
+    INTERRUPTS = {"CTRL_C": KeyboardInterrupt}
 
-    def __init__(self, keys=None, interrupts=None,
-                 stdin=None, select=None, tty=None, termios=None):
+    def __init__(
+        self,
+        keys=None,
+        interrupts=None,
+        stdin=None,
+        select=None,
+        tty=None,
+        termios=None,
+    ):
         """Make Unix Platform object.
 
         Arguments:
@@ -107,7 +115,7 @@ class PlatformUnix(Platform):
         try:
             self.__decoded_stream = OSReadWrapper(self.stdin)
         except Exception as err:
-            raise PlatformError('Cannot use unix platform on non-file-like stream')
+            raise PlatformError("Cannot use unix platform on non-file-like stream")
 
     def fileno(self):
         return self.__decoded_stream.fileno()
@@ -117,14 +125,14 @@ class PlatformUnix(Platform):
         fd = self.fileno()
         old_settings = self.termios.tcgetattr(fd)
         raw_settings = list(old_settings)
-        raw_settings[self.tty.LFLAG] = raw_settings[self.tty.LFLAG] & ~(self.termios.ECHO | self.termios.ICANON | self.termios.ISIG)
+        raw_settings[self.tty.LFLAG] = raw_settings[self.tty.LFLAG] & ~(
+            self.termios.ECHO | self.termios.ICANON | self.termios.ISIG
+        )
         self.termios.tcsetattr(fd, self.termios.TCSADRAIN, raw_settings)
         try:
             yield
         finally:
-            self.termios.tcsetattr(
-                fd, self.termios.TCSADRAIN, old_settings
-            )
+            self.termios.tcsetattr(fd, self.termios.TCSADRAIN, old_settings)
 
     def getchars(self, blocking=True):
         """Get characters on Unix."""
@@ -144,6 +152,7 @@ class OSReadWrapper(object):
     python's stdin has the fileno & encoding attached to it, so we can
     just use that.
     """
+
     def __init__(self, stream, encoding=None):
         """Construct os.read wrapper.
 
@@ -164,15 +173,15 @@ class OSReadWrapper(object):
         return self.__stream.buffer
 
     def read(self, chars):
-        buffer = ''
+        buffer = ""
         while len(buffer) < chars:
             buffer += self.__decoder.decode(os.read(self.__fd, 1))
         return buffer
 
 
 class PlatformWindows(Platform):
-    KEYS = 'windows'
-    INTERRUPTS = {'CTRL_C': KeyboardInterrupt}
+    KEYS = "windows"
+    INTERRUPTS = {"CTRL_C": KeyboardInterrupt}
 
     def __init__(self, keys=None, interrupts=None, msvcrt=None):
         super(PlatformWindows, self).__init__(keys, interrupts)
@@ -182,6 +191,7 @@ class PlatformWindows(Platform):
 
     def getchars(self, blocking=True):
         """Get characters on Windows."""
+
         def getchsequence():
             c = self.msvcrt.getwch()
             # Iteration is needed to capture full escape sequences with msvcrt.getwch()
@@ -194,18 +204,19 @@ class PlatformWindows(Platform):
         while self.msvcrt.kbhit():
             yield getchsequence()
 
+
 class PlatformTest(Platform):
-    KEYS = 'unix'
+    KEYS = "unix"
     INTERRUPTS = {}
 
-    def __init__(self, chars='', keys=None, interrupts=None):
+    def __init__(self, chars="", keys=None, interrupts=None):
         super(PlatformTest, self).__init__(keys, interrupts)
         self.chars = chars
         self.index = 0
 
     def getchar(self, blocking=True):
         if self.index >= len(self.chars) and not blocking:
-            return ''
+            return ""
         else:
             char = self.chars[self.index]
             self.index += 1
@@ -213,11 +224,11 @@ class PlatformTest(Platform):
 
 
 class PlatformInvalid(Platform):
-    KEYS = 'unix'
-    INTERRUPTS = {'CTRL_C': KeyboardInterrupt}
+    KEYS = "unix"
+    INTERRUPTS = {"CTRL_C": KeyboardInterrupt}
 
     def getchar(self, blocking=True):
-        raise RuntimeError('Cannot getkey on invalid platform!')
+        raise RuntimeError("Cannot getkey on invalid platform!")
 
 
 def windows_or_unix(*args, **kwargs):
@@ -230,10 +241,10 @@ def windows_or_unix(*args, **kwargs):
 
 
 PLATFORMS = [
-    ('linux', PlatformUnix),
-    ('darwin', PlatformUnix),
-    ('win32', PlatformWindows),
-    ('cygwin', windows_or_unix),
+    ("linux", PlatformUnix),
+    ("darwin", PlatformUnix),
+    ("win32", PlatformWindows),
+    ("cygwin", windows_or_unix),
 ]
 
 
@@ -243,6 +254,4 @@ def platform(name=None, keys=None, interrupts=None):
         if name.startswith(prefix):
             return ctor(keys=keys, interrupts=interrupts)
     else:
-        raise NotImplementedError('Unknown platform {!r}'.format(name))
-
-
+        raise NotImplementedError("Unknown platform {!r}".format(name))
