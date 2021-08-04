@@ -47,6 +47,7 @@ nav:
   - Commands:
     - commands/index.md
     - Handling Commands: commands/handling-commands.md
+    - Running The Commands: commands/running.md
 
   - Plugins:
     - plugins/index.md

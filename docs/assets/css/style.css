@@ -1,3 +1,9 @@
+
+[data-md-color-scheme="slate"] {
+    --md-hue: 330; /* [0, 360] */
+    
+}
+
 .termynal-comment {
     color: #4a968f;
     font-style: italic;
