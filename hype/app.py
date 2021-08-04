@@ -20,24 +20,31 @@
 
 
 import inspect
+import sys
+
 from typing import Optional
 from typing import Any
 from typing import Callable
 from typing import Tuple
 from typing import get_type_hints
+
 from .command import HypeCommand
 from .parser import HypeParser
 from .print import print as _print
+
 from .constants import rule_colors
 from .constants import bg_colors
 from .style import Background
+
 from .utils import CommandDict
 from .utils import ParamOption
 from .utils import OptionDict
 from .utils import create_bool_option
 from .utils import convert_param_to_option
 from .utils import convert_option_to_string
+
 from .errors import ColorNotFound
+
 
 
 class Hype:
@@ -220,6 +227,34 @@ class Hype:
             return func
 
         return deco
+
+    def exit(self):
+        """
+        Exit the all application instance without using standard `sys.exit()`
+        
+        Parameters:
+        ---
+            It takes no params yet
+
+        Example:
+        ---
+            >>> import os
+            >>> ...
+            >>> @app.command()
+            >>> def upload(path: str):
+            >>>     if os.path.exists(path):
+            >>>         app.echo(f'Path: {path} doesnt exist')
+            >>>         app.exit()
+            >>>     ...     
+            >>>     app.echo(f'File Uploaded: {path}')
+        
+        """
+
+        if self.__parser:
+            self.__parser.exit()
+        
+        sys.exit()
+
 
     def run(self):
         """
