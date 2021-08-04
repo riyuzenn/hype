@@ -71,6 +71,7 @@ from alive_progress.core.utils import get_terminal_size
 
 from hype.constants import rule_colors
 from hype.constants import COLOR_SUPPORTED
+from hype.errors import PluginError
 
 
 @contextmanager
@@ -146,19 +147,32 @@ def progressbar(
             (cannot be in the global configuration because it depends on the current mode)
         
         **options: custom configuration options, which override the global configuration:
+            
             length (int): number of characters to render the animated progress bar
+            
             spinner (Union[str, object]): the spinner to be used in all renditions
                 it's a predefined name in `show_spinners()`, or a custom spinner
+            
             bar (Union[str, object]): bar to be used in definite and both manual modes
                 it's a predefined name in `show_bars()`, or a custom bar
+            
             unknown (Union[str, object]): bar to be used in unknown mode (whole bar is a spinner)
                 it's a predefined name in `show_spinners()`, or a custom spinner
+            
             theme (str): theme name in alive_progress.THEMES
+            
             force_tty (bool): runs animations even without a tty (pycharm terminal for example)
+            
             manual (bool): set to manually control percentage
+            
             enrich_print (bool): includes the bar position in print() and logging messages
+            
             title_length (int): fixed title length, or 0 for unlimited
     """
+
+    if bar_color or title_color and not COLOR_SUPPORTED:
+        raise PluginError('You need color plugin inorder to style the bar. Read the docs for more info')
+
 
     if total is not None:
         if not isinstance(total, int):
