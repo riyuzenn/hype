@@ -11,6 +11,8 @@
 
 ??? warning
     The Documentation site is **ongoing**. Please be patient while we work on it.
+    
+    **Current Progress**: 60%
 
 !!! note ""
     **Total Documentation Reading Time**: 9 minutes 
