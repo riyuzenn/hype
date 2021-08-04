@@ -16,7 +16,7 @@ Here are the list of plugin and its description:
     $ pip install hypecli[color]
     ```
 
-    Add a color support for hype applications. This plugin require <a href="" class="external-link">colorama</a> inorder to work.
+    Add a color support for hype applications. This plugin require <a href="https://github.com/tartley/colorama" class="external-link"><b>colorama</b></a> inorder to work.
     Also the color plugin comes with color parser. See the next page for more info
     
 <br />
@@ -24,10 +24,10 @@ Here are the list of plugin and its description:
 - `progress`:
 
     ```console
-    $ pip install hypecli[color]
+    $ pip install hypecli[progress]
     ```
     
-    Add a outstanding and awesome-rich progressbar for hype powered by <a href="" class="external-link">alive-progress</a>. Alive progress makes it good and easier to work
+    Add a outstanding and awesome-rich progressbar for hype powered by <a href="https://github.com/rsalmei/alive-progress" class="external-link"><b>alive-progress</b></a>. Alive progress makes it good and easier to work
     with progressbar.
 
 <br />
@@ -38,7 +38,7 @@ Here are the list of plugin and its description:
     $ pip install hypecli[table]
     ```
 
-    The table plugin gives a <a href="" class="external-link">tabulate</a> support for 
+    The table plugin gives a <a href="https://github.com/astanin/python-tabulate" class="external-link"><b>tabulate</b></a> support for 
     creating hype application. It becomes easier on writing table, thanks to **tabulate**.
 
 
