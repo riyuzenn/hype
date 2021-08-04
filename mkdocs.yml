@@ -12,14 +12,14 @@ theme:
   name: material
   palette:
     - scheme: default
-      primary: black
+      # primary: grey
       accent: purple
       toggle:
         icon: material/toggle-switch-off-outline
         name: Switch to dark mode
     
     - scheme: slate
-      primary: black
+      primary: grey
       accent: purple
       toggle:
         icon: material/toggle-switch

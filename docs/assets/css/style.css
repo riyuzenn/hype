@@ -4,6 +4,14 @@
     
 }
 
+
+:root {
+    --md-typeset-a-color:         blue;
+    --md-primary-fg-color:        #282828;
+    --md-primary-fg-color--light: #ebdbb2;
+    --md-primary-fg-color--dark:  #0000;
+}
+
 .termynal-comment {
     color: #4a968f;
     font-style: italic;
