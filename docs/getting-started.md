@@ -40,4 +40,10 @@ If you want to **Hype** with `colors`, Use the installation code:
 ```console
 $ pip install hypecli[color]
 ```
+
+However if you want to add another cool <a href="https://hype.serum.studio/plugins/" class="internal-link">Hype Plugins</a>, use this installation code:
+
+```console
+$ pip install hypecli[<plugin_name>]
+```
  
