@@ -3,11 +3,30 @@
 ---
 
 !!! note ""
-    **Estimated Reading Time**: 18 seconds
+    **Estimated Reading Time**: 30 seconds
 
-> **Latest Version: [0.0.2](https://github.com/serumstudio/hype/releases)** 
+!!! note ""
+    **Latest Version: [0.0.3](https://github.com/serumstudio/hype/releases)** 
 
 Here are some release notes for the library:
+
+## [0.0.3](https://github.com/serumstudio/hype/releases/tag/0.0.2)
+
+**Release Note**
+!!! note
+    For using UI, kindly read docs for plugin installation
+
+- Add `progressbar` UI component plugin
+- Add `Spinner` UI component plugin
+- Add `Table` UI Component plugin
+- Fix and add UI component
+- Add `app.exit()` for **Hype** Application instance
+
+**Next Version Note**
+
+- Might add `prompt` support. 
+
+
 
 ## [0.0.2](https://github.com/serumstudio/hype/releases/tag/0.0.2)
 
