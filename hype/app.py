@@ -155,6 +155,15 @@ class Hype:
             help (str):
                 The help format of the command.
 
+        Example:
+
+            >>> @app.command()
+            >>> def greet(name: str):
+            >>>     \"\"\"
+            >>>     Greet the user
+            >>>     \"\"\"
+            >>>     app.echo(f'Hello {name}')
+        
         """
 
         #: set the usage of the command
@@ -223,7 +232,20 @@ class Hype:
         Example:
         `(More example at the examples folder located on github repo.)`
 
-        >>> ...
+
+            >>> from hype import Hype
+            >>> app = Hype()
+            >>> ...
+            >>> @app.command()
+            >>> def greet(name: str):
+            >>>     app.echo(f'Hello, {name}')
+            >>> ...
+            >>> @app.command()
+            >>> def goodbye(name: str): 
+            >>>     app.echo(f'Goodbye, {name}')
+
+            >>> if __name__ = "__main__":
+            >>>     app.run()
 
         """
 
