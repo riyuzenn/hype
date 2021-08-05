@@ -45,6 +45,10 @@ class Confirm:
             Set the prompt text.
 
 
+        default (Optional[bool]):
+            Set the default value.
+
+
         hide_cursor (Optional[bool]):
             Set if the cursor is hidden or shown. Default Value: False
 
@@ -72,6 +76,7 @@ class Confirm:
     def __init__(
         self,
         prompt: str,
+        default: Optional[bool] = None, 
         hide_cursor: Optional[bool] = False,
         stream: TextIO = sys.stdout,
         **options,
@@ -80,6 +85,7 @@ class Confirm:
         self.prompt = "{}? {}[y/N]{}: ".format(
             prompt, rule_colors["magenta"], rule_colors["reset"]
         )
+        self.default = default
         self.stream = stream
 
         self.prompt_color = options.get("prompt_color") or None
@@ -89,6 +95,7 @@ class Confirm:
             _hide_cursor()
         else:
             _show_cursor()
+
 
         #: Render the output after the initialization.
         self.render()
@@ -132,8 +139,19 @@ class Confirm:
         while True:
             key = getkey()
             if key == keys.ENTER:
-                self.stream.write("\n")
-                break
+                
+                if self.default:
+                    self.__res = self.default
+                    self.stream.write(
+                        self.__color_output(self.__yes_no[self.__res], self.color)
+                    )
+                    self.stream.write("\n")
+                    break
+                
+                else:
+                    continue
+
+                
 
             elif key.lower() == "y":
                 self.__res = True
