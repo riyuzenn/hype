@@ -19,3 +19,6 @@
 # THE SOFTWARE.
 
 from .password import Password
+from .confirm import Confirm
+
+__all__ = ['Password', 'Confirm']
