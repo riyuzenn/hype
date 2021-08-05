@@ -83,7 +83,7 @@ def error(
 
     """
 
-    msg = bg_colors['red'] + msg.ljust(width - 10, " ")
+    msg = bg_colors['red'] + msg.ljust(width - 10, " ") + bg_colors['reset']
     invisible_msg = " " * len(msg) #: Blank msg replacing the error for disappearing.
 
     for i in range(3):
