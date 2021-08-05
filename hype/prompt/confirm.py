@@ -26,6 +26,8 @@ from hype.prompt.getkey import keys
 from hype.constants import rule_colors
 from hype.constants import COLOR_SUPPORTED
 
+from hype.prompt.error import error
+
 from hype.cursor import hide as _hide_cursor
 from hype.cursor import show as _show_cursor
 from typing import Optional
@@ -149,6 +151,7 @@ class Confirm:
                     break
                 
                 else:
+                    error('Please enter Yes or No only.')
                     continue
 
                 
