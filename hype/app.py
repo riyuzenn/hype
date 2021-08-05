@@ -250,8 +250,10 @@ class Hype:
         
         """
 
-        if self.__parser:
+        try:
             self.__parser.exit()
+        except Exception:
+            pass
         
         sys.exit()
 
