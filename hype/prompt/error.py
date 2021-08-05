@@ -57,7 +57,7 @@ def pprint(x: int, y: int, text: str):
 
 def error(
     msg: Optional[str] = "An error occured.",
-    duration: Optional[int] = 1,
+    duration: Optional[int] = 3,
     height: Optional[int] = os.get_terminal_size().lines,
     width: Optional[int] = os.get_terminal_size().columns,
 ):  
@@ -86,7 +86,7 @@ def error(
     msg = bg_colors['red'] + msg.ljust(width - 10, " ") + bg_colors['reset']
     invisible_msg = " " * len(msg) #: Blank msg replacing the error for disappearing.
 
-    for i in range(3):
+    for i in range(duration):
         hide_cursor()
         
         pprint(height - 1, 5, msg)
