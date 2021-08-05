@@ -82,11 +82,6 @@ class Password:
         self.prompt_color = options.get("prompt_color") or None
         self.res_color = options.get("res_color") or None
 
-        if self.prompt_color and COLOR_SUPPORTED == False:
-            raise PluginError("Colors are not supported.")
-
-        elif self.res_color and COLOR_SUPPORTED == False:
-            raise PluginError("Colors are not supported")
 
         if self.prompt_color:
             self.prompt = (
