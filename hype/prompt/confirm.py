@@ -42,7 +42,7 @@ class Confirm:
     ---
 
         prompt (str):
-            Set the prompt text. 
+            Set the prompt text.
 
 
         hide_cursor (Optional[bool]):
@@ -60,14 +60,14 @@ class Confirm:
 
         >>> value = Confirm()
         >>> print(value.response) #: or #: print(value())
-    
+
     """
 
     #: Set the user response
     __res = None
 
     #: Set the returned value for the confirm
-    __yes_no = {True: 'Yes', False: 'No'}
+    __yes_no = {True: "Yes", False: "No"}
 
     def __init__(
         self,
@@ -77,12 +77,14 @@ class Confirm:
         **options,
     ):
 
-        self.prompt = "{}? {}[y/N]{}: ".format(prompt, rule_colors['magenta'], rule_colors['reset'])
+        self.prompt = "{}? {}[y/N]{}: ".format(
+            prompt, rule_colors["magenta"], rule_colors["reset"]
+        )
         self.stream = stream
 
         self.prompt_color = options.get("prompt_color") or None
-        self.color = options.get("res_color") or 'cyan'
-        
+        self.color = options.get("res_color") or "cyan"
+
         if hide_cursor:
             _hide_cursor()
         else:
@@ -93,7 +95,6 @@ class Confirm:
 
     def __color_output(self, text: str, color: str):
         return f"{rule_colors[color]}{text}{rule_colors['reset']}"
-
 
     @property
     def response(self):
@@ -136,21 +137,19 @@ class Confirm:
 
             elif key.lower() == "y":
                 self.__res = True
-                self.stream.write(self.__color_output(
-                        self.__yes_no[self.__res], self.color
-                    )
+                self.stream.write(
+                    self.__color_output(self.__yes_no[self.__res], self.color)
                 )
 
-                self.stream.write('\n')
+                self.stream.write("\n")
                 break
 
             elif key.lower() == "n":
                 self.__res = False
-                self.stream.write(self.__color_output(
-                        self.__yes_no[self.__res], self.color
-                    ) 
+                self.stream.write(
+                    self.__color_output(self.__yes_no[self.__res], self.color)
                 )
-                self.stream.write('\n')
+                self.stream.write("\n")
                 break
 
             elif key == keys.CTRL_C:
@@ -159,8 +158,6 @@ class Confirm:
 
             else:
                 continue
-            
-        
 
         return self.__res
 
