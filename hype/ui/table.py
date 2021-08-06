@@ -30,22 +30,7 @@ try:
     from tabulate import tabulate
 
 except ModuleNotFoundError:
-
-    raise PluginError(
-        """
-    -----------------------------------
-
-    Plugin not installed properly:
-
-    `table`: In order to install the `table` plugin,
-    you may run the commmand `pip install hypecli[table]`
-    or read the documentation.
-
-    https://hype.serum.studio/
-    
-    -----------------------------------
-    """
-    )
+    tabulate = None
 
 
 class Table:
@@ -160,19 +145,26 @@ class Table:
         """
 
         if parse_color and background_color:
-            table = parse_color(
-                "[bg color={0}]{1}[/bg]".format(
-                    background_color,
-                    tabulate(self.__rows, headers=self.__headers, tablefmt=self.__type),
+            try:
+                table = parse_color(
+                    "[bg color={0}]{1}[/bg]".format(
+                        background_color,
+                        tabulate(self.__rows, headers=self.__headers, tablefmt=self.__type),
+                    )
                 )
-            )
+
+            except AttributeError:
+                raise PluginError('Table plugin is not supported. Read the docs for more info')
 
         elif parse_color == None and background_color:
             raise PluginError('Colors are not supported. Read the docs for more info.')
         
 
         else:
-            table = tabulate(self.__rows, headers=self.__headers, tablefmt=self.__type)
+            try:
+                table = tabulate(self.__rows, headers=self.__headers, tablefmt=self.__type)
+            except AttributeError:
+                raise PluginError('Table plugin is not supported. Read the docs for more info')
 
         return table
 
