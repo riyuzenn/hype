@@ -520,3 +520,4 @@ def print_color(
     parsed_text = parse_color(text)
 
     print(parsed_text, sep=sep, end=end, file=file, flush=flush)
+    
