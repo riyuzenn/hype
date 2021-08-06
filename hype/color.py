@@ -26,9 +26,7 @@ from .constants import rule_styles
 from .constants import bg_colors
 from .constants import all_tags
 from typing import Optional
-from typing import Any
 from typing import IO
-import logging
 from .errors import PluginError
 from .errors import TagNotFound
 
@@ -37,26 +35,11 @@ __all__ = [ 'print_color', 'parsed_color' ]
 try:
 
     import colorama
-
     colorama.init()
+    COLOR_SUPPORTED = True
 
 except ModuleNotFoundError:
-
-    raise PluginError(
-        """
-    -----------------------------------
-
-    Plugin not installed properly:
-
-    `color`: In order to install the `color` plugin,
-    you may run the commmand `pip install hypecli[color]`
-    or read the documentation.
-
-    https://hype.serum.studio
-    
-    -----------------------------------
-    """
-    )
+    COLOR_SUPPORTED = False
 
 
 # Character charsets
@@ -517,6 +500,9 @@ def print_color(
 
     """
     
+    if COLOR_SUPPORTED == False:
+        raise PluginError('Colors are not supported. Read the documentation for more info.')
+
     parsed_text = parse_color(text)
 
     print(parsed_text, sep=sep, end=end, file=file, flush=flush)
