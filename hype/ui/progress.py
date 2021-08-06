@@ -21,26 +21,6 @@
 
 from hype.errors import *
 
-try:
-    import alive_progress as pb
-except ModuleNotFoundError:
-
-    raise PluginError(
-        """
-    -----------------------------------
-
-    Plugin not installed properly:
-
-    `progress`: In order to install the `progress` plugin,
-    you may run the commmand `pip install hypecli[progress]`
-    or read the documentation.
-
-    https://hype.serum.studio/
-    
-    -----------------------------------
-    """
-    )
-
 import math
 import sys
 import threading
@@ -51,27 +31,32 @@ from itertools import chain
 from itertools import islice
 from itertools import repeat
 
-from alive_progress.core.configuration import config_handler
-from alive_progress.animations.utils import spinner_player
+try:
+    from alive_progress.core.configuration import config_handler
+    from alive_progress.animations.utils import spinner_player
 
-from alive_progress.core.logging_hook import install_logging_hook
-from alive_progress.core.logging_hook import uninstall_logging_hook
+    from alive_progress.core.logging_hook import install_logging_hook
+    from alive_progress.core.logging_hook import uninstall_logging_hook
 
-from alive_progress.core.timing import gen_simple_exponential_smoothing_eta
-from alive_progress.core.timing import to_elapsed_text
-from alive_progress.core.timing import to_eta_text
+    from alive_progress.core.timing import gen_simple_exponential_smoothing_eta
+    from alive_progress.core.timing import to_elapsed_text
+    from alive_progress.core.timing import to_eta_text
 
 
-from alive_progress.core.utils import clear_traces
-from alive_progress.core.utils import hide_cursor
-from alive_progress.core.utils import render_title
-from alive_progress.core.utils import sanitize_text_marking_wide_chars
-from alive_progress.core.utils import show_cursor
-from alive_progress.core.utils import get_terminal_size
+    from alive_progress.core.utils import clear_traces
+    from alive_progress.core.utils import render_title
+    from alive_progress.core.utils import sanitize_text_marking_wide_chars
+    from alive_progress.core.utils import get_terminal_size
 
+except ModuleNotFoundError:
+    pass
+
+from hype.cursor import hide as hide_cursor
+from hype.cursor import show as show_cursor
 from hype.constants import rule_colors
 from hype.constants import COLOR_SUPPORTED
 from hype.errors import PluginError
+
 
 
 @contextmanager
@@ -181,8 +166,26 @@ def progressbar(
             )
         if total <= 0:
             total = None
-    config = config_handler(**options)
+    
+    try:
+        config = config_handler(**options)
+    except NameError:
+        raise PluginError(
+        """
 
+        -----------------------------------
+
+        Plugin not installed properly:
+
+        `progress`: In order to install the `progress` plugin,
+        you may run the commmand `pip install hypecli[progress]`
+        or read the documentation.
+
+        https://hype.serum.studio/
+        
+        -----------------------------------
+        """ )
+    
     def run(spinner):
         player = spinner_player(spinner)
         while thread:
