@@ -501,7 +501,21 @@ def print_color(
     """
     
     if COLOR_SUPPORTED == False:
-        raise PluginError('Colors are not supported. Read the documentation for more info.')
+       raise PluginError(
+        """
+
+        -----------------------------------
+
+        Plugin not installed properly:
+
+        `color`: In order to install the `color` plugin,
+        you may run the commmand `pip install hypecli[color]`
+        or read the documentation.
+
+        https://hype.serum.studio/
+        
+        -----------------------------------
+        """)
 
     parsed_text = parse_color(text)
 
