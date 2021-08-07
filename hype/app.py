@@ -312,18 +312,19 @@ class Hype:
 
                     name = _option["name"]
 
-                    print(_option)
+                    
                     if _option["action"]:
 
                         bool_name = create_bool_option(_option["name"])
                         for bname in bool_name:
-                            print(bname)
+
                             if bname == _option["name"]:
                                 self.__command_parser.parser.add_option(
                                     _option["name"],
                                     default=_option["default"],
                                     dest=_option['dest'],
                                     action=_option["action"],
+                                    metavar=_option['metavar']
                                 )
                             else:
                                 self.__command_parser.parser.add_option(
@@ -331,6 +332,7 @@ class Hype:
                                     default=_option["default"],
                                     dest=_option['dest'],
                                     action="store_false",
+                                    metavar=_option['metavar']
                                 )
 
                     else:
@@ -341,6 +343,7 @@ class Hype:
                                 default=_option["default"],
                                 type=_option["type"],
                                 dest=_option['dest'],
+                                metavar=_option['metavar']
                             )
 
                         else:
@@ -348,7 +351,8 @@ class Hype:
                                 *name,
                                 default=_option["default"],
                                 type=_option["type"],
-                                dest=_option['dest']
+                                dest=_option['dest'],
+                                metavar=_option['metavar']
                             )
 
             commands.append(self.__command_parser)
