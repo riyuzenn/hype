@@ -19,6 +19,7 @@
 # THE SOFTWARE.
 
 
+import functools
 import inspect
 import sys
 
@@ -68,6 +69,7 @@ class Hype:
     __commands = {}
     __required_commands = []
     __commands_function = {}
+    __registered_args = {}
 
     def __init__(self):
 
@@ -81,7 +83,7 @@ class Hype:
         """
         command_list = []
         for k in self.__commands.keys():
-            command_list.append(self.__commands[k]["name"])
+            command_list.append({self.__commands[k]["name"]: self.__commands[k]['help']})
 
         return command_list
 
@@ -179,19 +181,20 @@ class Hype:
         _aliases = aliases
 
         def deco(func):
+            
             #: Set the name of the command.
             #: If the name is none, return the name of the function
 
             _name = name if name else func.__name__
 
             #: Set the help of the command
-            _help = help
+            _help = help or 'This command accept a positional arguments'
 
             #: The signature of the function
             signature = inspect.signature(func)
 
             #: Type hints of the function
-            type_hints = get_type_hints(func)
+            type_hints = func.__annotations__
 
             #: Set the params to none dict. It should contain the param of the function
             #: and the type hints of the parameters
@@ -201,26 +204,27 @@ class Hype:
                 #: The annotation of the function.
                 #: For example: def func(name: str) -> str is the annotaiton
                 annotation = param.annotation
-
+                
                 if param.name in type_hints:
                     annotation = type_hints[param.name]
 
-                required = True if param.default is inspect.Parameter.empty else False
-                default = (
-                    param.default
-                    if param.default is not inspect.Parameter.empty
-                    else None
-                )
-                anon = annotation if annotation is not inspect.Parameter.empty else None
+                if param.name not in self.__registered_args.keys():
+                    required = True if param.default is inspect.Parameter.empty else False
+                    default = (
+                        param.default
+                        if param.default is not inspect.Parameter.empty
+                        else None
+                    )
+                    anon = annotation if annotation is not inspect.Parameter.empty else None
 
-                optionparam = ParamOption(
-                    convert_param_to_option(param.name),
-                    required,
-                    default,
-                    anon,
-                    param.name,
-                )
-                params.append(optionparam.to_dict)
+                    optionparam = ParamOption(
+                        convert_param_to_option(param.name),
+                        required,
+                        default,
+                        anon,
+                        param.name,
+                    )
+                    params.append(optionparam.to_dict)
 
             self.__commands[_name] = CommandDict(
                 _name, _usage, _help, _aliases, params, func
@@ -229,6 +233,40 @@ class Hype:
 
             return func
 
+        return deco
+
+    def argument(self, name: str, type: Optional[Any] = None):
+        """
+        A argument decorator for registering arguments. 
+        Please take note that when you define argument, make sure
+        the name of the argument is on the first parameter of the 
+        function.
+        
+        Parameters:
+        ---
+            name (str):
+                The name of the argument.
+            
+            type (Optional[Any]):
+                The type of the argument.
+
+        Examples:
+        ---
+            >>> @app.command()
+            >>> @app.argument('option')
+            >>> def upload(option, debug: bool=False):
+            >>>     ...
+            >>>     #: Make sure the option argument always on the first one.
+            >>>     app.echo(option)
+
+        """
+        def deco(func):
+            self.__registered_args[name] = {'type': type}
+            @functools.wraps(func)
+            def wrapper(*args, **kwargs):
+                return func(*args, **kwargs) 
+
+            return wrapper
         return deco
 
     def exit(self):
@@ -374,11 +412,23 @@ class Hype:
                 i["name"], default=i["default"], type=i["type"], action=i["action"]
             )
 
+        if command_args:
+            for i in range(len(self.__registered_args)):
+                for k in self.__registered_args.keys():
+                    if self.__registered_args[k]['type']:
+                        self.__registered_args[k]['type'](command_args[i])
+                        # del self.__registered_args[k]['type']
+
+                    self.__registered_args[k] = command_args[i]
+
+                params.append(command_args[i])   
+
         for _k, v in vars(command_opt).items():
             if (command.name, _k) in self.__required_commands and v == None:
                 parser.error("Option: {} is required.".format(_k))
                 parser.exit()
 
+            
             params.append(v)
 
         if command.name in self.__commands:
