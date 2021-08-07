@@ -6,9 +6,23 @@
     **Estimated Reading Time**: 30 seconds
 
 !!! note ""
-    **Latest Version: [0.0.3](https://github.com/serumstudio/hype/releases)** 
+    **Latest Version: [0.0.4](https://github.com/serumstudio/hype/releases)** 
 
 Here are some release notes for the library:
+
+## [0.0.4](https://github.com/serumstudio/hype/releases/tag/0.0.2)
+
+**Release Note**
+
+- Fix `plugins` error.
+- Add `app.argument` decorator for handling args.
+- Improved `performance`
+- Fix `app.exit` error
+
+**Next Version Note**
+
+- Add `hype.prompt` Current progress: 50%
+
 
 ## [0.0.3](https://github.com/serumstudio/hype/releases/tag/0.0.2)
 
