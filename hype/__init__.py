@@ -23,9 +23,8 @@ from .app import Hype
 from .print import print
 from .cursor import hide as hide_cursor
 from .cursor import show as show_cursor
-from .prompt import error
 
-__all__ = ["Hype", "print", "hide_cursor", "show_cursor", "error"]
+__all__ = ["Hype", "print", "hide_cursor", "show_cursor"]
 
 __version__ = "0.0.3"
 __desc__ = "⚙ A lightweight command line interface toolkit for python"
