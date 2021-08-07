@@ -60,6 +60,7 @@ class ParamOption:
         required: bool = None,
         default: Any = None,
         _type: type = None,
+        dest: str = None,
         action: str = None,
     ):
 
@@ -68,6 +69,7 @@ class ParamOption:
         self.default = default
         self.type = _type
         self.action = action
+        self.dest = dest
 
         if self.type == bool:
 
@@ -83,6 +85,7 @@ class ParamOption:
     def to_dict(self):
         return {
             "name": self.name,
+            "dest": self.dest,
             "required": self.required,
             "default": self.default,
             "type": self.type,

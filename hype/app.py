@@ -215,7 +215,7 @@ class Hype:
                 anon = annotation if annotation is not inspect.Parameter.empty else None
 
                 optionparam = ParamOption(
-                    convert_param_to_option(param.name), required, default, anon
+                    convert_param_to_option(param.name), required, default, anon, param.name
                 )
                 params.append(optionparam.to_dict)
 
@@ -312,16 +312,25 @@ class Hype:
 
                     name = _option["name"]
 
+                    print(_option)
                     if _option["action"]:
 
                         bool_name = create_bool_option(_option["name"])
                         for bname in bool_name:
+                            print(bname)
                             if bname == _option["name"]:
                                 self.__command_parser.parser.add_option(
                                     _option["name"],
                                     default=_option["default"],
-                                    dest=convert_option_to_string(_option["name"]),
+                                    dest=_option['dest'],
                                     action=_option["action"],
+                                )
+                            else:
+                                self.__command_parser.parser.add_option(
+                                    bname,
+                                    default=_option["default"],
+                                    dest=_option['dest'],
+                                    action="store_false",
                                 )
 
                     else:
@@ -331,7 +340,7 @@ class Hype:
                                 name,
                                 default=_option["default"],
                                 type=_option["type"],
-                                dest=convert_option_to_string(name),
+                                dest=_option['dest'],
                             )
 
                         else:
@@ -339,7 +348,7 @@ class Hype:
                                 *name,
                                 default=_option["default"],
                                 type=_option["type"],
-                                dest=convert_option_to_string(name)
+                                dest=_option['dest']
                             )
 
             commands.append(self.__command_parser)
