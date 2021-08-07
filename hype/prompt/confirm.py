@@ -78,7 +78,7 @@ class Confirm:
     def __init__(
         self,
         prompt: str,
-        default: Optional[bool] = None, 
+        default: Optional[bool] = None,
         hide_cursor: Optional[bool] = False,
         stream: TextIO = sys.stdout,
         **options,
@@ -97,7 +97,6 @@ class Confirm:
             _hide_cursor()
         else:
             _show_cursor()
-
 
         #: Render the output after the initialization.
         self.render()
@@ -141,7 +140,7 @@ class Confirm:
         while True:
             key = getkey()
             if key == keys.ENTER:
-                
+
                 if self.default:
                     self.__res = self.default
                     self.stream.write(
@@ -149,12 +148,10 @@ class Confirm:
                     )
                     self.stream.write("\n")
                     break
-                
-                else:
-                    error('Please enter Yes or No only.')
-                    continue
 
-                
+                else:
+                    error("Please enter Yes or No only.")
+                    continue
 
             elif key.lower() == "y":
                 self.__res = True

@@ -42,7 +42,6 @@ try:
     from alive_progress.core.timing import to_elapsed_text
     from alive_progress.core.timing import to_eta_text
 
-
     from alive_progress.core.utils import clear_traces
     from alive_progress.core.utils import render_title
     from alive_progress.core.utils import sanitize_text_marking_wide_chars
@@ -58,15 +57,9 @@ from hype.constants import COLOR_SUPPORTED
 from hype.errors import PluginError
 
 
-
 @contextmanager
 def progressbar(
-    total = None, 
-    title = None, 
-    calibrate = None, 
-    bar_color = None, 
-    title_color = None, 
-    **options
+    total=None, title=None, calibrate=None, bar_color=None, title_color=None, **options
 ):
     """
     Hype Progressbar inherited from `alive_bar` and add some Features.
@@ -125,39 +118,40 @@ def progressbar(
     |████████████████████████████████████████| 1000 in 5.8s (171.91/s)
     Args:
         total (Optional[int]): the total expected count
-        
+
         title (Optional[str]): the title, will be printed whenever there's no custom message
-        
+
         calibrate (int): maximum theoretical throughput to calibrate animation speed
             (cannot be in the global configuration because it depends on the current mode)
-        
+
         **options: custom configuration options, which override the global configuration:
-            
+
             length (int): number of characters to render the animated progress bar
-            
+
             spinner (Union[str, object]): the spinner to be used in all renditions
                 it's a predefined name in `show_spinners()`, or a custom spinner
-            
+
             bar (Union[str, object]): bar to be used in definite and both manual modes
                 it's a predefined name in `show_bars()`, or a custom bar
-            
+
             unknown (Union[str, object]): bar to be used in unknown mode (whole bar is a spinner)
                 it's a predefined name in `show_spinners()`, or a custom spinner
-            
+
             theme (str): theme name in alive_progress.THEMES
-            
+
             force_tty (bool): runs animations even without a tty (pycharm terminal for example)
-            
+
             manual (bool): set to manually control percentage
-            
+
             enrich_print (bool): includes the bar position in print() and logging messages
-            
+
             title_length (int): fixed title length, or 0 for unlimited
     """
 
     if bar_color or title_color and not COLOR_SUPPORTED:
-        raise PluginError('You need color plugin inorder to style the bar. Read the docs for more info')
-
+        raise PluginError(
+            "You need color plugin inorder to style the bar. Read the docs for more info"
+        )
 
     if total is not None:
         if not isinstance(total, int):
@@ -166,12 +160,12 @@ def progressbar(
             )
         if total <= 0:
             total = None
-    
+
     try:
         config = config_handler(**options)
     except NameError:
         raise PluginError(
-        """
+            """
 
         -----------------------------------
 
@@ -184,8 +178,9 @@ def progressbar(
         https://hype.serum.studio/
         
         -----------------------------------
-        """ )
-    
+        """
+        )
+
     def run(spinner):
         player = spinner_player(spinner)
         while thread:

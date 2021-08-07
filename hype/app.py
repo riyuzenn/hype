@@ -46,7 +46,6 @@ from .utils import convert_option_to_string
 from .errors import ColorNotFound
 
 
-
 class Hype:
     """
     The main application for the CLI.
@@ -170,7 +169,7 @@ class Hype:
             >>>     Greet the user
             >>>     \"\"\"
             >>>     app.echo(f'Hello {name}')
-        
+
         """
 
         #: set the usage of the command
@@ -215,7 +214,11 @@ class Hype:
                 anon = annotation if annotation is not inspect.Parameter.empty else None
 
                 optionparam = ParamOption(
-                    convert_param_to_option(param.name), required, default, anon, param.name
+                    convert_param_to_option(param.name),
+                    required,
+                    default,
+                    anon,
+                    param.name,
                 )
                 params.append(optionparam.to_dict)
 
@@ -231,7 +234,7 @@ class Hype:
     def exit(self):
         """
         Exit the all application instance without using standard `sys.exit()`
-        
+
         Parameters:
         ---
             It takes no params yet
@@ -245,18 +248,17 @@ class Hype:
             >>>     if os.path.exists(path):
             >>>         app.echo(f'Path: {path} doesnt exist')
             >>>         app.exit()
-            >>>     ...     
+            >>>     ...
             >>>     app.echo(f'File Uploaded: {path}')
-        
+
         """
 
         try:
             self.__parser.exit()
         except Exception:
             pass
-        
-        sys.exit()
 
+        sys.exit()
 
     def run(self):
         """
@@ -278,7 +280,7 @@ class Hype:
             >>>     app.echo(f'Hello, {name}')
             >>> ...
             >>> @app.command()
-            >>> def goodbye(name: str): 
+            >>> def goodbye(name: str):
             >>>     app.echo(f'Goodbye, {name}')
 
             >>> if __name__ = "__main__":
@@ -312,7 +314,6 @@ class Hype:
 
                     name = _option["name"]
 
-                    
                     if _option["action"]:
 
                         bool_name = create_bool_option(_option["name"])
@@ -322,17 +323,17 @@ class Hype:
                                 self.__command_parser.parser.add_option(
                                     _option["name"],
                                     default=_option["default"],
-                                    dest=_option['dest'],
+                                    dest=_option["dest"],
                                     action=_option["action"],
-                                    metavar=_option['metavar']
+                                    metavar=_option["metavar"],
                                 )
                             else:
                                 self.__command_parser.parser.add_option(
                                     bname,
                                     default=_option["default"],
-                                    dest=_option['dest'],
+                                    dest=_option["dest"],
                                     action="store_false",
-                                    metavar=_option['metavar']
+                                    metavar=_option["metavar"],
                                 )
 
                     else:
@@ -342,8 +343,8 @@ class Hype:
                                 name,
                                 default=_option["default"],
                                 type=_option["type"],
-                                dest=_option['dest'],
-                                metavar=_option['metavar']
+                                dest=_option["dest"],
+                                metavar=_option["metavar"],
                             )
 
                         else:
@@ -351,14 +352,14 @@ class Hype:
                                 *name,
                                 default=_option["default"],
                                 type=_option["type"],
-                                dest=_option['dest'],
-                                metavar=_option['metavar']
+                                dest=_option["dest"],
+                                metavar=_option["metavar"]
                             )
 
             commands.append(self.__command_parser)
 
         parser = self.__parser(commands)
-        
+
         (
             option,
             command,

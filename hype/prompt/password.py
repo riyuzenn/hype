@@ -61,7 +61,7 @@ class Password:
 
         >>> pass = Password()
         >>> print(pass.response) #: or #: print(pass())
-    
+
     """
 
     #: Set the buffer
@@ -81,7 +81,6 @@ class Password:
 
         self.prompt_color = options.get("prompt_color") or None
         self.res_color = options.get("res_color") or None
-
 
         if self.prompt_color:
             self.prompt = (

@@ -149,22 +149,29 @@ class Table:
                 table = parse_color(
                     "[bg color={0}]{1}[/bg]".format(
                         background_color,
-                        tabulate(self.__rows, headers=self.__headers, tablefmt=self.__type),
+                        tabulate(
+                            self.__rows, headers=self.__headers, tablefmt=self.__type
+                        ),
                     )
                 )
 
             except AttributeError:
-                raise PluginError('Table plugin is not supported. Read the docs for more info')
+                raise PluginError(
+                    "Table plugin is not supported. Read the docs for more info"
+                )
 
         elif parse_color == None and background_color:
-            raise PluginError('Colors are not supported. Read the docs for more info.')
-        
+            raise PluginError("Colors are not supported. Read the docs for more info.")
 
         else:
             try:
-                table = tabulate(self.__rows, headers=self.__headers, tablefmt=self.__type)
+                table = tabulate(
+                    self.__rows, headers=self.__headers, tablefmt=self.__type
+                )
             except AttributeError:
-                raise PluginError('Table plugin is not supported. Read the docs for more info')
+                raise PluginError(
+                    "Table plugin is not supported. Read the docs for more info"
+                )
 
         return table
 

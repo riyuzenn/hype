@@ -1,4 +1,3 @@
-
 #                   Copyright (c) 2021, Serum Studio
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,8 +24,4 @@ from .spinner import Spinner
 from .table import Table
 from .progress import progressbar
 
-__all__ = [
-    'Spinner',
-    'Table',
-    'progressbar'
-]
+__all__ = ["Spinner", "Table", "progressbar"]

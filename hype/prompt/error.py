@@ -19,7 +19,7 @@
 # THE SOFTWARE.
 
 
-from hype.cursor import hide as hide_cursor 
+from hype.cursor import hide as hide_cursor
 from hype.cursor import show as show_cursor
 
 from hype.constants import COLOR_SUPPORTED
@@ -42,7 +42,7 @@ def pprint(x: int, y: int, text: str):
     ---
         x (int):
             The x position
-        
+
         y (int):
             The y position
 
@@ -60,7 +60,7 @@ def error(
     duration: Optional[int] = 3,
     height: Optional[int] = os.get_terminal_size().lines,
     width: Optional[int] = os.get_terminal_size().columns,
-):  
+):
 
     """
 
@@ -69,9 +69,9 @@ def error(
 
     Parameters:
     ---
-        msg (str): 
+        msg (str):
             The error message to display.
-        
+
         duration (int):
             The duration of the error.
 
@@ -83,15 +83,14 @@ def error(
 
     """
 
-    msg = bg_colors['red'] + msg.ljust(width - 10, " ") + bg_colors['reset']
-    invisible_msg = " " * len(msg) #: Blank msg replacing the error for disappearing.
+    msg = bg_colors["red"] + msg.ljust(width - 10, " ") + bg_colors["reset"]
+    invisible_msg = " " * len(msg)  #: Blank msg replacing the error for disappearing.
 
     for i in range(duration):
         hide_cursor()
-        
+
         pprint(height - 1, 5, msg)
         time.sleep(duration)
         pprint(height - 1, 5, invisible_msg.ljust(width - 10, " "))
 
     show_cursor()
-

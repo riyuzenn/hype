@@ -30,11 +30,12 @@ from typing import IO
 from .errors import PluginError
 from .errors import TagNotFound
 
-__all__ = [ 'print_color', 'parsed_color' ]
+__all__ = ["print_color", "parsed_color"]
 
 try:
 
     import colorama
+
     colorama.init()
     COLOR_SUPPORTED = True
 
@@ -411,25 +412,23 @@ def tokenize_tag(
         yield from tokenize_newline(remaining_text)
 
 
-def parse_color(
-    text: str = ""
-):
+def parse_color(text: str = ""):
     """
     Parsed the text of string that contains color tag into colored texts
 
     Parameters:
     ---
         text(str):
-            The string to be parsed. 
+            The string to be parsed.
 
     Example:
     ---
 
         >>> string = parse_color('[red]This is red[/red]')
         >>> ...
-        >>> #: You can use the parse_color to standard 
+        >>> #: You can use the parse_color to standard
         >>> #: printing or storing variables.
-        >>> ... 
+        >>> ...
         >>> print(string)
 
     """
@@ -472,7 +471,6 @@ def parse_color(
         if token_type == TOKEN_NEWLINE:
             parsed_text.append(token_source)
 
-
     return "".join(parsed_text)
 
 
@@ -487,7 +485,7 @@ def print_color(
     """
     Simillar to built-in function, `print` but it prints a colored text
     from `parsed_color`
-    
+
     Parameters:
     ---
         Similar to `print`
@@ -499,10 +497,10 @@ def print_color(
         >>> #: Output This is green -> The output is colored in green.
 
     """
-    
+
     if COLOR_SUPPORTED == False:
-       raise PluginError(
-        """
+        raise PluginError(
+            """
 
         -----------------------------------
 
@@ -515,9 +513,9 @@ def print_color(
         https://hype.serum.studio/
         
         -----------------------------------
-        """)
+        """
+        )
 
     parsed_text = parse_color(text)
 
     print(parsed_text, sep=sep, end=end, file=file, flush=flush)
-    

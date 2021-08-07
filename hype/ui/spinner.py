@@ -33,11 +33,14 @@ import threading
 from hype.constants import COLOR_SUPPORTED
 from hype.constants import rule_colors
 
+
 class SpinnerNotFound(Exception):
     pass
 
+
 class SpinnerError(Exception):
     pass
+
 
 class Spinner:
     """
@@ -65,12 +68,13 @@ class Spinner:
 
 
     """
+
     #: Set the stop event to None
     __stop_event = None
 
     #: Set the stop event to None
     __thread = None
-    
+
     #: Set the stop event to None
     __thread_id = None
 
@@ -79,7 +83,7 @@ class Spinner:
         text: Optional[Any] = "",
         type: Optional[str] = "dots",
         cursor: Optional[bool] = False,
-        color: Optional[str] = None
+        color: Optional[str] = None,
     ):
 
         self.text = text
@@ -88,7 +92,9 @@ class Spinner:
         self.color = color
 
         if self.color and COLOR_SUPPORTED == False:
-            raise SpinnerError('Colors are not supported. Install using `pip install hypecli[color]`')
+            raise SpinnerError(
+                "Colors are not supported. Install using `pip install hypecli[color]`"
+            )
 
         if cursor == False:
             hide_cursor()
@@ -104,16 +110,20 @@ class Spinner:
         interval = 0.001 * SpinnerType[self.type]["interval"]
         spinner = itertools.cycle(frames)
 
-
         while not self.__stop_event.set():
-            
+
             if self.color:
-                output = "\r{0}{1}{2} {3}".format(rule_colors[self.color], next(spinner), rule_colors['reset'], self.text)
+                output = "\r{0}{1}{2} {3}".format(
+                    rule_colors[self.color],
+                    next(spinner),
+                    rule_colors["reset"],
+                    self.text,
+                )
             else:
                 output = "\r{0} {1}".format(next(spinner), self.text)
-            
+
             self.stream.write(output)
-            self.stream.write("\033[K") #: Clear line
+            self.stream.write("\033[K")  #: Clear line
             self.stream.flush()
             self.stream.write("\b")
             time.sleep(interval)
@@ -138,18 +148,17 @@ class Spinner:
         self.__thread_id = self.__thread.name
         self.__thread.setDaemon(True)
         self.__thread.start()
-        
+
         return self
 
     def stop(self):
         """Stop the thread on running"""
-        
+
         if self.__thread and self.__thread.is_alive():
             self.__stop_event.set()
-            
 
-        self.stream.write('\r')
-        self.stream.write("\033[K") #: Clear line
+        self.stream.write("\r")
+        self.stream.write("\033[K")  #: Clear line
         self.id = None
         show_cursor()
         return self

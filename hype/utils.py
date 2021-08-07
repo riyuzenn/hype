@@ -56,13 +56,13 @@ def create_bool_option(option: str = None) -> str:
 class ParamOption:
 
     __metavar_mapping = {
-        str: 'STRING',
-        int: 'INTEGER',
-        float: 'FLOAT',
-        bool: 'BOOLEAN',
-        bytes: 'BYTES',
-        list: 'LIST',
-        dict: 'DICTIONARY',
+        str: "STRING",
+        int: "INTEGER",
+        float: "FLOAT",
+        bool: "BOOLEAN",
+        bytes: "BYTES",
+        list: "LIST",
+        dict: "DICTIONARY",
     }
 
     def __init__(

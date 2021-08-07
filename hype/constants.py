@@ -4,6 +4,7 @@ from .style import Style
 
 try:
     import hype.color
+
     COLOR_SUPPORTED = True
 except PluginError:
     COLOR_SUPPORTED = False
