@@ -88,7 +88,7 @@ class Hype:
 
         return command_list
 
-    def echo(self, *obj: Any, **options):
+    def echo(self, text: Any, **options):
         """
         A format wrapper for the hype.print. It can print
         text with colors and styles. using the tag [%tagname%][/]
@@ -132,13 +132,13 @@ class Hype:
         background = options.get("background") or None
 
         if background in bg_colors:
-            _print("%s%s%s" % (bg_colors[background], *obj, bg_colors["reset"]))
+            _print("%s%s%s" % (bg_colors[background], text, bg_colors["reset"]))
 
         elif background not in bg_colors and background != None:
             raise ColorNotFound("%s is not yet supported." % (background))
 
         else:
-            _print(*obj)
+            _print(text)
 
     def command(
         self,
