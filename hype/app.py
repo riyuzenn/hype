@@ -70,6 +70,7 @@ class Hype:
     __required_commands = []
     __commands_function = {}
     __registered_args = {}
+    __registered_args_func = {}
 
     def __init__(self):
 
@@ -87,7 +88,7 @@ class Hype:
 
         return command_list
 
-    def echo(self, text: str = "", **options):
+    def echo(self, *obj: Any, **options):
         """
         A format wrapper for the hype.print. It can print
         text with colors and styles. using the tag [%tagname%][/]
@@ -131,13 +132,13 @@ class Hype:
         background = options.get("background") or None
 
         if background in bg_colors:
-            _print("%s%s%s" % (bg_colors[background], text, bg_colors["reset"]))
+            _print("%s%s%s" % (bg_colors[background], *obj, bg_colors["reset"]))
 
         elif background not in bg_colors and background != None:
             raise ColorNotFound("%s is not yet supported." % (background))
 
         else:
-            _print(text)
+            _print(*obj)
 
     def command(
         self,
@@ -199,16 +200,26 @@ class Hype:
             #: Set the params to none dict. It should contain the param of the function
             #: and the type hints of the parameters
             params = []
+            
+            for k,v in self.__registered_args_func.items():
+                if k.__name__ == func.__name__:
+                    rargs_keys = v
+                    break
+                else:
+                    rargs_keys = {}
+                    break
 
+            
             for param in signature.parameters.values():
                 #: The annotation of the function.
                 #: For example: def func(name: str) -> str is the annotaiton
                 annotation = param.annotation
-                
+
+
                 if param.name in type_hints:
                     annotation = type_hints[param.name]
 
-                if param.name not in self.__registered_args.keys():
+                if param.name not in rargs_keys:
                     required = True if param.default is inspect.Parameter.empty else False
                     default = (
                         param.default
@@ -261,10 +272,11 @@ class Hype:
 
         """
         def deco(func):
+            self.__registered_args_func[func] = {name: {'type': type}}
             self.__registered_args[name] = {'type': type}
             @functools.wraps(func)
             def wrapper(*args, **kwargs):
-                return func(*args, **kwargs) 
+                return func(*args, **kwargs)
 
             return wrapper
         return deco
@@ -411,7 +423,7 @@ class Hype:
             self.__command_parser.parser.add_option(
                 i["name"], default=i["default"], type=i["type"], action=i["action"]
             )
-
+            
         if command_args:
             for i in range(len(self.__registered_args)):
                 for k in self.__registered_args.keys():
@@ -421,7 +433,13 @@ class Hype:
 
                     self.__registered_args[k] = command_args[i]
 
+            
+                
                 params.append(command_args[i])   
+
+        else:
+            for i in range(len(self.__registered_args)):
+                params.append(None)
 
         for _k, v in vars(command_opt).items():
             if (command.name, _k) in self.__required_commands and v == None:
