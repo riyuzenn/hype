@@ -21,9 +21,11 @@
 #: This source file is responsibble for printing output with styles and colors.
 
 from typing import IO
+from typing import Any
 from typing import Optional
 from builtins import print as _print
 from .errors import PluginError
+import sys
 
 try:
     from .color import print_color
@@ -32,7 +34,7 @@ except PluginError:
 
 
 def print(
-    value: str = "",
+    *value: Any,
     sep: Optional[str] = " ",
     end: Optional[str] = "\n",
     file: Optional[IO[str]] = None,
@@ -55,6 +57,9 @@ def print(
         >>> print('No Color, standart print function') # No color installed.
 
     """
+    if not isinstance(value, str):
+        _print(*value)
+        sys.exit()
 
     try:
 
@@ -62,4 +67,4 @@ def print(
 
     except AttributeError:
 
-        _print(value, sep=sep, end=end, file=file, flush=flush)
+        _print(*value, sep=sep, end=end, file=file, flush=flush)
