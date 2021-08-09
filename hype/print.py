@@ -34,7 +34,7 @@ except PluginError:
 
 
 def print(
-    *value: Any,
+    value: str,
     sep: Optional[str] = " ",
     end: Optional[str] = "\n",
     file: Optional[IO[str]] = None,
@@ -57,9 +57,6 @@ def print(
         >>> print('No Color, standart print function') # No color installed.
 
     """
-    if not isinstance(value, str):
-        _print(*value)
-        sys.exit()
 
     try:
 
