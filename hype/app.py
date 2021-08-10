@@ -189,7 +189,7 @@ class Hype:
             _name = name if name else func.__name__
 
             #: Set the help of the command
-            _help = help or 'This command accept a positional arguments'
+            _help = help or func.__doc__
 
             #: The signature of the function
             signature = inspect.signature(func)
