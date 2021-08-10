@@ -204,12 +204,10 @@ class Hype:
             for k,v in self.__registered_args_func.items():
                 if k.__name__ == func.__name__:
                     rargs_keys = v
-                    break
+                    
                 else:
                     rargs_keys = {}
-                    break
-
-            
+                    
             for param in signature.parameters.values():
                 #: The annotation of the function.
                 #: For example: def func(name: str) -> str is the annotaiton
@@ -424,22 +422,8 @@ class Hype:
                 i["name"], default=i["default"], type=i["type"], action=i["action"]
             )
             
-        if command_args:
-            for i in range(len(self.__registered_args)):
-                for k in self.__registered_args.keys():
-                    if self.__registered_args[k]['type']:
-                        self.__registered_args[k]['type'](command_args[i])
-                        # del self.__registered_args[k]['type']
 
-                    self.__registered_args[k] = command_args[i]
-
-            
-                
-                params.append(command_args[i])   
-
-        else:
-            for i in range(len(self.__registered_args)):
-                params.append(None)
+        
 
         for _k, v in vars(command_opt).items():
             if (command.name, _k) in self.__required_commands and v == None:
@@ -450,4 +434,22 @@ class Hype:
             params.append(v)
 
         if command.name in self.__commands:
-            self.__commands[command.name]["func"](*params)
+            func = self.__commands[command.name]['func']
+        
+
+            if command_args:
+                # TODO: Check for function registered and return the args
+                # NOTE: Please if you have some time improving this, create a pull req 
+
+                for k, v in self.__registered_args_func.items():
+                    if k.__name__ == func.__name__:
+                        for t in range(len(v)):
+                            for _k in v.keys():
+                                if v[_k]['type']:
+                                    v[_k]['type'](command_args[t])
+                            
+                            params.append(command_args[t])
+            else:
+                params.append(None)
+
+            func(*params)
