@@ -38,13 +38,13 @@ class HypeCommand:
         name: str,
         usage: Optional[str] = None,
         aliases: Optional[Tuple[Any]] = None,
-        help: Optional[str] = "",
+        help: Optional[str] = None,
     ):
 
         self.name = name
         self.usage = usage
         self.aliases = aliases
-        self.help = help if help != "" else "This command accept a positional arguments"
+        self.help = help or "This command accept a positional arguments"
         self.parser = optparse.OptionParser()
 
         if self.usage:
