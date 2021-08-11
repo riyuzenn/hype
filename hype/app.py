@@ -200,13 +200,15 @@ class Hype:
             #: Set the params to none dict. It should contain the param of the function
             #: and the type hints of the parameters
             params = []
-            
+            rargs_keys = {}
+
             for k,v in self.__registered_args_func.items():
                 if k.__name__ == func.__name__:
                     rargs_keys = v
                     
                 else:
                     rargs_keys = {}
+
                     
             for param in signature.parameters.values():
                 #: The annotation of the function.
