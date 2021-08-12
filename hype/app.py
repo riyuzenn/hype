@@ -485,8 +485,7 @@ class Hype:
                 if (command.name, _k) in self.__required_commands and v == None:
                     parser.error("Option: {} is required.".format(_k))
                     parser.exit()
-
-            
-            params.append(v)
+                    
+                params.append(v)
 
             func(*params)
