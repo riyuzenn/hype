@@ -148,6 +148,7 @@ class HypeParser(optparse.OptionParser):
             result.extend(["%*s%s\n" % (help_position, "", line)
                            for line in help_lines[1:]])
 
+        result += ['\n']
         formatter.dedent()
 
         # Concatenate the original help message with the command list.
