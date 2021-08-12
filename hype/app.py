@@ -191,8 +191,8 @@ class Hype:
             _name = name if name else func.__name__
 
             #: Replace the _ to -
-            _name.replace('_', '-')
-            
+            _name = _name.replace('_', '-')
+
             #: Set the help of the command
             _help = help or func.__doc__
 
@@ -220,6 +220,13 @@ class Hype:
                 #: For example: def func(name: str) -> str is the annotaiton
                 annotation = param.annotation
 
+                #: The param name of the function
+                #: For example: def func(name) -> name is the param.
+                param_name = param.name
+
+                #: Replace the _ to - for params
+                param_name = param_name.replace('_', '-')
+
 
                 if param.name in type_hints:
                     annotation = type_hints[param.name]
@@ -234,11 +241,11 @@ class Hype:
                     anon = annotation if annotation is not inspect.Parameter.empty else None
 
                     optionparam = ParamOption(
-                        convert_param_to_option(param.name),
+                        convert_param_to_option(param_name),
                         required,
                         default,
                         anon,
-                        param.name,
+                        param.name
                     )
                     params.append(optionparam.to_dict)
 
