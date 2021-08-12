@@ -6,11 +6,22 @@
     **Estimated Reading Time**: 30 seconds
 
 !!! note ""
-    **Latest Version: [0.0.4](https://github.com/serumstudio/hype/releases)** 
+    **Latest Version: [0.0.5](https://github.com/serumstudio/hype/releases)** 
 
 Here are some release notes for the library:
 
-## [0.0.4](https://github.com/serumstudio/hype/releases/tag/0.0.2)
+## [0.0.5](https://github.com/serumstudio/hype/releases/tag/0.0.5)
+
+**Release Note**
+- Fix `app.argument` bugs
+- Massive bug fixed
+
+**Note**
+- `hype.prompt` is still not yet released. Probably on `v0.0.6` or `v0.0.7`. 
+**Current Progress**: 50%
+
+
+## [0.0.4](https://github.com/serumstudio/hype/releases/tag/0.0.4)
 
 **Release Note**
 
@@ -24,7 +35,7 @@ Here are some release notes for the library:
 - Add `hype.prompt` Current progress: 50%
 
 
-## [0.0.3](https://github.com/serumstudio/hype/releases/tag/0.0.2)
+## [0.0.3](https://github.com/serumstudio/hype/releases/tag/0.0.3)
 
 **Release Note**
 !!! note
