@@ -45,6 +45,12 @@ class HypeOptionParser(optparse.OptionParser):
         
         self.options = options
         self.arguments = arguments
+        
+        if self.arguments:
+            self.usage = "%prog [ARGS] [OPTIONS]"
+        else:
+            self.usage = "%prog [OPTIONS]"
+
         self.disable_interspersed_args()
 
     def add_argument(self, argument):
