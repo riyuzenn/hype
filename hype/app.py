@@ -190,6 +190,9 @@ class Hype:
 
             _name = name if name else func.__name__
 
+            #: Replace the _ to -
+            _name.replace('_', '-')
+            
             #: Set the help of the command
             _help = help or func.__doc__
 
@@ -485,7 +488,7 @@ class Hype:
                 if (command.name, _k) in self.__required_commands and v == None:
                     parser.error("Option: {} is required.".format(_k))
                     parser.exit()
-                    
+
                 params.append(v)
 
             func(*params)
