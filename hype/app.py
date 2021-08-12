@@ -23,14 +23,16 @@ import functools
 import inspect
 import sys
 
-from typing import Optional
+from typing import List, Optional
 from typing import Any
 from typing import Callable
 from typing import Tuple
 from typing import get_type_hints
 
 from .command import HypeCommand
+from .command import HypeArgument
 from .parser import HypeParser
+
 from .print import print as _print
 
 from .constants import rule_colors
@@ -145,7 +147,7 @@ class Hype:
         name: str = None,
         usage: Optional[str] = None,
         aliases: Optional[Tuple[Any]] = (),
-        help: Optional[str] = "",
+        help: Optional[str] = ""
     ):
 
         """
@@ -238,7 +240,7 @@ class Hype:
                     params.append(optionparam.to_dict)
 
             self.__commands[_name] = CommandDict(
-                _name, _usage, _help, _aliases, params, func
+                _name, _usage, _help, _aliases, params, func,
             ).to_dict
             self.__commands_function[func] = {"name": _name}
 
@@ -246,7 +248,7 @@ class Hype:
 
         return deco
 
-    def argument(self, name: str, type: Optional[Any] = None):
+    def argument(self, name: str, type: Optional[Any] = None, help: Optional[str] = "This argument accept anything"):
         """
         A argument decorator for registering arguments. 
         Please take note that when you define argument, make sure
@@ -271,14 +273,19 @@ class Hype:
             >>>     app.echo(option)
 
         """
+        name = name
+        help = help
+        type = type 
+        
         def deco(func):
-            self.__registered_args_func[func] = {name: {'type': type}}
-            self.__registered_args[name] = {'type': type}
+            self.__registered_args_func[func] = {name: {'type': type, 'help': help}}
+            self.__registered_args[name] = {'type': type, 'help': help}
             @functools.wraps(func)
             def wrapper(*args, **kwargs):
                 return func(*args, **kwargs)
 
             return wrapper
+
         return deco
 
     def exit(self):
@@ -340,18 +347,44 @@ class Hype:
 
         commands = []
         boolean_options = []
-
+        # self.__registered_args_func = {}
         for k in self.__commands.keys():
+            
+            for ak, av in self.__registered_args_func.items(): 
+                for _k in av.keys():
+                    pass
 
-            self.__command_parser = HypeCommand(
-                self.__commands[k]["name"],
-                self.__commands[k]["usage"],
-                self.__commands[k]["aliases"],
-                self.__commands[k]["help"],
-            )
+                if self.__commands[k]['func'].__name__ == ak.__name__:                
+                    self.__command_parser = HypeCommand(
+                        self.__commands[k]["name"],
+                        self.__commands[k]["usage"],
+                        self.__commands[k]["aliases"],
+                        self.__commands[k]["help"],
+                        [HypeArgument(name=_k, help=av[_k]['help'], type=av[_k]['type'])]
+                    )
+                    break
+
+                else:
+                    self.__command_parser = HypeCommand(
+                        self.__commands[k]["name"],
+                        self.__commands[k]["usage"],
+                        self.__commands[k]["aliases"],
+                        self.__commands[k]["help"]
+                    )
+                    break
+                
+            if not self.__registered_args_func:
+                self.__command_parser = HypeCommand(
+                    self.__commands[k]["name"],
+                    self.__commands[k]["usage"],
+                    self.__commands[k]["aliases"],
+                    self.__commands[k]["help"]
+                )
+            
 
             if self.__commands[k]["options"]:
                 for _option in self.__commands[k]["options"]:
+                    
 
                     if _option["required"]:
 
@@ -425,15 +458,7 @@ class Hype:
             )
             
 
-        
 
-        for _k, v in vars(command_opt).items():
-            if (command.name, _k) in self.__required_commands and v == None:
-                parser.error("Option: {} is required.".format(_k))
-                parser.exit()
-
-            
-            params.append(v)
 
         if command.name in self.__commands:
             func = self.__commands[command.name]['func']
@@ -451,7 +476,17 @@ class Hype:
                                     v[_k]['type'](command_args[t])
                             
                             params.append(command_args[t])
+                            
             else:
                 params.append(None)
+
+            
+            for _k, v in vars(command_opt).items():
+                if (command.name, _k) in self.__required_commands and v == None:
+                    parser.error("Option: {} is required.".format(_k))
+                    parser.exit()
+
+            
+            params.append(v)
 
             func(*params)
