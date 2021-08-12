@@ -62,6 +62,6 @@ def print(
 
         print_color(value, sep=sep, end=end, file=file, flush=flush)
 
-    except AttributeError:
+    except Exception:
 
-        _print(*value, sep=sep, end=end, file=file, flush=flush)
+        _print(value, sep=sep, end=end, file=file, flush=flush)
