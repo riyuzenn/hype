@@ -13,10 +13,12 @@ Here are some release notes for the library:
 ## [0.0.5](https://github.com/serumstudio/hype/releases/tag/0.0.5)
 
 **Release Note**
+
 - Fix `app.argument` bugs
 - Massive bug fixed
 
 **Note**
+
 - `hype.prompt` is still not yet released. Probably on `v0.0.6` or `v0.0.7`. 
 **Current Progress**: 50%
 
