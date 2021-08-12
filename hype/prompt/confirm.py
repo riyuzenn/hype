@@ -84,7 +84,7 @@ class Confirm:
         **options,
     ):
 
-        self.prompt = "{}? {}[y/N]{}: ".format(
+        self.prompt = "{}? {}[y/n]{}: ".format(
             prompt, rule_colors["magenta"], rule_colors["reset"]
         )
         self.default = default
