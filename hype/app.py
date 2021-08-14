@@ -77,7 +77,7 @@ class Hype:
     def __init__(self):
 
         #: The parser object to be used
-        self.__parser = HypeParser
+        self.__parser = HypeParser()
 
     @property
     def commands(self):
@@ -257,6 +257,23 @@ class Hype:
             return func
 
         return deco
+
+    def remove_command(self, name: str):
+        """
+        A wrapper for removing command with `HypeParser.remove_command`
+
+        Parameters:
+        ---
+            name (str):
+                The name of the command to be removed.
+
+        Example:
+        ---
+            >>> app = Hype()
+            >>> app.remove_command('help')
+
+        """
+        self.__parser.remove_command(name)
 
     def argument(self, name: str, type: Optional[Any] = None, help: Optional[str] = "This argument accept anything"):
         """
@@ -451,14 +468,15 @@ class Hype:
 
             commands.append(self.__command_parser)
 
-        parser = self.__parser(commands)
+        for i in commands:
+            self.__parser.add_command(i)
 
         (
             option,
             command,
             command_opt,
             command_args,
-        ) = parser.parse_args()
+        ) = self.__parser.parse_args()
 
         params = []
 
