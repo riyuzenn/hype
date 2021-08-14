@@ -86,7 +86,9 @@ class Hype:
         """
         command_list = []
         for k in self.__commands.keys():
-            command_list.append({self.__commands[k]["name"]: self.__commands[k]['help']})
+            command_list.append(
+                {self.__commands[k]["name"]: self.__commands[k]["help"]}
+            )
 
         return command_list
 
@@ -147,7 +149,8 @@ class Hype:
         name: str = None,
         usage: Optional[str] = None,
         aliases: Optional[Tuple[Any]] = (),
-        help: Optional[str] = ""
+        help: Optional[str] = "",
+        func: Optional[Callable[..., Any]] = None,
     ):
 
         """
@@ -184,14 +187,14 @@ class Hype:
         _aliases = aliases
 
         def deco(func):
-            
+
             #: Set the name of the command.
             #: If the name is none, return the name of the function
 
             _name = name if name else func.__name__
 
             #: Replace the _ to -
-            _name = _name.replace('_', '-')
+            _name = _name.replace("_", "-")
 
             #: Set the help of the command
             _help = help or func.__doc__
@@ -207,14 +210,13 @@ class Hype:
             params = []
             rargs_keys = {}
 
-            for k,v in self.__registered_args_func.items():
+            for k, v in self.__registered_args_func.items():
                 if k.__name__ == func.__name__:
                     rargs_keys = v
-                    
+
                 else:
                     rargs_keys = {}
 
-                    
             for param in signature.parameters.values():
                 #: The annotation of the function.
                 #: For example: def func(name: str) -> str is the annotaiton
@@ -225,36 +227,85 @@ class Hype:
                 param_name = param.name
 
                 #: Replace the _ to - for params
-                param_name = param_name.replace('_', '-')
-
+                param_name = param_name.replace("_", "-")
 
                 if param.name in type_hints:
                     annotation = type_hints[param.name]
 
                 if param.name not in rargs_keys:
-                    required = True if param.default is inspect.Parameter.empty else False
+                    required = (
+                        True if param.default is inspect.Parameter.empty else False
+                    )
                     default = (
                         param.default
                         if param.default is not inspect.Parameter.empty
                         else None
                     )
-                    anon = annotation if annotation is not inspect.Parameter.empty else None
+                    anon = (
+                        annotation
+                        if annotation is not inspect.Parameter.empty
+                        else None
+                    )
 
                     optionparam = ParamOption(
                         convert_param_to_option(param_name),
                         required,
                         default,
                         anon,
-                        param.name
+                        param.name,
                     )
                     params.append(optionparam.to_dict)
 
             self.__commands[_name] = CommandDict(
-                _name, _usage, _help, _aliases, params, func,
+                _name,
+                _usage,
+                _help,
+                _aliases,
+                params,
+                func,
             ).to_dict
             self.__commands_function[func] = {"name": _name}
 
             return func
+
+        return deco(func) if func else deco
+
+    def help(self, aliases: Optional[Tuple[Any]] = (), help: Optional[str] = ""):
+        """
+        A help decorator for registering a custom `help` commnad.
+
+        Parameters:
+        ---
+            aliases (Tuple):
+                The alias for the command.
+
+            help (str):
+                The help description for the command
+        """
+
+        _help = help or "Shows help command and exit"
+
+        def deco(func):
+
+            self.__parser.remove_command("help")
+            try:
+                self.__parser.remove_option("--help")
+            except ValueError:
+                # TODO: No --help command registered
+                pass
+
+            help_cmd = HypeCommand("help", aliases=aliases, help=_help)
+            self.__parser.add_command(help_cmd)
+
+            if (
+                len(sys.argv) < 2
+                or "-h" in sys.argv
+                or "--help" in sys.argv
+                or "help" in sys.argv
+                or aliases in sys.argv
+            ):
+                func()
+                sys.exit()
 
         return deco
 
@@ -275,18 +326,23 @@ class Hype:
         """
         self.__parser.remove_command(name)
 
-    def argument(self, name: str, type: Optional[Any] = None, help: Optional[str] = "This argument accept anything"):
+    def argument(
+        self,
+        name: str,
+        type: Optional[Any] = None,
+        help: Optional[str] = "This argument accept anything",
+    ):
         """
-        A argument decorator for registering arguments. 
+        A argument decorator for registering arguments.
         Please take note that when you define argument, make sure
-        the name of the argument is on the first parameter of the 
+        the name of the argument is on the first parameter of the
         function.
-        
+
         Parameters:
         ---
             name (str):
                 The name of the argument.
-            
+
             type (Optional[Any]):
                 The type of the argument.
 
@@ -302,11 +358,12 @@ class Hype:
         """
         name = name
         help = help
-        type = type 
-        
+        type = type
+
         def deco(func):
-            self.__registered_args_func[func] = {name: {'type': type, 'help': help}}
-            self.__registered_args[name] = {'type': type, 'help': help}
+            self.__registered_args_func[func] = {name: {"type": type, "help": help}}
+            self.__registered_args[name] = {"type": type, "help": help}
+
             @functools.wraps(func)
             def wrapper(*args, **kwargs):
                 return func(*args, **kwargs)
@@ -376,18 +433,22 @@ class Hype:
         boolean_options = []
         # self.__registered_args_func = {}
         for k in self.__commands.keys():
-            
-            for ak, av in self.__registered_args_func.items(): 
+
+            for ak, av in self.__registered_args_func.items():
                 for _k in av.keys():
                     pass
 
-                if self.__commands[k]['func'].__name__ == ak.__name__:                
+                if self.__commands[k]["func"].__name__ == ak.__name__:
                     self.__command_parser = HypeCommand(
                         self.__commands[k]["name"],
                         self.__commands[k]["usage"],
                         self.__commands[k]["aliases"],
                         self.__commands[k]["help"],
-                        [HypeArgument(name=_k, help=av[_k]['help'], type=av[_k]['type'])]
+                        [
+                            HypeArgument(
+                                name=_k, help=av[_k]["help"], type=av[_k]["type"]
+                            )
+                        ],
                     )
                     break
 
@@ -396,22 +457,20 @@ class Hype:
                         self.__commands[k]["name"],
                         self.__commands[k]["usage"],
                         self.__commands[k]["aliases"],
-                        self.__commands[k]["help"]
+                        self.__commands[k]["help"],
                     )
                     break
-                
+
             if not self.__registered_args_func:
                 self.__command_parser = HypeCommand(
                     self.__commands[k]["name"],
                     self.__commands[k]["usage"],
                     self.__commands[k]["aliases"],
-                    self.__commands[k]["help"]
+                    self.__commands[k]["help"],
                 )
-            
 
             if self.__commands[k]["options"]:
                 for _option in self.__commands[k]["options"]:
-                    
 
                     if _option["required"]:
 
@@ -484,38 +543,32 @@ class Hype:
             self.__command_parser.parser.add_option(
                 i["name"], default=i["default"], type=i["type"], action=i["action"]
             )
-            
-
-
 
         if command.name in self.__commands:
-            func = self.__commands[command.name]['func']
-        
+            func = self.__commands[command.name]["func"]
 
             if command_args:
                 # TODO: Check for function registered and return the args
-                # NOTE: Please if you have some time improving this, create a pull req 
+                # NOTE: Please if you have some time improving this, create a pull req
 
                 for k, v in self.__registered_args_func.items():
                     if k.__name__ == func.__name__:
                         for t in range(len(v)):
                             for _k in v.keys():
-                                if v[_k]['type']:
-                                    v[_k]['type'](command_args[t])
-                            
+                                if v[_k]["type"]:
+                                    v[_k]["type"](command_args[t])
+
                             params.append(command_args[t])
-                            
+
             else:
                 if command_args:
                     params.append(None)
 
-            
             for _k, v in vars(command_opt).items():
                 if (command.name, _k) in self.__required_commands and v == None:
-                    parser.error("Option: {} is required.".format(_k))
-                    parser.exit()
+                    self.__parser.error("Option: {} is required.".format(_k))
+                    self.__parser.exit()
 
                 params.append(v)
-
 
             func(*params)
