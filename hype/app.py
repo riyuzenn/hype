@@ -489,9 +489,10 @@ class Hype:
                         for bname in bool_name:
 
                             if bname == _option["name"]:
+                                _default = False if _option['action'] == 'store_false' else True
                                 self.__command_parser.parser.add_option(
                                     _option["name"],
-                                    default=_option["default"],
+                                    default=_default,
                                     dest=_option["dest"],
                                     action=_option["action"],
                                     metavar=_option["metavar"],
@@ -561,10 +562,17 @@ class Hype:
                             params.append(command_args[t])
 
             else:
-                if command_args:
+                args_value = {}
+                for k,v in self.__registered_args_func.items():
+                    args_value = v
+
+                if args_value: 
                     params.append(None)
+                else:
+                    pass
 
             for _k, v in vars(command_opt).items():
+                
                 if (command.name, _k) in self.__required_commands and v == None:
                     self.__parser.error("Option: {} is required.".format(_k))
                     self.__parser.exit()
