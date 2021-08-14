@@ -98,6 +98,29 @@ class HypeParser(optparse.OptionParser):
 
         self.commands.append(cmd)
 
+    def remove_command(self, name: str):
+        """
+        Remove the command name to the list of registered command. 
+        
+        Parameters
+        ---
+            name (str):
+                The name of the command to be removed.
+
+        Example:
+
+            >>> goodbye = HypeCommand(..)
+            >>> parser = HyperParser(...)
+            >>> ...
+            >>> parser.add_command(goodbye)
+            >>> parser.remove_command('goodbye')
+
+        """
+
+        for command in self.commands:
+            if command.name == name:
+                self.commands.remove(command)
+
 
     def format_help(self, formatter=None) -> str:
         out = optparse.OptionParser.format_help(self, formatter)
