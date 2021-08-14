@@ -63,7 +63,6 @@ class HypeParser(optparse.OptionParser):
     ):
         
         self.commands = commands
-        self.commands.append(self._HelpCommand)
         self.options = options
 
         if 'usage' not in self.options:
@@ -232,7 +231,8 @@ class HypeParser(optparse.OptionParser):
             >>> options, command, \ 
             ...    command_opt, command_args = parser.parse_args()
     
-        """ 
+        """
+        self.commands.insert(len(self.commands), self._HelpCommand)
         options, args = optparse.OptionParser.parse_args(self, _args, _value)
 
         if not args:
