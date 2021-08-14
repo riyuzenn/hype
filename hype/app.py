@@ -488,7 +488,8 @@ class Hype:
                             params.append(command_args[t])
                             
             else:
-                params.append(None)
+                if command_args:
+                    params.append(None)
 
             
             for _k, v in vars(command_opt).items():
@@ -497,5 +498,6 @@ class Hype:
                     parser.exit()
 
                 params.append(v)
+
 
             func(*params)
