@@ -73,6 +73,7 @@ class Hype:
     __commands_function = {}
     __registered_args = {}
     __registered_args_func = {}
+    __command_names = []
 
     def __init__(self):
 
@@ -254,6 +255,7 @@ class Hype:
                         anon,
                         param.name,
                     )
+                    self.__command_names.append(convert_param_to_option(param_name))
                     params.append(optionparam.to_dict)
 
             self.__commands[_name] = CommandDict(
@@ -487,20 +489,30 @@ class Hype:
 
                         bool_name = create_bool_option(_option["name"])
                         for bname in bool_name:
-
+                            
                             if bname == _option["name"]:
-                                _default = False if _option['action'] == 'store_false' else True
+                                if _option['name'].startswith('--no'):
+                                    action = 'store_false'
+                                else:
+                                    action = 'store_true'
+                                
+                                _default = True if action == 'store_true' else False
                                 self.__command_parser.parser.add_option(
                                     _option["name"],
                                     default=_default,
                                     dest=_option["dest"],
-                                    action=_option["action"],
+                                    action=action,
                                     metavar=_option["metavar"],
                                 )
                             else:
+                                if bname.startswith('--no'):
+                                    default = False
+                                else:
+                                    default = True
+                                
                                 self.__command_parser.parser.add_option(
                                     bname,
-                                    default=_option["default"],
+                                    default=default,
                                     dest=_option["dest"],
                                     action="store_false",
                                     metavar=_option["metavar"],
@@ -552,7 +564,12 @@ class Hype:
                 # TODO: Check for function registered and return the args
                 # NOTE: Please if you have some time improving this, create a pull req
 
+                if not self.__registered_args:
+                    self.__parser.error('No argument registered: %s' % (command_args))
+                    self.__parser.exit()
+                
                 for k, v in self.__registered_args_func.items():
+                    
                     if k.__name__ == func.__name__:
                         for t in range(len(v)):
                             for _k in v.keys():
@@ -570,9 +587,8 @@ class Hype:
                     params.append(None)
                 else:
                     pass
-
+            
             for _k, v in vars(command_opt).items():
-                
                 if (command.name, _k) in self.__required_commands and v == None:
                     self.__parser.error("Option: {} is required.".format(_k))
                     self.__parser.exit()
