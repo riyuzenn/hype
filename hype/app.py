@@ -580,10 +580,13 @@ class Hype:
 
             else:
                 args_value = {}
+                has_args = False
                 for k,v in self.__registered_args_func.items():
                     args_value = v
-
-                if args_value: 
+                    if k.__name__ == func.__name__:
+                        has_args = True
+                
+                if has_args:
                     params.append(None)
                 else:
                     pass
@@ -594,5 +597,5 @@ class Hype:
                     self.__parser.exit()
 
                 params.append(v)
-
+            
             func(*params)
