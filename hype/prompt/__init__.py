@@ -20,6 +20,7 @@
 
 from .password import Password
 from .confirm import Confirm
+from .input import Input
 from .error import error
 
-__all__ = ["Password", "Confirm", "error"]
+__all__ = ["Password", "Confirm", "Input", "error"]
