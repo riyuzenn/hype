@@ -26,7 +26,7 @@ from .cursor import show as show_cursor
 
 __all__ = ["Hype", "print", "hide_cursor", "show_cursor"]
 
-__version__ = "0.0.6b"
+__version__ = "0.0.6"
 __desc__ = "⚙ A lightweight command line interface toolkit for python"
 __author__ = "Serum Studio"
 __license__ = "MIT"
