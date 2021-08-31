@@ -57,7 +57,7 @@ setup(
     license = __license__,
     url=BASE_URL,
     keywords='cli,commandline-toolkit,command line toolkit,python cli,python 3'.split(','),
-    packages = [p for p in find_packages() if 'hype.prompt' not in p and 'hype.prompt.getkey' not in p],
+    packages = [p for p in find_packages() if 'test' not in p],
     extras_require = extras_require,
     classifiers = [
         "Intended Audience :: Information Technology",
