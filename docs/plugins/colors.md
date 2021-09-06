@@ -11,7 +11,7 @@ of **Hype**.
 ---
 
 Parsing color is pretty similar to `bbcode`. If you don't know what bbcode is, it's ok.
-It is just a lightweight markup language similar to html. However bbcode uses `[]` brakets.
+It is just a lightweight markup language similar to html. However bbcode uses `[]` brackets.
 
 For more understanding, here is an example:
 
