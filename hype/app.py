@@ -198,7 +198,7 @@ class Hype:
             _name = _name.replace("_", "-")
 
             #: Set the help of the command
-            _help = help or func.__doc__
+            _help = help or func.__doc__.strip()
 
             #: The signature of the function
             signature = inspect.signature(func)
