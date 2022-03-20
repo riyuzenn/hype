@@ -1,8 +1,13 @@
+> Currently Unmaintained but open for issues. 
+
 <h1 align="center">
   <img src="https://raw.githubusercontent.com/serumstudio/hype/main/images/hypecli.png" height="150" alt="hypecli">
 </h1>
 
+
 <h4 align="center">⚙ A lightweight command line interface library for creating cli commands.</h4>
+
+
 
 <p align="center">
   <a href="#about">About</a> | 
@@ -12,6 +17,8 @@
   <a href="#contributors">Contributors</a> |
   <a href="#license">License</a>
 </p>
+
+ 
 
 # About
 
@@ -80,9 +87,7 @@ if __name__ == "__main__":
 
 Thanks to these contributors who made the project maintained!
 
-| ![](https://github.com/znqi.png?size=50)   |
-|:-------------------------------------------:|
-| [Zenqi](https://www.github.com/zenqii)     |
+<a href="https://github.com/serumstudio/hype/contributors"><img src="https://contrib.rocks/image?repo=serumstudio/hype" /></a>
 
 <div align="right" id="license">
   <h1> License </h1>
